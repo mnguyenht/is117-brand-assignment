@@ -1,0 +1,68 @@
+name: Check and publish
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run check
+
+  pages-status:
+    needs: check
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: read
+    outputs:
+      enabled: ${{ steps.pages.outputs.enabled }}
+    steps:
+      - name: Check whether this repository has enabled GitHub Pages
+        id: pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh api "repos/${GITHUB_REPOSITORY}/pages" --jq '.build_type' > "$RUNNER_TEMP/pages-source" 2>/dev/null && [ "$(cat "$RUNNER_TEMP/pages-source")" = "workflow" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo 'Checks passed. To publish later, choose GitHub Actions in Settings → Pages, then run this workflow. See the README.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+  publish:
+    needs: [check, pages-status]
+    if: needs.pages-status.outputs.enabled == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: public
+      - name: Publish the checked website
+        id: deployment
+        uses: actions/deploy-pages@v5

@@ -1,0 +1,540 @@
+/* Assignment overview: the README remains the setup authority. */
+.studio-hero {
+  padding-bottom: 3rem;
+}
+
+.studio-hero h1 {
+  font-size: clamp(4rem, 8.4vw, 9rem);
+}
+
+.studio-hero .hero-summary {
+  padding-bottom: 0.4rem;
+}
+
+.studio-hero .button {
+  margin-top: 1.8rem;
+}
+
+.studio-ribbon {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 1.5rem;
+  background: var(--color-accent);
+  padding: 1.6rem 2rem;
+}
+
+.cycle {
+  font-size: clamp(1.15rem, 2vw, 1.8rem);
+  font-weight: 550;
+  letter-spacing: -0.04em;
+  line-height: 1.5;
+}
+
+.cycle span {
+  font-weight: 350;
+  margin-inline: 0.3rem;
+}
+
+.studio-ribbon .micro-label {
+  max-width: 205px;
+  text-align: right;
+  font-size: 0.6rem;
+}
+
+.studio-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  padding-block: 4rem;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.studio-intro h2 {
+  margin-top: 0.9rem;
+}
+
+.studio-intro p {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  max-width: 540px;
+}
+
+.studio-intro .lead {
+  font-size: 1.15rem;
+  color: var(--color-ink);
+  line-height: 1.55;
+  letter-spacing: -0.025em;
+}
+
+.path-section {
+  padding-block: 4rem;
+}
+
+.path-intro {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  align-items: end;
+  margin-bottom: 2rem;
+}
+
+.path-intro h2 {
+  margin-top: 0.8rem;
+}
+
+.path-intro > p {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  max-width: 340px;
+}
+
+.studio-path {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--color-line);
+  border-left: 1px solid var(--color-line);
+}
+
+.studio-path > li {
+  min-height: 280px;
+  border-right: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+  padding: 1.7rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.stage-number {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  margin-bottom: 2rem;
+}
+
+.studio-path h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.studio-path p {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
+.studio-path .stage-output {
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  letter-spacing: 0.025em;
+  margin-top: auto;
+  padding-top: 1.5rem;
+  color: var(--color-ink);
+}
+
+.comparison-section {
+  display: grid;
+  grid-template-columns: 0.6fr 1fr;
+  gap: 4rem;
+  padding-block: 3rem 4rem;
+  border-top: 1px solid var(--color-line);
+}
+
+.comparison-section h2 {
+  font-size: clamp(2rem, 3vw, 3rem);
+  margin-top: 0.75rem;
+}
+
+.comparison-description {
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  margin-top: 1rem;
+  max-width: 350px;
+}
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.direction-card {
+  border: 1px solid var(--color-line);
+  padding: 1rem;
+}
+
+.direction-sketch {
+  height: 160px;
+  margin-bottom: 1.2rem;
+  background: var(--color-white);
+  overflow: hidden;
+  position: relative;
+}
+
+.modern-sketch {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  padding: 1.2rem;
+}
+
+.modern-sketch::before {
+  content: "Aa";
+  font-size: 3.8rem;
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: -0.08em;
+  grid-column: 1 / -1;
+}
+
+.modern-sketch i {
+  display: block;
+  background: var(--color-ink);
+  height: 0.4rem;
+}
+
+.postmodern-sketch::before {
+  content: "Aa";
+  position: absolute;
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 5rem;
+  transform: rotate(-14deg);
+  inset: 0 0 auto 1rem;
+  z-index: 1;
+}
+
+.postmodern-sketch::after {
+  content: "TYPE";
+  position: absolute;
+  right: -3px;
+  bottom: 16px;
+  font-weight: 800;
+  font-size: 2.5rem;
+  letter-spacing: -0.075em;
+  transform: rotate(9deg);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: 16px;
+  text-underline-offset: -8px;
+}
+
+.postmodern-sketch i {
+  position: absolute;
+  display: block;
+  width: 100px;
+  height: 100px;
+  right: 15px;
+  top: 10px;
+  background: var(--color-accent);
+  border-radius: 50%;
+}
+
+.modern-sketch i:last-child {
+  background: var(--color-accent);
+}
+
+.direction-card h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.direction-card p {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+.comparison-caption {
+  grid-column: 1 / -1;
+  color: var(--color-muted);
+  font-size: 0.68rem;
+}
+
+.example-section {
+  padding: 2.5rem 3rem;
+  background: var(--color-soft);
+  display: grid;
+  grid-template-columns: 0.6fr 1fr;
+  gap: 3rem;
+  margin-bottom: 4rem;
+}
+
+.example-section h2 {
+  font-size: 2.3rem;
+  margin-top: 0.8rem;
+}
+
+.example-chain {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
+}
+
+.example-step {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.example-step:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.example-step .micro-label {
+  font-size: 0.6rem;
+  padding-top: 0.25rem;
+}
+
+.example-step p {
+  font-size: 0.84rem;
+}
+
+.coach-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  border-top: 1px solid var(--color-line);
+  padding-block: 3rem;
+}
+
+.coach-section h2 {
+  margin-top: 0.8rem;
+}
+
+.coach-section p {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  margin-top: 1rem;
+  max-width: 470px;
+}
+
+.coach-quote {
+  background: var(--color-white);
+  border: 1px solid var(--color-line);
+  margin: 0;
+  padding: 2rem;
+}
+
+.coach-quote .micro-label {
+  font-size: 0.6rem;
+}
+
+.coach-quote p {
+  color: var(--color-ink);
+  font-size: 1.3rem;
+  line-height: 1.5;
+  letter-spacing: -0.03em;
+}
+
+.coach-quote footer {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-top: 1.5rem;
+}
+
+.resource-section {
+  border-top: 1px solid var(--color-line);
+  padding-block: 3rem 4rem;
+}
+
+.resource-section h2 {
+  margin-top: 0.8rem;
+}
+
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.resource-card {
+  display: block;
+  border: 1px solid var(--color-line);
+  padding: 1.4rem;
+  text-decoration: none;
+}
+
+.resource-card:hover {
+  background: var(--color-soft);
+}
+
+.resource-card span {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 0.66rem;
+  font-family: var(--font-mono);
+}
+
+.resource-card h3 {
+  font-size: 1rem;
+}
+
+.resource-card p {
+  font-size: 0.74rem;
+  color: var(--color-muted);
+  margin-top: 0.6rem;
+}
+
+@media (width <= 1100px) {
+  .studio-path > li {
+    padding: 1.4rem;
+  }
+
+  .comparison-section {
+    grid-template-columns: 0.65fr 1fr;
+    gap: 2rem;
+  }
+
+  .example-section {
+    gap: 2rem;
+    padding: 2rem;
+  }
+}
+
+@media (width <= 760px) {
+  .studio-hero h1 {
+    font-size: clamp(4rem, 13vw, 7rem);
+  }
+
+  .studio-hero .button {
+    margin-top: 1.3rem;
+  }
+
+  .studio-ribbon {
+    padding: 1.5rem;
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+
+  .studio-ribbon .micro-label {
+    text-align: left;
+    max-width: none;
+  }
+
+  .cycle span {
+    margin-inline: 0.1rem;
+  }
+
+  .studio-intro {
+    grid-template-columns: 1fr;
+    gap: 1.7rem;
+    padding-block: 2.5rem;
+  }
+
+  .studio-intro p {
+    max-width: none;
+  }
+
+  .path-section {
+    padding-block: 2.5rem;
+  }
+
+  .path-intro {
+    align-items: start;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .path-intro > p {
+    max-width: 540px;
+  }
+
+  .studio-path {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .studio-path > li {
+    min-height: 270px;
+  }
+
+  .studio-path h3 {
+    font-size: 1.3rem;
+  }
+
+  .stage-number {
+    margin-bottom: 1.5rem;
+  }
+
+  .comparison-section {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding-block: 2.5rem;
+  }
+
+  .comparison-description {
+    max-width: 540px;
+  }
+
+  .example-section {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 1.6rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .coach-section {
+    grid-template-columns: 1fr;
+    gap: 1.7rem;
+    padding-block: 2.5rem;
+  }
+
+  .coach-section p {
+    max-width: none;
+  }
+
+  .coach-quote {
+    padding: 1.6rem;
+  }
+
+  .resource-section {
+    padding-block: 2.5rem 3rem;
+  }
+
+  .resource-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width <= 420px) {
+  .studio-path {
+    grid-template-columns: 1fr;
+  }
+
+  .studio-path > li {
+    min-height: 235px;
+  }
+
+  .example-step {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+  }
+
+  .resource-grid {
+    gap: 0.7rem;
+  }
+
+  .resource-card {
+    padding: 1rem;
+  }
+
+  .comparison-grid {
+    gap: 0.7rem;
+  }
+
+  .direction-card {
+    padding: 0.75rem;
+  }
+
+  .direction-sketch {
+    height: 135px;
+  }
+}

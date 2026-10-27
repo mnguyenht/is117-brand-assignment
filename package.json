@@ -1,0 +1,33 @@
+{
+  "name": "is117-brand-studio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A small AI-guided brand studio for one plain white T-shirt.",
+  "engines": {
+    "node": "^22.16.0 || >=24.0.0"
+  },
+  "scripts": {
+    "start": "node server.mjs --dev",
+    "dev": "node server.mjs --dev",
+    "preview": "node server.mjs",
+    "setup:browser": "playwright install chromium",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint . && html-validate 'public/**/*.html' && stylelint 'public/**/*.css'",
+    "test": "node --test tests/server.test.mjs",
+    "test:e2e": "playwright test",
+    "check": "npm run format:check && npm run lint && npm test && npm run test:e2e"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.64.1",
+    "eslint": "10.13.0",
+    "globals": "17.13.0",
+    "html-validate": "10.17.0",
+    "prettier": "3.9.10",
+    "stylelint": "17.16.0",
+    "stylelint-config-standard": "40.0.0"
+  }
+}

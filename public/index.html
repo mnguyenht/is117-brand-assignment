@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="An unfinished, neutral T-shirt storefront for the IS117 Brand Studio. Build a brand through deliberate, visible design choices."
+    />
+    <title>Your Brand — neutral storefront starter</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="shop.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <aside class="starter-notice" aria-label="Starter information">
+      <span
+        ><strong>Unfinished by design.</strong> This is a neutral teaching
+        starter. Replace its identity after your brand decisions.</span
+      >
+      <a href="studio.html"
+        >Enter the studio <span aria-hidden="true">↗</span></a
+      >
+    </aside>
+    <header class="site-header wrap">
+      <a
+        class="brand-link"
+        href="index.html"
+        aria-label="Your Brand storefront home"
+        ><img
+          class="wordmark"
+          src="assets/wordmark.svg"
+          alt="Neutral starter wordmark"
+          width="175"
+          height="26"
+      /></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a class="nav-link" href="index.html" aria-current="page">Shop</a>
+        <a class="nav-link" href="styleguide.html">Style guide</a>
+        <a class="nav-link" href="studio.html"
+          >Studio <span aria-hidden="true">↗</span></a
+        >
+      </nav>
+      <a class="bag-link" href="#demo-bag" aria-label="View demo bag"
+        >Demo bag <span id="bag-count" class="bag-count">0</span></a
+      >
+    </header>
+
+    <main id="main">
+      <section class="product-section wrap" aria-labelledby="product-title">
+        <div class="product-visual">
+          <div class="visual-label">
+            <span>001 / The starting point</span><span>Unbranded</span>
+          </div>
+          <img
+            class="shirt-image"
+            src="assets/white-shirt.svg"
+            alt="Plain white, unbranded short-sleeved T-shirt"
+            width="800"
+            height="880"
+            fetchpriority="high"
+          />
+          <div class="image-caption">
+            <span>One product. Room for your point of view.</span
+            ><span aria-hidden="true">↙</span>
+          </div>
+        </div>
+        <div class="product-information">
+          <p class="eyebrow">
+            <span class="status-dot" aria-hidden="true"></span> Neutral product
+            / demo only
+          </p>
+          <h1 id="product-title">The white<br />T-shirt.</h1>
+          <p class="product-intro">A plain shirt. A place to begin.</p>
+          <p class="muted product-description">
+            This starter has a working product page and room for a brand. Its
+            audience, personality, message, and visual direction are still yours
+            to decide.
+          </p>
+          <div class="price-row">
+            <p class="price">$28 <span>USD</span></p>
+            <span class="micro-label">Fictional demo price</span>
+          </div>
+          <form id="product-form" class="product-form" novalidate>
+            <fieldset aria-describedby="size-help size-error">
+              <legend>Choose a size</legend>
+              <p id="size-help" class="field-help">
+                Demo sizes: S, M, L, and XL.
+              </p>
+              <div class="size-options">
+                <label class="size-option"
+                  ><input type="radio" name="size" value="S" /><span
+                    >S</span
+                  ></label
+                >
+                <label class="size-option"
+                  ><input type="radio" name="size" value="M" /><span
+                    >M</span
+                  ></label
+                >
+                <label class="size-option"
+                  ><input type="radio" name="size" value="L" /><span
+                    >L</span
+                  ></label
+                >
+                <label class="size-option"
+                  ><input type="radio" name="size" value="XL" /><span
+                    >XL</span
+                  ></label
+                >
+              </div>
+              <p id="size-error" class="field-error" role="alert" hidden>
+                Choose a size before adding the shirt to your demo bag.
+              </p>
+            </fieldset>
+            <button class="button button-primary add-button" type="submit">
+              Add to demo bag <span aria-hidden="true">↗</span>
+            </button>
+          </form>
+          <p class="demo-disclaimer">
+            A classroom interaction, using fictional product data. No order,
+            payment, or personal information is collected.
+          </p>
+          <dl class="product-facts">
+            <div>
+              <dt>Color</dt>
+              <dd>White</dd>
+            </div>
+            <div>
+              <dt>Brand identity</dt>
+              <dd>Not decided yet</dd>
+            </div>
+            <div>
+              <dt>Product claims</dt>
+              <dd>None supplied</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section
+        id="demo-bag"
+        class="bag-section wrap"
+        aria-labelledby="bag-title"
+      >
+        <div>
+          <p class="eyebrow">A small working interaction</p>
+          <h2 id="bag-title">Your demo bag.</h2>
+        </div>
+        <div class="bag-details">
+          <p
+            id="bag-status"
+            class="bag-message"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            Your demo bag is empty. Choose a size to try it.
+          </p>
+          <ul id="bag-items" class="bag-items"></ul>
+          <button id="clear-bag" class="text-button" type="button" disabled>
+            Empty demo bag
+          </button>
+          <p class="field-help">
+            The bag resets when this page reloads. There is no checkout.
+          </p>
+        </div>
+      </section>
+
+      <section class="starter-next wrap" aria-labelledby="next-title">
+        <p class="eyebrow">For the person building this site</p>
+        <h2 id="next-title">The shirt stays.<br />The story is your work.</h2>
+        <div>
+          <p>
+            Choose who this is for, decide what the brand should express, and
+            make those choices visible. Keep the storefront and its
+            <a href="styleguide.html">live style guide</a> in sync.
+          </p>
+          <a class="button button-secondary" href="studio.html"
+            >See the studio brief <span aria-hidden="true">↗</span></a
+          >
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer wrap">
+      <p>
+        IS117 Brand Studio <span class="footer-separator"> / </span> Neutral
+        starter
+      </p>
+      <p class="footer-tagline">Fictional product. Real design decisions.</p>
+      <a href="https://github.com/kaw393939/is117-brand-studio#readme"
+        >Project README <span aria-hidden="true">↗</span></a
+      >
+    </footer>
+  </body>
+</html>
