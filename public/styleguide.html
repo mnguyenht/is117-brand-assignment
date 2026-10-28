@@ -5,32 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="The live, neutral brand board for the IS117 T-shirt storefront. Shared tokens and assets keep design choices connected to the page."
+      content="The live style guide for Standard Issue. It uses the storefront's own CSS tokens, components and logo."
     />
-    <title>Live style guide — Your Brand starter</title>
+    <title>Live style guide — Standard Issue</title>
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="styles.css" />
     <script src="styleguide.js" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <aside class="starter-notice" aria-label="Starter information">
+    <aside class="starter-notice" aria-label="Style guide information">
       <span
-        ><strong>Neutral examples.</strong> Replace this identity after your
-        decisions; this board shares the storefront’s CSS and logo.</span
+        ><strong>Live brand board.</strong> Everything here uses the
+        storefront's own CSS and logo file.</span
       ><a href="studio.html">Studio brief <span aria-hidden="true">↗</span></a>
     </aside>
     <header class="site-header wrap">
       <a
         class="brand-link"
         href="index.html"
-        aria-label="Your Brand storefront home"
+        aria-label="Standard Issue storefront home"
         ><img
           class="wordmark"
-          src="assets/wordmark.svg"
-          alt="Neutral starter wordmark"
+          src="assets/standard-issue-wordmark.svg"
+          alt="Standard Issue"
           width="175"
-          height="26"
+          height="30"
       /></a>
       <nav class="main-nav" aria-label="Main navigation">
         <a class="nav-link" href="index.html">Shop</a
@@ -46,13 +46,12 @@
       <section class="page-hero wrap" aria-labelledby="guide-title">
         <p class="eyebrow">
           <span class="status-dot" aria-hidden="true"></span> Identity / version
-          00 / neutral starter
+          01 / BRAND-001
         </p>
-        <h1 id="guide-title">A brand, kept<br />in one place.</h1>
+        <h1 id="guide-title">Standard Issue,<br />on one page.</h1>
         <p class="hero-summary">
-          A working board for the choices behind the storefront.
-          <strong>These are neutral examples, ready to replace.</strong> Decide
-          who the brand serves before making its identity your own.
+          A plain white T-shirt, packed like one. Kraft paper, label tape and a
+          hang tag. <strong>Nothing more, nothing less.</strong>
         </p>
       </section>
       <nav class="page-subnav wrap" aria-label="Style guide sections">
@@ -61,7 +60,7 @@
         ><a class="section-link" href="#palette">02 Color</a
         ><a class="section-link" href="#type">03 Type</a
         ><a class="section-link" href="#spacing">04 Space</a
-        ><a class="section-link" href="#buttons">05 Buttons</a
+        ><a class="section-link" href="#buttons">05 Components</a
         ><a class="section-link" href="#voice">06 Voice</a>
       </nav>
 
@@ -72,29 +71,33 @@
       >
         <div class="section-heading">
           <span class="section-number">00 / Direction</span>
-          <h2 id="direction-title">Decisions first.</h2>
-          <p>Record your agreed reasoning in SPEC.md, then reflect it here.</p>
+          <h2 id="direction-title">Who it's for.</h2>
+          <p>The full reasoning is recorded in SPEC.md.</p>
         </div>
         <div class="guide-content">
-          <span class="draft-label">Not a completed brand strategy</span>
+          <span class="draft-label"
+            >Audience is a hypothesis, not research</span
+          >
           <div class="decision-grid">
             <div>
               <h3>Audience</h3>
-              <p class="undecided">To decide</p>
+              <p class="undecided">Alex</p>
               <p>
-                Use your personas to identify a need this page should answer.
+                Wants a shirt that is reliable and cheap, and treated as just a
+                plain white T-shirt.
               </p>
             </div>
             <div>
               <h3>Archetype</h3>
-              <p class="undecided">To decide</p>
-              <p>Choose one and explain the personality it gives the brand.</p>
+              <p class="undecided">Everyman</p>
+              <p>Down to earth. No pretense. Belongs anywhere.</p>
             </div>
             <div>
               <h3>Visual direction</h3>
-              <p class="undecided">To decide</p>
+              <p class="undecided">Package label</p>
               <p>
-                Compare approaches, then justify your choice for this audience.
+                Postmodern layering after Wolfgang Weingart, quoting the
+                everyday objects a T-shirt ships with.
               </p>
             </div>
           </div>
@@ -108,50 +111,44 @@
       >
         <div class="section-heading">
           <span class="section-number">01 / Logo</span>
-          <h2 id="logo-title">A placeholder<br />with a purpose.</h2>
-          <p>
-            Replace after your decisions. The same SVG appears on the
-            storefront.
-          </p>
+          <h2 id="logo-title">A crate<br />stamp.</h2>
+          <p>The same SVG file appears in the storefront header.</p>
         </div>
         <div class="guide-content">
           <div class="logo-board">
             <img
-              src="assets/wordmark.svg"
-              alt="Neutral starter wordmark"
-              width="350"
-              height="52"
+              src="assets/standard-issue-wordmark.svg"
+              alt="Standard Issue"
+              width="380"
+              height="65"
             />
           </div>
           <div class="logo-variants">
             <div class="logo-variant">
               <img
-                class="logo-small"
-                src="assets/wordmark.svg"
-                alt="Neutral starter wordmark at a small size"
-                width="110"
-                height="16"
+                class="wordmark"
+                src="assets/standard-issue-wordmark.svg"
+                alt="Standard Issue at navigation size"
+                width="175"
+                height="30"
               />
-              <p>Small-size preview · 110px wide</p>
+              <p>Navigation size · 175 × 30 px, the smallest legible size</p>
             </div>
             <div class="logo-variant">
               <img
-                class="logo-mono"
-                src="assets/wordmark.svg"
-                alt="Neutral starter wordmark in monochrome"
-                width="190"
-                height="28"
+                src="assets/standard-issue-wordmark.svg"
+                alt="Standard Issue in one color"
+                width="234"
+                height="40"
               />
-              <p>Monochrome preview · one color</p>
+              <p>One color · the artwork is a single ink, #111</p>
             </div>
           </div>
           <p class="guide-note">
-            Check your replacement at the actual header size and in one color. A
-            simple original wordmark is enough; the same SVG may serve each
-            presentation if it works. This one-color preview uses transparent
-            artwork with a flat black treatment. Give it breathing room and a
-            useful text alternative. Keep the shared source at
-            <code>assets/wordmark.svg</code>.
+            Spaced monospace capitals in a double-ruled box. Below 30 px tall
+            the lettering stops reading clearly. The letters use the system
+            monospace font, so they can look slightly different on other
+            computers. Source: <code>assets/standard-issue-wordmark.svg</code>.
           </p>
         </div>
       </section>
@@ -163,10 +160,10 @@
       >
         <div class="section-heading">
           <span class="section-number">02 / Color</span>
-          <h2 id="palette-title">Color has<br />a job to do.</h2>
+          <h2 id="palette-title">Packing<br />materials.</h2>
           <p>
-            Neutral starter roles. The swatches and values come from the same
-            shared CSS tokens.
+            The swatches and values come from the same shared CSS tokens as the
+            store.
           </p>
         </div>
         <div class="guide-content">
@@ -176,9 +173,9 @@
                 class="color-swatch"
                 style="--swatch-color: var(--color-paper)"
               ></div>
-              <h3>Paper</h3>
+              <h3>Kraft paper</h3>
               <code data-color-token="--color-paper">CSS token</code>
-              <p>Page background</p>
+              <p>Page background, with a fibre texture</p>
             </article>
             <article class="palette-card">
               <div
@@ -187,25 +184,25 @@
               ></div>
               <h3>Ink</h3>
               <code data-color-token="--color-ink">CSS token</code>
-              <p>Text and primary action</p>
+              <p>Text, label tape and the main action</p>
             </article>
             <article class="palette-card">
               <div
                 class="color-swatch"
                 style="--swatch-color: var(--color-accent)"
               ></div>
-              <h3>Accent</h3>
+              <h3>Price sticker</h3>
               <code data-color-token="--color-accent">CSS token</code>
-              <p>Starter notice and emphasis</p>
+              <p>Rationed accent: demo notice and hover</p>
             </article>
             <article class="palette-card">
               <div
                 class="color-swatch"
                 style="--swatch-color: var(--color-soft)"
               ></div>
-              <h3>Soft</h3>
+              <h3>Label stock</h3>
               <code data-color-token="--color-soft">CSS token</code>
-              <p>Image and example surfaces</p>
+              <p>Image panel and info cards</p>
             </article>
             <article class="palette-card">
               <div
@@ -214,12 +211,12 @@
               ></div>
               <h3>Muted</h3>
               <code data-color-token="--color-muted">CSS token</code>
-              <p>Supporting text</p>
+              <p>Supporting text on kraft</p>
             </article>
           </div>
           <p class="guide-note">
-            Give each color a role. Check contrast for the actual text,
-            backgrounds, focus indicators, and button states you use.
+            Ink on kraft and muted on kraft both pass WCAG AA contrast. Yellow
+            always sits under ink text, never as text on kraft.
           </p>
         </div>
       </section>
@@ -231,30 +228,32 @@
       >
         <div class="section-heading">
           <span class="section-number">03 / Typography</span>
-          <h2 id="type-title">A clear<br />hierarchy.</h2>
+          <h2 id="type-title">Three kinds<br />of type.</h2>
           <p>
-            System fonts keep this starter self-contained. Replace
-            intentionally, with readable fallbacks.
+            Mixed on purpose, like a real package. All system fonts, so nothing
+            extra loads.
           </p>
         </div>
         <div class="guide-content">
           <div class="type-specimen">
-            <span class="type-label"
-              >Display / shared display family / placeholder copy</span
-            >
-            <p class="type-display">Your message<br />starts here.</p>
-          </div>
-          <div class="type-specimen">
-            <span class="type-label">Body / shared body family</span>
-            <p class="type-body">
-              Use clear language to help someone understand the product and
-              choose their next step. Keep the words grounded in what you
-              actually know.
+            <span class="type-label">Display / Arial Black on label tape</span>
+            <p class="type-display">
+              <span class="label-tape">A white T-shirt</span>
             </p>
           </div>
           <div class="type-specimen">
-            <span class="type-label">Label / system monospace</span>
-            <p class="type-mono">One product. Deliberate choices.</p>
+            <span class="type-label">Supporting line / Georgia italic</span>
+            <p class="product-intro">But it'll sure be a great white T-shirt</p>
+          </div>
+          <div class="type-specimen">
+            <span class="type-label">Body / Helvetica, Arial</span>
+            <p class="type-body">
+              White. Short sleeves. Sizes S to XL. That's the whole list.
+            </p>
+          </div>
+          <div class="type-specimen">
+            <span class="type-label">Label / Consolas monospace</span>
+            <p class="type-mono">Contents: 1 white T-shirt</p>
           </div>
         </div>
       </section>
@@ -267,10 +266,7 @@
         <div class="section-heading">
           <span class="section-number">04 / Spacing</span>
           <h2 id="spacing-title">Room to read.</h2>
-          <p>
-            Shared spacing tokens create a repeatable rhythm. Adapt the scale to
-            your direction.
-          </p>
+          <p>Shared spacing tokens create a repeatable rhythm.</p>
         </div>
         <div class="guide-content">
           <div class="spacing-grid">
@@ -323,10 +319,6 @@
               ><code data-space-token="--space-6">CSS token</code>
             </div>
           </div>
-          <p class="guide-note">
-            Use smaller gaps for related information and larger gaps between
-            sections. Check the rhythm at phone and desktop widths.
-          </p>
         </div>
       </section>
 
@@ -336,9 +328,9 @@
         aria-labelledby="buttons-title"
       >
         <div class="section-heading">
-          <span class="section-number">05 / Interaction</span>
-          <h2 id="buttons-title">The next<br />step, visible.</h2>
-          <p>These visual samples use the storefront’s button classes.</p>
+          <span class="section-number">05 / Components</span>
+          <h2 id="buttons-title">Tape, tags<br />and buttons.</h2>
+          <p>These samples use the storefront's own classes.</p>
         </div>
         <div class="guide-content">
           <div class="button-samples">
@@ -348,10 +340,20 @@
               >Secondary action <span aria-hidden="true">↗</span></span
             >
           </div>
+          <dl class="product-facts hang-tag">
+            <div>
+              <dt>Hang tag</dt>
+              <dd>.hang-tag</dd>
+            </div>
+            <div>
+              <dt>Use</dt>
+              <dd>Product facts</dd>
+            </div>
+          </dl>
           <p class="guide-note">
-            Use a clear action label and a visible keyboard focus state. Try the
-            real size choice, validation, and demo-bag feedback on the
-            <a href="index.html">storefront</a>.
+            Label tape (<code>.label-tape</code>) is for headlines only. The
+            hang tag holds true product facts, nothing else. Try the real size
+            choice and demo bag on the <a href="index.html">storefront</a>.
           </p>
         </div>
       </section>
@@ -363,25 +365,22 @@
       >
         <div class="section-heading">
           <span class="section-number">06 / Voice</span>
-          <h2 id="voice-title">Words are<br />design, too.</h2>
-          <p>
-            Replace this neutral example after choosing your audience and
-            archetype.
-          </p>
+          <h2 id="voice-title">Curious, assured,<br />plainspoken.</h2>
+          <p>Say what it is. Then stop.</p>
         </div>
         <div class="guide-content">
           <div class="voice-grid">
             <div>
-              <h3>Neutral interface example</h3>
-              <p class="voice-example">“Choose a size.”</p>
-              <p>Short, direct, and specific about the next action.</p>
+              <h3>Sounds like Standard Issue</h3>
+              <p class="voice-example">“Claims: None. It's a T-shirt.”</p>
+              <p>Short, honest, a little dry. Facts over adjectives.</p>
             </div>
             <div>
-              <h3>Your brand voice is still open</h3>
+              <h3>Doesn't sound like Standard Issue</h3>
               <p>
-                Decide how your brand should sound and show that with a short
-                sample. Use honest claims. Ethical persuasion helps people make
-                a choice without invented reviews, urgency, or authority.
+                Hype, urgency or borrowed prestige: “limited drop”, “luxury
+                cotton”, “everyone's wearing it”. We can't back those up, so we
+                don't say them.
               </p>
             </div>
           </div>
@@ -390,11 +389,9 @@
 
       <div class="guide-footer-note wrap">
         <p>
-          <strong>A living reference.</strong> Change the shared tokens and
-          logo, then compare this board with the storefront at the same width.
-          Check the logo, typography, components, color roles, and voice text;
-          sharing a stylesheet alone does not keep every example current. Save
-          the reason for your choices in SPEC.
+          <strong>A living reference.</strong> Change a shared token or the logo
+          file, and the storefront and this board change together. Compare them
+          at the same width to check they still match.
         </p>
         <a href="index.html"
           >View the storefront <span aria-hidden="true">↗</span></a
@@ -403,8 +400,8 @@
     </main>
     <footer class="site-footer wrap">
       <p>
-        IS117 Brand Studio <span class="footer-separator"> / </span> Neutral
-        starter
+        Standard Issue <span class="footer-separator"> / </span> IS117 Brand
+        Studio demo
       </p>
       <p class="footer-tagline">Fictional product. Real design decisions.</p>
       <a href="https://github.com/kaw393939/is117-brand-studio#readme"

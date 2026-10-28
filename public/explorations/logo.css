@@ -1,0 +1,41 @@
+/* Logo review page only. */
+body {
+  margin: 0;
+  background: #f4f3ee;
+  color: #111;
+  font-family: consolas, "Courier New", monospace;
+}
+
+.logo-review {
+  max-width: 760px;
+  padding: 2rem 1rem;
+  margin: 0 auto;
+}
+
+.logo-review h1 {
+  font-size: 1.25rem;
+}
+
+.logo-review h2 {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.logo-sample {
+  padding: 1.5rem;
+  border: 1px solid #ccc;
+}
+
+.logo-sample img {
+  max-width: 100%;
+  height: auto;
+}
+
+.logo-kraft {
+  background: #dcc8a4;
+}
+
+.logo-white {
+  background: #fff;
+}
