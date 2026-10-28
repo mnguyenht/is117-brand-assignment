@@ -5,35 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="An unfinished, neutral T-shirt storefront for the IS117 Brand Studio. Build a brand through deliberate, visible design choices."
+      content="Standard Issue: a plain white T-shirt. Nothing more, nothing less. A classroom demo store for the IS117 Brand Studio."
     />
-    <title>Your Brand — neutral storefront starter</title>
+    <title>Standard Issue — the white T-shirt</title>
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="styles.css" />
     <script src="shop.js" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <aside class="starter-notice" aria-label="Starter information">
+    <aside class="starter-notice" aria-label="Demo information">
       <span
-        ><strong>Unfinished by design.</strong> This is a neutral teaching
-        starter. Replace its identity after your brand decisions.</span
+        ><strong>Demo store.</strong> A classroom project with fictional product
+        data. Nothing is sold here.</span
       >
-      <a href="studio.html"
-        >Enter the studio <span aria-hidden="true">↗</span></a
-      >
+      <a href="studio.html">Studio brief <span aria-hidden="true">↗</span></a>
     </aside>
     <header class="site-header wrap">
       <a
         class="brand-link"
         href="index.html"
-        aria-label="Your Brand storefront home"
+        aria-label="Standard Issue storefront home"
         ><img
           class="wordmark"
-          src="assets/wordmark.svg"
-          alt="Neutral starter wordmark"
+          src="assets/standard-issue-wordmark.svg"
+          alt="Standard Issue"
           width="175"
-          height="26"
+          height="30"
       /></a>
       <nav class="main-nav" aria-label="Main navigation">
         <a class="nav-link" href="index.html" aria-current="page">Shop</a>
@@ -51,32 +49,30 @@
       <section class="product-section wrap" aria-labelledby="product-title">
         <div class="product-visual">
           <div class="visual-label">
-            <span>001 / The starting point</span><span>Unbranded</span>
+            <span>Contents: 1 white T-shirt</span><span>Standard Issue</span>
           </div>
           <img
             class="shirt-image"
-            src="assets/white-shirt.svg"
+            src="assets/white-shirt-cutout.svg"
             alt="Plain white, unbranded short-sleeved T-shirt"
             width="800"
             height="880"
             fetchpriority="high"
           />
           <div class="image-caption">
-            <span>One product. Room for your point of view.</span
-            ><span aria-hidden="true">↙</span>
+            <span>Nothing more, nothing less.</span>
           </div>
         </div>
         <div class="product-information">
-          <p class="eyebrow">
-            <span class="status-dot" aria-hidden="true"></span> Neutral product
-            / demo only
-          </p>
-          <h1 id="product-title">The white<br />T-shirt.</h1>
-          <p class="product-intro">A plain shirt. A place to begin.</p>
+          <h1 id="product-title">
+            <span class="label-tape">A white T-shirt</span><br /><span
+              class="label-tape"
+              >is a white T-shirt.</span
+            >
+          </h1>
+          <p class="product-intro">But it'll sure be a great white T-shirt</p>
           <p class="muted product-description">
-            This starter has a working product page and room for a brand. Its
-            audience, personality, message, and visual direction are still yours
-            to decide.
+            White. Short sleeves. Sizes S to XL. That's the whole list.
           </p>
           <div class="price-row">
             <p class="price">$28 <span>USD</span></p>
@@ -122,21 +118,44 @@
             A classroom interaction, using fictional product data. No order,
             payment, or personal information is collected.
           </p>
-          <dl class="product-facts">
+          <dl class="product-facts hang-tag">
+            <div>
+              <dt>Contents</dt>
+              <dd>1 white T-shirt</dd>
+            </div>
             <div>
               <dt>Color</dt>
               <dd>White</dd>
             </div>
             <div>
-              <dt>Brand identity</dt>
-              <dd>Not decided yet</dd>
+              <dt>Sizes</dt>
+              <dd>S, M, L, XL</dd>
             </div>
             <div>
-              <dt>Product claims</dt>
-              <dd>None supplied</dd>
+              <dt>Claims</dt>
+              <dd>None. It's a T-shirt.</dd>
             </div>
           </dl>
         </div>
+      </section>
+
+      <section class="tips-section wrap" aria-labelledby="tips-title">
+        <div>
+          <p class="eyebrow">Free tip, no purchase needed</p>
+          <h2 id="tips-title">How to wear it.</h2>
+        </div>
+        <ol class="tip-list">
+          <li>
+            <strong>With jeans.</strong> Tuck the front in, leave the back out.
+          </li>
+          <li>
+            <strong>Under an open shirt.</strong> Let the white show at the
+            collar.
+          </li>
+          <li>
+            <strong>On its own.</strong> It's a white T-shirt. That's allowed.
+          </li>
+        </ol>
       </section>
 
       <section
@@ -145,7 +164,7 @@
         aria-labelledby="bag-title"
       >
         <div>
-          <p class="eyebrow">A small working interaction</p>
+          <p class="eyebrow">What you've picked</p>
           <h2 id="bag-title">Your demo bag.</h2>
         </div>
         <div class="bag-details">
@@ -169,16 +188,16 @@
       </section>
 
       <section class="starter-next wrap" aria-labelledby="next-title">
-        <p class="eyebrow">For the person building this site</p>
-        <h2 id="next-title">The shirt stays.<br />The story is your work.</h2>
+        <p class="eyebrow">About Standard Issue</p>
+        <h2 id="next-title">One shirt.<br />No story to buy into.</h2>
         <div>
           <p>
-            Choose who this is for, decide what the brand should express, and
-            make those choices visible. Keep the storefront and its
-            <a href="styleguide.html">live style guide</a> in sync.
+            Standard Issue sells one thing: a plain white T-shirt. No print, no
+            slogan, no season. It's the shirt you reach for without thinking
+            about it.
           </p>
-          <a class="button button-secondary" href="studio.html"
-            >See the studio brief <span aria-hidden="true">↗</span></a
+          <a class="button button-secondary" href="styleguide.html"
+            >See the style guide <span aria-hidden="true">↗</span></a
           >
         </div>
       </section>
@@ -186,8 +205,8 @@
 
     <footer class="site-footer wrap">
       <p>
-        IS117 Brand Studio <span class="footer-separator"> / </span> Neutral
-        starter
+        Standard Issue <span class="footer-separator"> / </span> IS117 Brand
+        Studio demo
       </p>
       <p class="footer-tagline">Fictional product. Real design decisions.</p>
       <a href="https://github.com/kaw393939/is117-brand-studio#readme"
