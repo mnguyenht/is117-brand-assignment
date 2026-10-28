@@ -2,23 +2,29 @@
 
 AI-drafted task evidence, not a transcript or grade. This file may be public: review, correct or remove excerpts before commit/push. Use short actual quotes or labeled paraphrases and disclose help. Approval alone is not an explanation; leave missing evidence pending.
 
-- **Feature:** BRAND-001 — pending
-- **Date:** Pending
-- **Conversation context available:** Not recorded yet
-- **Review status:** Not reviewed; no learner evidence recorded
+- **Feature:** BRAND-001 — in progress
+- **Date:** 2026-10-27 to 2026-10-28
+- **Conversation context available:** This chat from first setup onward
+- **Review status:** Not reviewed; draft kept local until the learner checks it
 
 ## Student contributions
 
-| Checkpoint                                   | Actual student words or labeled paraphrase | Assistance supplied | Evidence or gap |
-| -------------------------------------------- | ------------------------------------------ | ------------------- | --------------- |
-| Choice and reason                            | Pending                                    | Pending             | Pending         |
-| Prediction or visitor benefit                | Pending                                    | Pending             | Pending         |
-| Interpretation of one actual test            | Pending                                    | Pending             | Pending         |
-| Browser observation and keep/revise decision | Pending                                    | Pending             | Pending         |
+| Checkpoint                                   | Actual student words or labeled paraphrase                                                                                                                                           | Assistance supplied                                                                                                                                                                                                                                                                                                                                                  | Evidence or gap                                                       |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| Choice and reason                            | Chose Alex (budget / value-conscious) over Fiona (high-end). Reason: "You need it to be reliable while being cheap… A white T-shirt is a white T-shirt. Nothing more, nothing less." | AI explained that archetype describes the brand, not the customer, and gave two voice examples; the reason itself came without a hint. Archetype switch Explorer → Everyman was AI-suggested; learner approved ("yeah lets switch to everyman") without a separate reason. Name "Standard Issue" was an AI example the learner adopted ("Sure we can call it that"). | Reason given in learner's own words; visual choice not made yet       |
+| Prediction or visitor benefit                | "he'll check the price and knows its worth the price?" (prediction for Alex)                                                                                                         | None beyond the question itself                                                                                                                                                                                                                                                                                                                                      | Prediction given; the demo has no real price, so this is untested     |
+| Interpretation of one actual test            | Not yet evidenced                                                                                                                                                                    | —                                                                                                                                                                                                                                                                                                                                                                    | Pending                                                               |
+| Browser observation and keep/revise decision | Baseline: "The bag works." (no specific detail yet)                                                                                                                                  | —                                                                                                                                                                                                                                                                                                                                                                    | Brief observation of the neutral baseline; branded page not built yet |
 
 ## AI work and evidence links
 
-- **Work performed by AI:** Pending
-- **SPEC, issue/PR, actual checks and artifacts:** Pending
+- **Work performed by AI:** Setup (`npm ci`, Chromium, line-ending fix), baseline `npm run check` (all passing), issue and branch, SPEC records, both hero previews, the logo, the branded storefront and style guide, and the styling-tip section.
+- **SPEC, issue/PR, actual checks and artifacts:** [SPEC.md](SPEC.md), [issue #1](https://github.com/mnguyenht/is117-brand-assignment/issues/1)
 
-**Next step:** Pending
+**Visual choice:** Learner preferred the postmodernist preview and asked for "more of the package labeling standard issue theme" (their own idea; the AI implemented it). The learner also asked for more background texture and for the halftone dots to sit behind the shirt, and later rewrote the support line to "But it'll sure be a great white T-shirt". Asked which detail helps Alex, the learner said: "the general feel of everything conveys it well, the tag is still more of just a little spark… It's about having the theming of everything consistent". This is a reason about visual consistency, given after the AI listed the details; how it helps Alex specifically is not yet stated.
+
+**Logo:** AI proposed the crate-stamp wordmark; learner kept it ("Nah looks good") without naming a detail.
+
+**Persuasion:** Of two AI proposals, learner chose the free styling tip: "lets go with a, the rest of the website is already bold enough." That reason is about visual restraint; how the tip helps Alex is not yet stated.
+
+**Next step:** Second persuasion touch, one test explained by the learner, then first impression, keyboard and phone observations. (Promise written by learner: "A white T-shirt is a white T-shirt. But it'll be a good white T-shirt." — built from their own earlier line after AI pointed to it.)
