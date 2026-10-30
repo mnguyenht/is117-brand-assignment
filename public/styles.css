@@ -238,8 +238,29 @@ p + p {
 
 .nav-link,
 .bag-link {
+  position: relative;
   text-decoration: none;
   font-size: 0.8rem;
+}
+
+.nav-link::before,
+.bag-link::before,
+.text-button::before {
+  position: absolute;
+  z-index: 1;
+  content: "";
+}
+
+.nav-link::before {
+  inset: -0.55rem 0 0;
+}
+
+.text-button::before {
+  inset: -0.25rem 0;
+}
+
+.bag-link::before {
+  inset: -0.625rem 0;
 }
 
 .nav-link {
@@ -432,8 +453,10 @@ legend {
   color: var(--color-paper);
 }
 
-.size-option input:hover + span {
-  border-color: var(--color-ink);
+@media (hover: hover) and (pointer: fine) {
+  .size-option input:hover + span {
+    border-color: var(--color-ink);
+  }
 }
 
 .size-option input:focus-visible + span {
@@ -491,18 +514,20 @@ legend {
   color: var(--color-paper);
 }
 
-.button-primary:hover {
-  background: var(--color-accent);
-  color: var(--color-ink);
-}
-
 .button-secondary {
   background: transparent;
   color: var(--color-ink);
 }
 
-.button-secondary:hover {
-  background: var(--color-soft);
+@media (hover: hover) and (pointer: fine) {
+  .button-primary:hover {
+    background: var(--color-accent);
+    color: var(--color-ink);
+  }
+
+  .button-secondary:hover {
+    background: var(--color-soft);
+  }
 }
 
 .add-button {
@@ -791,6 +816,7 @@ legend {
 }
 
 .text-button {
+  position: relative;
   padding: 0.5rem 0;
   border: 0;
   background: transparent;
@@ -1602,5 +1628,18 @@ legend {
   *::after {
     transition: none !important;
     animation: none !important;
+  }
+
+  .add-confirm,
+  .add-confirm.is-leaving {
+    translate: none !important;
+    transition: opacity 200ms ease !important;
+  }
+
+  @starting-style {
+    .add-confirm {
+      opacity: 0;
+      translate: none !important;
+    }
   }
 }

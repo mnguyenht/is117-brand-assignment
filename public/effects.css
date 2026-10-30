@@ -69,19 +69,19 @@ html.enter .site-header {
 }
 
 html.enter [data-enter] {
-  animation: enter-block 340ms var(--ease-out) backwards;
+  animation: enter-block 280ms var(--ease-out) backwards;
   animation-delay: calc(
     var(--enter-start) + var(--i, 0) * var(--enter-stagger)
   );
 }
 
 html.enter h1 .label-tape {
-  animation: enter-tape 340ms var(--ease-out) backwards;
+  animation: enter-tape 280ms var(--ease-out) backwards;
   animation-delay: calc(var(--enter-start) + 120ms);
 }
 
 html.enter .hang-tag {
-  animation: enter-tag 340ms var(--ease-out) backwards;
+  animation: enter-tag 280ms var(--ease-out) backwards;
   animation-delay: calc(var(--enter-start) + 180ms);
 }
 
@@ -97,6 +97,16 @@ html.enter .hang-tag {
 
 .product-visual spline-viewer.is-ready {
   opacity: 1;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .product-visual spline-viewer.is-ready {
+    cursor: grab;
+  }
+
+  .product-visual spline-viewer.is-ready:active {
+    cursor: grabbing;
+  }
 }
 
 .shirt-image.has-3d-view {
@@ -115,6 +125,7 @@ html.enter .hang-tag {
 .spline-button {
   position: absolute;
   z-index: 3;
+  min-height: 2.75rem;
   bottom: 4.4rem;
   left: 1.4rem;
   border: 2px solid var(--color-ink);

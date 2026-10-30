@@ -26,6 +26,8 @@ if (panel) {
   let lastTime = 0;
   let lastPaint = 0;
   let pattern = null;
+  let accent = "#f2c94c";
+  let visible = true;
   const color = (name) =>
     getComputedStyle(document.documentElement).getPropertyValue(name).trim();
   const readSettings = () => {
@@ -49,6 +51,7 @@ if (panel) {
     tileContext.arc(0, 0, settings.dot * dpr, 0, Math.PI * 2);
     tileContext.fill();
     pattern = context.createPattern(tile, "repeat");
+    accent = color("--color-accent") || "#f2c94c";
   }
   function resize() {
     const box = panel.getBoundingClientRect();
@@ -73,6 +76,19 @@ if (panel) {
     lastPaint = time;
     const moving = !reduced.matches && settings.speed !== 0;
     if (moving) offset = (offset + settings.speed) % settings.gap;
+    if (pointer) {
+      if (!glow) {
+        glow = { ...pointer, strength: 1 };
+      } else {
+        glow.x = reduced.matches
+          ? pointer.x
+          : glow.x + (pointer.x - glow.x) * 0.25;
+        glow.y = reduced.matches
+          ? pointer.y
+          : glow.y + (pointer.y - glow.y) * 0.25;
+        glow.strength = 1;
+      }
+    }
     if (glow && !pointer && !reduced.matches) {
       const elapsed = lastTime ? time - lastTime : 16;
       glow.strength = Math.max(0, glow.strength - elapsed / 400);
@@ -91,7 +107,6 @@ if (panel) {
     );
     context.restore();
     if (glow) {
-      const accent = color("--color-accent") || "#f2c94c";
       const startX = Math.floor(
         (glow.x - settings.radius - offset) / settings.gap,
       );
@@ -132,7 +147,9 @@ if (panel) {
     if (!document.hidden && (moving || (glow && !pointer))) start();
   }
   function start() {
-    if (!frame && !document.hidden) frame = requestAnimationFrame(draw);
+    if (!frame && !document.hidden && visible) {
+      frame = requestAnimationFrame(draw);
+    }
   }
   window.siGrid = {
     set(next = {}) {
@@ -148,7 +165,6 @@ if (panel) {
     if (!fine.matches) return;
     const box = panel.getBoundingClientRect();
     pointer = { x: event.clientX - box.left, y: event.clientY - box.top };
-    glow = { ...pointer, strength: 1 };
     start();
   });
   panel.addEventListener("pointerleave", () => {
@@ -162,6 +178,14 @@ if (panel) {
     start();
   });
   document.addEventListener("visibilitychange", start);
+  new IntersectionObserver(([entry]) => {
+    visible = entry.isIntersecting;
+    if (!visible && frame) {
+      cancelAnimationFrame(frame);
+      frame = 0;
+    }
+    if (visible) start();
+  }).observe(panel);
   readSettings();
   new ResizeObserver(resize).observe(panel);
   resize();

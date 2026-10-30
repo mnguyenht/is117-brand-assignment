@@ -64,3 +64,30 @@ The automated tests run in offline mode, so they never need the network or real 
 2. Backend: cart rules, schema, email function. Test-first, with 41 node tests and 27 SQL checks in PGlite (`supabase/check-schema.mjs`).
 3. Store pages and effects written by Codex from strict specs and reviewed by Claude. The branch has a Vercel preview.
 4. Three-lens adversarial review (security, correctness, accessibility). 35 findings were triaged: the security and cart fixes were made by Claude, and the front-end and accessibility fixes by Codex.
+5. Round 3, from the learner's feedback:
+   - the dot grid moves into the shirt panel only;
+   - the "Added" sticker fades;
+   - the bag gets thumbnails and a "Check out — $X" button;
+   - the wordmark is bigger and tilted;
+   - an unboxing intro plays once per tab, and a short entrance on every view;
+   - account pages (sign in, create account, forgot and reset password, account) run as offline demo accounts until Supabase is set up;
+   - the learner's own Spline scene loads in viewer 2.0.122.
+
+   Codex wrote the effects and pages from a spec; Claude reviewed them.
+
+6. Round-3 review (Claude):
+   - A later "lift above the grid" rule had the same specificity as the hang tag's `z-index: 2` and loaded later. The 3D canvas painted over the tag, and the "couldn't load" note covered its Claims row. Fixed with `:where()`. The SVG shirt now sits above the dots.
+   - The 3D controls moved bottom-left, clear of the tag and Spline's badge.
+   - Two account-form spacing fixes.
+7. `/bld-refine-sprint` on the shop. Codex implemented, from a spec; Claude reviewed:
+   - phone tap targets of at least 44px;
+   - colour hovers only on real pointers, so the yellow no longer sticks after a tap;
+   - under reduced motion the sticker still fades but never moves;
+   - entrance 340 → 280 ms;
+   - the grid stops drawing while off-screen;
+   - a grab cursor on the 3D shirt;
+   - an empty bag hides its "Empty demo bag" button.
+
+   Two new browser tests cover the off-screen grid pause and the empty bag; both were seen failing before the fix.
+
+   Accepted limit: the "Built with Spline" badge stays. Removing it needs a paid Spline plan.

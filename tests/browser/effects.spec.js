@@ -37,6 +37,35 @@ test("only the product panel gets a decorative high-DPI grid", async ({
   await context.close();
 });
 
+test("the panel grid stops painting while scrolled off-screen", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/");
+  const canvas = page.locator(".panel-grid");
+  const snapshot = () => canvas.evaluate((element) => element.toDataURL());
+  const visibleBefore = await snapshot();
+  await page.waitForTimeout(400);
+  const visibleAfter = await snapshot();
+  expect(visibleAfter).not.toBe(visibleBefore);
+
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await expect
+    .poll(() =>
+      page.locator(".product-visual").evaluate((element) => {
+        const box = element.getBoundingClientRect();
+        return box.bottom <= 0 || box.top >= window.innerHeight;
+      }),
+    )
+    .toBe(true);
+  await page.waitForTimeout(100);
+  const hiddenBefore = await snapshot();
+  await page.waitForTimeout(400);
+  const hiddenAfter = await snapshot();
+  expect(hiddenAfter).toBe(hiddenBefore);
+});
+
 test("no page has the retired page-wide grid", async ({ page }) => {
   for (const route of [
     "/",

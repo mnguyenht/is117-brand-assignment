@@ -43,6 +43,7 @@ if (form) {
   const renderBag = (cart = getCart()) => {
     const count = itemCount(cart);
     clearBag.disabled = count === 0;
+    clearBag.hidden = count === 0;
     bagItems.replaceChildren();
     for (const { size, qty } of cart) {
       const item = document.createElement("li");
