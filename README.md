@@ -1,5 +1,7 @@
 # IS117 Brand Studio
 
+> **Status (2026-10-30):** `BRAND-001` is complete and merged. The neutral starter is now **Standard Issue**, an Everyman white-T-shirt brand for a value-conscious shopper. It has a package-label storefront, a live style guide and two persuasion touches. Decisions and evidence are in [SPEC.md](SPEC.md), and the learning record is in [LEARNING.md](LEARNING.md). Not yet published to GitHub Pages.
+
 **The same white T-shirt can carry very different meanings.** Develop a brand for it with an AI collaborator, then make those decisions visible in a professional website and a live style guide.
 
 This template starts with a working, deliberately neutral storefront. Your audience, name, promise, logo, voice, and visual direction are **not chosen yet**. You make the decisions; the agent helps you explore, build, check, and revise them.
