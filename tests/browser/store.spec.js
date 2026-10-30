@@ -54,14 +54,20 @@ async function seedStore(page) {
 }
 
 async function openRealLayout(page, route) {
-  if (["/account.html", "/forgot.html", "/reset.html"].includes(route)) {
+  if (
+    ["/account.html", "/signup.html", "/forgot.html", "/reset.html"].includes(
+      route,
+    )
+  ) {
     await page.goto(route);
     return page.locator(
       route === "/account.html"
         ? "#account-content"
-        : route === "/forgot.html"
-          ? "#forgot-form"
-          : "#reset-form",
+        : route === "/signup.html"
+          ? "#signup-content"
+          : route === "/forgot.html"
+            ? "#forgot-form"
+            : "#reset-form",
     );
   }
   await seedStore(page);
@@ -177,11 +183,60 @@ test("account page explains offline accounts", async ({ page }) => {
   ).toBeVisible();
 });
 
+test("positive: sign-in and create-account are separate screens", async ({
+  page,
+}) => {
+  await reset(page);
+  await page.goto("/account.html");
+  await expect(page.locator("form")).toHaveCount(1);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Sign in");
+  await expect(
+    page.getByRole("link", { name: "Create an account" }),
+  ).toHaveAttribute("href", "signup.html");
+
+  await page.goto("/signup.html");
+  await expect(page.locator("form")).toHaveCount(1);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Create an account",
+  );
+  await expect(
+    page.locator("#signup-content").getByRole("link", { name: "Sign in" }),
+  ).toHaveAttribute("href", "account.html");
+});
+
+test("positive: creating an account from checkout returns to checkout", async ({
+  page,
+}) => {
+  await reset(page);
+  await addSize(page, "M");
+  await page.goto("/signup.html?next=checkout.html");
+  await page.locator("#signup-email").fill("alex@example.com");
+  await page.locator("#signup-password").fill("demo123");
+  await page.getByRole("button", { name: "Create account" }).click();
+  await expect(page).toHaveURL(/\/checkout\.html$/);
+});
+
+test("negative: an outside next is ignored", async ({ page }) => {
+  await reset(page);
+  await page.goto("/signup.html?next=https%3A%2F%2Fexample.com");
+  await page.locator("#signup-email").fill("alex@example.com");
+  await page.locator("#signup-password").fill("demo123");
+  await page.getByRole("button", { name: "Create account" }).click();
+  await expect(page).toHaveURL(/\/account\.html$/);
+
+  await page.evaluate(() => localStorage.clear());
+  await page.goto("/account.html?next=https%3A%2F%2Fexample.com");
+  await expect(
+    page.getByRole("link", { name: "Create an account" }),
+  ).toHaveAttribute("href", "signup.html");
+});
+
 for (const route of [
   "/checkout.html",
   "/payment.html",
   "/order.html",
   "/account.html",
+  "/signup.html",
   "/forgot.html",
   "/reset.html",
 ]) {

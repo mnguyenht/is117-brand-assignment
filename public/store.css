@@ -12,8 +12,7 @@
 }
 
 .checkout-layout,
-.confirmation-grid,
-.auth-layout {
+.confirmation-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 0.7fr);
   gap: var(--space-5);
@@ -209,27 +208,128 @@
   font-weight: 700;
 }
 
-.auth-layout {
-  margin-top: var(--space-5);
+.auth-shell {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  padding-block: var(--space-4) var(--space-5);
+}
+
+.auth-card {
+  width: min(100%, 26rem);
+  border: 6px double var(--color-ink);
+  background: var(--color-white);
+  padding: var(--space-4);
+}
+
+.auth-card .store-form {
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+
+.auth-card h1 {
+  margin-bottom: var(--space-3);
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2rem);
+  line-height: 1.1;
 }
 
 .auth-form > label {
   margin-top: var(--space-3);
 }
 
-/* "Forgot your password?" gets its own line under the password field. */
-.auth-form > a {
-  display: block;
-  width: fit-content;
-  margin-top: var(--space-2);
+.auth-label-row label {
+  margin-bottom: 0.35rem;
 }
 
-.account-panel {
-  margin-top: var(--space-5);
+.auth-form > label:first-child {
+  margin-top: 0;
 }
 
-.account-panel .button {
-  margin-block: var(--space-3);
+.auth-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: var(--space-3);
+}
+
+.auth-label-row a {
+  font-size: 0.8rem;
+}
+
+.auth-submit {
+  justify-content: center;
+  width: 100%;
+}
+
+.auth-switch {
+  margin-top: var(--space-4);
+  border-top: 1px solid var(--color-line);
+  padding-top: var(--space-3);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.account-demo-note {
+  max-width: 26rem;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.auth-shell > .account-demo-note {
+  text-align: center;
+}
+
+.account-dashboard > .account-demo-note {
+  text-align: left;
+}
+
+.account-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  margin-block: var(--space-4) var(--space-3);
+}
+
+.account-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.account-receipt {
+  max-width: 52rem;
+  margin-top: var(--space-4);
+}
+
+.account-orders a {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: var(--space-2) var(--space-3);
+  align-items: baseline;
+  color: inherit;
+}
+
+.account-order-code {
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.account-order-date {
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.account-order-total {
+  text-align: right;
+}
+
+.account-orders-empty a {
+  display: inline;
 }
 
 @media (width <= 760px) {
@@ -247,8 +347,7 @@
   }
 
   .checkout-layout,
-  .confirmation-grid,
-  .auth-layout {
+  .confirmation-grid {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-4);
   }
@@ -312,34 +411,37 @@
   align-items: center;
 }
 
-.account-demo-note {
-  display: inline-block;
-  margin-bottom: var(--space-3);
-}
-
-.account-narrow {
-  max-width: 38rem;
-  margin-bottom: var(--space-3);
-}
-
-.account-narrow label {
-  display: block;
-  margin-top: var(--space-3);
-  font-weight: 700;
-}
-
-.account-narrow > label:first-child {
-  margin-top: 0;
-}
-
-.store-form.account-narrow input {
-  width: 100%;
-  border: 2px solid var(--color-ink);
-  padding: 0.75rem;
-  font: inherit;
+@media (hover: hover) and (pointer: fine) {
+  .account-orders li > a:hover {
+    background: var(--color-soft);
+  }
 }
 
 @media (width <= 760px) {
+  .account-orders li > a {
+    grid-template-columns: 1fr auto;
+  }
+
+  .account-order-code {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .account-order-total {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .account-order-date {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .account-order-count {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
   .bag-items li {
     grid-template-columns: 52px minmax(0, 1fr) auto;
   }

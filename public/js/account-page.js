@@ -1,137 +1,117 @@
-﻿import {
+import {
   DEMO_ACCOUNTS,
   getUser,
   onAuthChange,
-  signIn,
-  signUp,
   signOut,
   loadOrders,
 } from "./backend.js";
+import { authCard, demoNote, readSafeNext } from "./auth-form.js";
 import { formatPrice } from "./cart.js";
 import { initCart } from "./cart-store.js";
 import { listLocalOrders } from "./local-orders.js";
 import { startHeader } from "./site-header.js";
+
 const content = document.querySelector("#account-content");
 const status = document.querySelector("#account-status");
-const next = new URLSearchParams(location.search).get("next");
-const safeNext = /^[a-z-]+\.html$/.test(next ?? "") ? next : null;
+const safeNext = readSafeNext();
 let currentUserId;
-const heading = (text) => {
-  const element = document.createElement("h2");
-  element.textContent = text;
-  return element;
-};
+
 const announce = (text) => {
   status.textContent = text;
 };
+
 const focusHeading = () => {
-  const title = content.querySelector("h2");
+  const title = content.querySelector("h1");
   if (title) {
     title.tabIndex = -1;
     title.focus();
   }
 };
-function demoNotice() {
-  const note = document.createElement("p");
-  note.className = "draft-label account-demo-note";
-  note.textContent =
-    "Demo accounts: your email stays in this browser and your password is never stored or checked. Real accounts switch on later.";
-  return note;
-}
+
+const dateFormatter = new Intl.DateTimeFormat(undefined, {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+});
+
 function orderList(orders) {
   const list = document.createElement("ul");
   list.className = "account-orders";
+
   for (const order of orders.slice(0, 10)) {
     const item = document.createElement("li");
     const link = document.createElement("a");
     link.href = `order.html?id=${encodeURIComponent(order.id)}`;
-    link.textContent = `Order ${order.id.slice(0, 8).toUpperCase()} · ${order.item_count} ${order.item_count === 1 ? "item" : "items"} · ${formatPrice(order.subtotal_cents)}`;
+
+    const code = document.createElement("span");
+    code.className = "account-order-code";
+    code.textContent = order.id.slice(0, 8).toUpperCase();
+
+    link.append(code);
+    if (order.created_at) {
+      const parsed = new Date(order.created_at);
+      if (!Number.isNaN(parsed.getTime())) {
+        const date = document.createElement("span");
+        date.className = "account-order-date";
+        date.textContent = dateFormatter.format(parsed);
+        link.append(date);
+      }
+    }
+
+    const count = document.createElement("span");
+    count.className = "account-order-count";
+    count.textContent = `${order.item_count} ${
+      order.item_count === 1 ? "item" : "items"
+    }`;
+
+    const total = document.createElement("span");
+    total.className = "account-order-total";
+    total.textContent = formatPrice(order.subtotal_cents);
+
+    link.append(count, total);
     item.append(link);
     list.append(item);
   }
+
   if (!orders.length) {
     const item = document.createElement("li");
-    item.textContent = "No orders yet.";
+    item.className = "account-orders-empty";
+    item.append(document.createTextNode("No orders yet. "));
+    const shop = document.createElement("a");
+    shop.href = "index.html";
+    shop.textContent = "Shop the T-shirt";
+    item.append(shop);
     list.append(item);
   }
+
   return list;
 }
-function makeForm(kind) {
-  const signin = kind === "signin";
-  const form = document.createElement("form");
-  form.className = "store-form auth-form";
-  const title = heading(signin ? "Sign in." : "Create an account.");
-  const emailLabel = document.createElement("label");
-  emailLabel.htmlFor = `${kind}-email`;
-  emailLabel.textContent = "Email";
-  const email = document.createElement("input");
-  email.id = emailLabel.htmlFor;
-  email.name = "email";
-  email.type = "email";
-  email.autocomplete = "email";
-  email.required = true;
-  const passwordLabel = document.createElement("label");
-  passwordLabel.htmlFor = `${kind}-password`;
-  passwordLabel.textContent = "Password";
-  const password = document.createElement("input");
-  password.id = passwordLabel.htmlFor;
-  password.name = "password";
-  password.type = "password";
-  password.autocomplete = signin ? "current-password" : "new-password";
-  password.required = true;
-  if (!signin) password.minLength = 6;
-  const button = document.createElement("button");
-  button.type = "submit";
-  button.className = "button button-primary";
-  button.textContent = signin ? "Sign in" : "Create account";
-  const error = document.createElement("p");
-  error.className = "field-error";
-  error.role = "alert";
-  error.hidden = true;
-  form.append(title, emailLabel, email, passwordLabel, password);
-  if (signin) {
-    const forgot = document.createElement("a");
-    forgot.href = "forgot.html";
-    forgot.textContent = "Forgot your password?";
-    form.append(forgot);
-  }
-  form.append(button, error);
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    error.hidden = true;
-    button.disabled = true;
-    try {
-      const result = signin
-        ? await signIn(email.value, password.value)
-        : await signUp(email.value, password.value);
-      if (!signin && !result.session) {
-        announce("Check your email to confirm your account, then sign in.");
-        focusHeading();
-      } else if (safeNext) location.href = safeNext;
-      else {
-        const user = result.user ?? result.session?.user;
-        currentUserId = user?.id;
-        await renderSignedIn(user);
-        announce("Signed in.");
-        focusHeading();
-      }
-    } catch (problem) {
-      error.textContent = problem.message;
-      error.hidden = false;
-    } finally {
-      button.disabled = false;
-    }
-  });
-  return form;
-}
+
 async function renderSignedIn(user) {
-  const panel = document.createElement("section");
-  panel.className = "account-panel shipping-panel";
+  document.title = "Account — Standard Issue";
+  content.className = "account-dashboard";
+
+  const heading = document.createElement("h1");
+  const tape = document.createElement("span");
+  tape.className = "label-tape";
+  tape.textContent = "Your account.";
+  heading.append(tape);
+
+  const bar = document.createElement("div");
+  bar.className = "account-bar";
+
   const signed = document.createElement("p");
-  signed.textContent = `Signed in as ${user.email}`;
+  signed.append(document.createTextNode("Signed in as "));
+  const email = document.createElement("strong");
+  email.textContent = user.email;
+  signed.append(email);
+
+  const actions = document.createElement("div");
+  actions.className = "account-actions";
   const change = document.createElement("a");
   change.href = "reset.html";
   change.textContent = "Change password";
+
   const button = document.createElement("button");
   button.type = "button";
   button.className = "button button-secondary";
@@ -143,15 +123,18 @@ async function renderSignedIn(user) {
     announce("Signed out.");
     focusHeading();
   });
-  panel.append(
-    heading("Your account."),
-    signed,
-    change,
-    button,
-    heading("Your orders."),
-  );
+
+  actions.append(change, button);
+  bar.append(signed, actions);
+
+  const receipt = document.createElement("section");
+  receipt.className = "summary-receipt account-receipt";
+  const ordersHeading = document.createElement("h2");
+  ordersHeading.textContent = "Your orders.";
+  receipt.append(ordersHeading);
+
   try {
-    panel.append(
+    receipt.append(
       orderList(DEMO_ACCOUNTS ? listLocalOrders() : await loadOrders()),
     );
   } catch (problem) {
@@ -159,27 +142,46 @@ async function renderSignedIn(user) {
     error.className = "field-error";
     error.role = "alert";
     error.textContent = problem.message;
-    panel.append(error);
+    receipt.append(error);
   }
-  content.replaceChildren(...(DEMO_ACCOUNTS ? [demoNotice(), panel] : [panel]));
-}
-function renderSignedOut() {
-  const layout = document.createElement("div");
-  layout.className = "auth-layout";
-  layout.append(makeForm("signin"), makeForm("signup"));
+
   content.replaceChildren(
-    ...(DEMO_ACCOUNTS ? [demoNotice(), layout] : [layout]),
+    heading,
+    bar,
+    ...(DEMO_ACCOUNTS ? [demoNote()] : []),
+    receipt,
   );
 }
+
+function renderSignedOut() {
+  document.title = "Sign in — Standard Issue";
+  content.className = "auth-shell";
+  const card = authCard("signin", {
+    safeNext,
+    onSignedIn: async (user) => {
+      if (safeNext) {
+        location.href = safeNext;
+        return;
+      }
+      currentUserId = user?.id;
+      await renderSignedIn(user);
+      announce("Signed in.");
+      focusHeading();
+    },
+  });
+  content.replaceChildren(card, ...(DEMO_ACCOUNTS ? [demoNote()] : []));
+}
+
 startHeader();
 await initCart();
 const user = await getUser();
 currentUserId = user?.id;
 if (user) await renderSignedIn(user);
 else renderSignedOut();
-await onAuthChange((changed) => {
+
+await onAuthChange(async (changed) => {
   if (changed?.id === currentUserId) return;
   currentUserId = changed?.id;
-  if (changed) renderSignedIn(changed);
+  if (changed) await renderSignedIn(changed);
   else renderSignedOut();
 });

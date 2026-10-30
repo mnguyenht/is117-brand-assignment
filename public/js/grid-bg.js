@@ -26,7 +26,7 @@ if (panel) {
   let lastTime = 0;
   let lastPaint = 0;
   let pattern = null;
-  let accent = "#f2c94c";
+  let glowColor = "#f2c94c";
   let visible = true;
   const color = (name) =>
     getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -51,7 +51,8 @@ if (panel) {
     tileContext.arc(0, 0, settings.dot * dpr, 0, Math.PI * 2);
     tileContext.fill();
     pattern = context.createPattern(tile, "repeat");
-    accent = color("--color-accent") || "#f2c94c";
+    glowColor =
+      color("--panel-grid-glow-color") || color("--color-accent") || "#f2c94c";
   }
   function resize() {
     const box = panel.getBoundingClientRect();
@@ -119,7 +120,7 @@ if (panel) {
       const endY = Math.ceil(
         (glow.y + settings.radius - offset) / settings.gap,
       );
-      context.fillStyle = accent;
+      context.fillStyle = glowColor;
       for (let column = startX; column <= endX; column += 1) {
         for (let row = startY; row <= endY; row += 1) {
           const x = column * settings.gap + offset;

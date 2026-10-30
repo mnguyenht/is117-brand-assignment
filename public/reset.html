@@ -43,40 +43,46 @@
       >
     </header>
     <main id="main" class="store-page wrap">
-      <p class="eyebrow">Account</p>
-      <h1><span class="label-tape">Choose a new password.</span></h1>
-      <p id="demo-accounts" class="draft-label account-demo-note" hidden>
-        Demo accounts: your email stays in this browser and your password is
-        never stored or checked. Real accounts switch on later.
-      </p>
-      <section id="reset-message" class="shipping-panel account-narrow" hidden>
-        <p>This reset link has expired or was already used.</p>
-        <a href="forgot.html">Request another reset link</a>
-      </section>
-      <form id="reset-form" class="store-form account-narrow" novalidate>
-        <label for="new-password">New password</label
-        ><input
-          id="new-password"
-          name="password"
-          type="password"
-          autocomplete="new-password"
-          minlength="6"
-          required
-        />
-        <label for="confirm-password">Confirm new password</label
-        ><input
-          id="confirm-password"
-          name="confirm"
-          type="password"
-          autocomplete="new-password"
-          minlength="6"
-          required
-        />
-        <button class="button button-primary" type="submit">
-          Update password
-        </button>
-        <p id="reset-status" role="status" tabindex="-1"></p>
-      </form>
+      <div class="auth-shell">
+        <section class="auth-card">
+          <h1>Choose a new password</h1>
+          <section id="reset-message" class="shipping-panel" hidden>
+            <p>This reset link has expired or was already used.</p>
+            <a href="forgot.html">Request another reset link</a>
+          </section>
+          <form id="reset-form" class="store-form auth-form" novalidate>
+            <label for="new-password">New password</label>
+            <input
+              id="new-password"
+              name="password"
+              type="password"
+              autocomplete="new-password"
+              minlength="6"
+              required
+            />
+            <label for="confirm-password">Confirm new password</label>
+            <input
+              id="confirm-password"
+              name="confirm"
+              type="password"
+              autocomplete="new-password"
+              minlength="6"
+              required
+            />
+            <button class="button button-primary auth-submit" type="submit">
+              Update password
+            </button>
+            <p id="reset-status" role="status" tabindex="-1"></p>
+          </form>
+          <p class="auth-switch">
+            <a href="account.html">Back to sign in</a>
+          </p>
+        </section>
+        <p id="demo-accounts" class="account-demo-note" hidden>
+          Demo accounts: your email stays in this browser and your password is
+          never stored or checked. Real accounts switch on later.
+        </p>
+      </div>
     </main>
     <aside class="starter-notice" aria-label="Demo information">
       <span

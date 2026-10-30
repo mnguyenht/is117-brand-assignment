@@ -6,7 +6,7 @@ Requested by the learner on 2026-10-30: "turn this into the best T-shirt website
 
 1. **Opening animation**: clean and snappy, about one second. It plays once per tab (the flag lives in `sessionStorage`, which each tab keeps separately) and is off under reduced motion.
 2. **Ambient grid**: the learner's own vanilla port of React Bits' ShapeGrid (from `webdev/express`), restyled for kraft paper.
-3. **Interactive 3D shirt**: a Spline `<spline-viewer>`, loaded only when a scene URL is configured. The SVG shirt stays as the poster and fallback.
+3. ~~**Interactive 3D shirt**~~: removed in round 4 at the learner's request (the drag controls misbehaved and it was too laggy). The flat SVG shirt stays.
 4. **Tuning panel**: a temporary page for tuning the effects by hand.
 5. **Accounts and saved carts**: Supabase Auth (email + password) and a Postgres `carts` table with row-level security.
 6. **Checkout flow**: cart on the shop page → `checkout.html` (shipping details) → `payment.html` (fake payment: no card data collected, ever) → `order.html` (confirmation).
@@ -19,20 +19,21 @@ Out of scope: real payment, real shipping, inventory, admin.
 
 | Mode                               | When                        | Cart                                                                            | Checkout                                                                        | Email                              |
 | ---------------------------------- | --------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ---------------------------------- |
-| **Offline demo** (default, tested) | Supabase URL/key left empty | `localStorage`                                                                  | Works without an account; the order is saved in `localStorage`                  | None (page says so)                |
+| **Offline demo** (default, tested) | Supabase URL/key left empty | `localStorage`                                                                  | Needs a demo sign-in; the order is saved in `localStorage`                      | None (page says so)                |
 | **Live**                           | Supabase URL + anon key set | `carts` table for signed-in users; `localStorage` for guests, merged on sign-in | Sign-in required; the order is written by the `place_order()` database function | `/api/order-confirmation` → Resend |
 
 The automated tests run in offline mode, so they never need the network or real keys.
 
 ## Files
 
-- `public/js/config.js`: public settings (Supabase URL and **anon** key, Spline scene URL). The anon key is designed to be public; row-level security protects the data.
+- `public/js/config.js`: public settings (Supabase URL and **anon** key). The anon key is designed to be public; row-level security protects the data.
 - `public/js/cart.js`: pure cart rules (sizes, quantity limits, totals). Unit-tested.
 - `public/js/checkout-rules.js`: pure shipping-form validation. Unit-tested.
 - `public/js/backend.js`: Supabase client loaded from a pinned CDN version **only in live mode**, plus auth, cart sync, `place_order` and the email trigger.
 - `public/js/cart-store.js`: one place that reads and writes the cart, local or remote.
 - Page scripts: `shop.js`, `account-page.js`, `checkout-page.js`, `payment-page.js`, `order-page.js`, `site-header.js`.
-- Effects: `effects.css` + `intro-gate.js`, `grid-bg.js`, `spline-shirt.js`, tuning page `tune.html`.
+- Effects: `effects.css` + `intro-gate.js`, `grid-bg.js`, tuning page `tune.html`.
+- Auth screens: `account.html` (sign in, then the account dashboard), `signup.html`, `forgot.html`, `reset.html`; shared form code in `js/auth-form.js`.
 - `api/order-confirmation.js` + `api/_lib/*.js`: the email function. It uses plain `fetch` to the Supabase and Resend REST APIs, so the server has no npm dependencies.
 - `supabase/schema.sql`: tables, row-level security, and the `place_order` and `claim_confirmation` functions.
 - `vercel.json`: static output = `public/`.
@@ -51,11 +52,11 @@ The automated tests run in offline mode, so they never need the network or real 
   - A per-user lock stops parallel requests from slipping past the 10-orders-an-hour limit.
   - Addresses with control characters are refused.
   - Saved carts are capped at 1 KB.
-  - The Supabase and Spline scripts are pinned and checked with Subresource Integrity.
+  - The Supabase script is pinned and checked with Subresource Integrity.
 - Accepted limits (documented, not fixed):
   - An email that fails to send is not retried. Each order can claim one send, and re-opening that would allow spam.
   - A network retry of "Place demo order" can create a second order.
-  - There is no Content-Security-Policy header yet, because the Spline viewer and Supabase need several origins.
+  - There is no Content-Security-Policy header yet, because Supabase needs its CDN and API origins.
   - Turning off "Confirm email" (see the setup guide) means sign-ups are not proof of owning an address. That is acceptable for a demo only because of the protections above.
 
 ## Overnight progress log

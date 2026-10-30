@@ -38,21 +38,13 @@ You will create three things: a **Supabase** project (accounts + database), a **
 
 ## 4. Try it
 
-1. Open the site → **Account** → create an account (any email + a 6+ character password).
+1. Open the site → **Sign in** → **Create an account** (any email + a 6+ character password).
 2. Add a shirt, **Check out**, fill in an address, **Place demo order**.
 3. Your Resend inbox gets the confirmation. In Supabase → **Table Editor** → `orders`, the row is there, priced by the database.
 
-## 5. The 3D shirt (done — one fix left in Spline)
+## 5. The 3D shirt (removed)
 
-Your scene (`NxwbTGxwVcrRqPgS`) is already in [`public/js/config.js`](../public/js/config.js), loaded with viewer 2.0.122. The site makes its dark background transparent in code, so you don't need to change that.
-
-**The one thing to fix:** when you drag, the shirt swings off to the side instead of turning in place. The camera orbits around the scene's centre, but the shirt isn't sitting on it. In the Spline editor:
-
-1. Select the shirt and set its **Position** to `0, 0, 0` (right panel → Transform). If the shirt is a group, select the group.
-2. Select the camera → **Play settings** → **Orbit**: keep it on, and turn **Zoom** and **Pan** off. Zoom would fight with page scrolling, and pan lets people drag the shirt out of view.
-3. **Export** → **Code Export** → **Update** (the URL stays the same). Refresh the site to see it.
-
-The "Built with Spline" badge comes with Spline's free plan and can only be removed on a paid plan.
+The Spline 3D shirt was taken out on 2026-10-30 at your request (the drag controls misbehaved and it was too laggy). The shop shows the flat SVG shirt, so there is nothing to set up in Spline.
 
 ## If something goes wrong
 

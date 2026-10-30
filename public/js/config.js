@@ -7,10 +7,6 @@
 export const CONFIG = {
   supabaseUrl: "",
   supabaseAnonKey: "",
-  // A Spline scene exported as a public URL ending in /scene.splinecode.
-  // Empty keeps the plain SVG shirt.
-  splineSceneUrl:
-    "https://prod.spline.design/NxwbTGxwVcrRqPgS/scene.splinecode",
 };
 
 export const LIVE_MODE = Boolean(CONFIG.supabaseUrl && CONFIG.supabaseAnonKey);

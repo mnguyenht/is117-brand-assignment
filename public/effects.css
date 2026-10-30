@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   --unbox-hold: 180ms;
   --unbox-ms: 560ms;
   --enter-stagger: 60ms;
@@ -9,6 +9,9 @@
   --panel-grid-alpha: 0.14;
   --panel-grid-speed: 0.08;
   --panel-grid-glow: 0.6;
+
+  /* pointer glow; try #2f5d8a for stamp-ink blue */
+  --panel-grid-glow-color: #8c6d43;
   --panel-grid-radius: 60;
 }
 
@@ -83,69 +86,6 @@ html.enter h1 .label-tape {
 html.enter .hang-tag {
   animation: enter-tag 280ms var(--ease-out) backwards;
   animation-delay: calc(var(--enter-start) + 180ms);
-}
-
-.product-visual spline-viewer {
-  position: absolute;
-  z-index: 1;
-  inset: 0 0 auto;
-  width: 100%;
-  aspect-ratio: 800 / 880;
-  opacity: 0;
-  transition: opacity var(--motion-base) var(--ease-out);
-}
-
-.product-visual spline-viewer.is-ready {
-  opacity: 1;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .product-visual spline-viewer.is-ready {
-    cursor: grab;
-  }
-
-  .product-visual spline-viewer.is-ready:active {
-    cursor: grabbing;
-  }
-}
-
-.shirt-image.has-3d-view {
-  opacity: 0;
-  transition: opacity var(--motion-base) var(--ease-out);
-}
-
-/* 3D controls sit bottom-left, just above the caption line: the hang tag
-   and Spline's own badge take the bottom-right corner. */
-.spline-label {
-  inset: auto auto 4.4rem 1.4rem;
-  width: max-content;
-  pointer-events: none;
-}
-
-.spline-button {
-  position: absolute;
-  z-index: 3;
-  min-height: 2.75rem;
-  bottom: 4.4rem;
-  left: 1.4rem;
-  border: 2px solid var(--color-ink);
-  background: var(--color-white);
-  color: var(--color-ink);
-  padding: 0.45rem 0.65rem;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-}
-
-.spline-error {
-  position: absolute;
-  z-index: 3;
-  bottom: 6.8rem;
-  left: 1.4rem;
-  max-width: 12rem;
-  background: var(--color-white);
-  padding: 0.25rem 0.4rem;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
 }
 
 .tune-page {
@@ -295,9 +235,7 @@ html.enter .hang-tag {
   html.enter .site-header,
   html.enter [data-enter],
   html.enter h1 .label-tape,
-  html.enter .hang-tag,
-  .product-visual spline-viewer,
-  .shirt-image.has-3d-view {
+  html.enter .hang-tag {
     animation: none;
     transition: none;
   }

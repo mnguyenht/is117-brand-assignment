@@ -5,16 +5,16 @@ test.beforeEach(async ({ page }) => {
   await page.route(/spline\.design/, (route) => route.abort());
 });
 
-test("3D load fails gracefully when blocked", async ({ page }) => {
-  const errors = [];
-  page.on("pageerror", (error) => errors.push(error.message));
+test("the shop shows the flat shirt and never requests the 3D viewer", async ({
+  page,
+}) => {
+  const requests = [];
+  page.on("request", (request) => requests.push(request.url()));
   await page.goto("/");
+  await page.waitForLoadState("load");
   await expect(page.locator(".shirt-image")).toBeVisible();
-  await expect(page.getByText("3D view couldn't load.")).toBeVisible({
-    timeout: 25000,
-  });
-  await expect(page.locator(".shirt-image")).toBeVisible();
-  expect(errors).toEqual([]);
+  await expect(page.locator("spline-viewer")).toHaveCount(0);
+  expect(requests.filter((url) => url.includes("spline.design"))).toEqual([]);
 });
 
 test("only the product panel gets a decorative high-DPI grid", async ({
