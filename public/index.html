@@ -10,7 +10,8 @@
     <title>Standard Issue — the white T-shirt</title>
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="styles.css" />
-    <script src="shop.js" defer></script>
+    <link rel="stylesheet" href="store.css" />
+    <script type="module" src="shop.js"></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -32,6 +33,7 @@
         <a class="nav-link" href="studio.html"
           >Studio <span aria-hidden="true">↗</span></a
         >
+        <a id="account-link" class="nav-link" href="account.html">Account</a>
       </nav>
       <a class="bag-link" href="#demo-bag" aria-label="View demo bag"
         >Demo bag <span id="bag-count" class="bag-count">0</span></a
@@ -167,12 +169,18 @@
             Your demo bag is empty. Choose a size to try it.
           </p>
           <ul id="bag-items" class="bag-items"></ul>
+          <p id="bag-subtotal" class="bag-subtotal" hidden></p>
+          <a
+            id="checkout-link"
+            class="button button-primary"
+            href="checkout.html"
+            hidden
+            >Check out</a
+          >
           <button id="clear-bag" class="text-button" type="button" disabled>
             Empty demo bag
           </button>
-          <p class="field-help">
-            The bag resets when this page reloads. There is no checkout.
-          </p>
+          <p class="field-help">Your demo bag is saved in this browser.</p>
         </div>
       </section>
 

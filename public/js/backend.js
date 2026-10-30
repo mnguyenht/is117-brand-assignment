@@ -76,13 +76,11 @@ export async function loadRemoteCart(userId) {
 
 export function saveRemoteCart(userId, cart) {
   return call((client) =>
-    client
-      .from("carts")
-      .upsert({
-        user_id: userId,
-        items: cart,
-        updated_at: new Date().toISOString(),
-      }),
+    client.from("carts").upsert({
+      user_id: userId,
+      items: cart,
+      updated_at: new Date().toISOString(),
+    }),
   );
 }
 
