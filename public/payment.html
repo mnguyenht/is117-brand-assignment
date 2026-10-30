@@ -45,10 +45,17 @@
         >Demo bag <span id="bag-count" class="bag-count">0</span></a
       >
     </header>
-    <main id="main" class="store-page wrap">
-      <p class="eyebrow">Demo payment</p>
+    <main id="main" class="store-page payment-page wrap">
+      <p class="eyebrow checkout-eyebrow">Demo payment</p>
+      <nav class="checkout-progress" aria-label="Checkout progress">
+        <ol class="checkout-steps">
+          <li>Shipping</li>
+          <li aria-current="step">Payment</li>
+          <li>Done</li>
+        </ol>
+      </nav>
       <h1><span class="label-tape">Payment.</span></h1>
-      <div id="payment-content" class="checkout-layout">
+      <div id="payment-content" class="payment-column">
         <section id="payment-message" class="shipping-panel" hidden></section>
         <div id="payment-details">
           <section class="demo-card" aria-labelledby="card-title">
@@ -59,8 +66,33 @@
               Nothing is charged. This store never asks for real card details.
             </p>
           </section>
+          <section
+            id="order-summary"
+            class="summary-receipt"
+            aria-labelledby="summary-title"
+          >
+            <h2 id="summary-title">Order summary.</h2>
+            <ul id="summary-lines" class="summary-lines"></ul>
+            <dl class="summary-totals">
+              <div>
+                <dt>Subtotal</dt>
+                <dd id="summary-subtotal"></dd>
+              </div>
+              <div>
+                <dt>Shipping</dt>
+                <dd>Free (demo)</dd>
+              </div>
+              <div>
+                <dt>Total</dt>
+                <dd id="summary-total"></dd>
+              </div>
+            </dl>
+          </section>
           <section class="shipping-panel" aria-labelledby="shipping-title">
-            <h2 id="shipping-title">Shipping to.</h2>
+            <div class="panel-heading">
+              <h2 id="shipping-title">Shipping to.</h2>
+              <a href="checkout.html">Edit</a>
+            </div>
             <div id="shipping-address"></div>
           </section>
           <button id="place-order" class="button button-primary" type="button">
@@ -79,28 +111,6 @@
             hidden
           ></p>
         </div>
-        <section
-          id="order-summary"
-          class="summary-receipt"
-          aria-labelledby="summary-title"
-        >
-          <h2 id="summary-title">Order summary.</h2>
-          <ul id="summary-lines" class="summary-lines"></ul>
-          <dl class="summary-totals">
-            <div>
-              <dt>Subtotal</dt>
-              <dd id="summary-subtotal"></dd>
-            </div>
-            <div>
-              <dt>Shipping</dt>
-              <dd>Free (demo)</dd>
-            </div>
-            <div>
-              <dt>Total</dt>
-              <dd id="summary-total"></dd>
-            </div>
-          </dl>
-        </section>
       </div>
     </main>
     <aside class="starter-notice" aria-label="Demo information">

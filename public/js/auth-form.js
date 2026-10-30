@@ -38,6 +38,22 @@ export function authCard(kind, { safeNext, onSignedIn }) {
   password.autocomplete = signin ? "current-password" : "new-password";
   password.required = true;
 
+  const passwordField = document.createElement("div");
+  passwordField.className = "password-field";
+  const passwordToggle = document.createElement("button");
+  passwordToggle.type = "button";
+  passwordToggle.className = "text-button password-toggle";
+  passwordToggle.textContent = "Show";
+  passwordToggle.setAttribute("aria-controls", password.id);
+  passwordToggle.setAttribute("aria-pressed", "false");
+  passwordToggle.addEventListener("click", () => {
+    const showing = password.type === "text";
+    password.type = showing ? "password" : "text";
+    passwordToggle.textContent = showing ? "Show" : "Hide";
+    passwordToggle.setAttribute("aria-pressed", String(!showing));
+  });
+  passwordField.append(password, passwordToggle);
+
   form.append(emailLabel, email);
 
   if (signin) {
@@ -47,7 +63,7 @@ export function authCard(kind, { safeNext, onSignedIn }) {
     forgot.href = "forgot.html";
     forgot.textContent = "Forgot password?";
     labelRow.append(passwordLabel, forgot);
-    form.append(labelRow, password);
+    form.append(labelRow, passwordField);
   } else {
     password.minLength = 6;
     password.setAttribute("aria-describedby", "signup-password-help");
@@ -55,13 +71,14 @@ export function authCard(kind, { safeNext, onSignedIn }) {
     hint.id = "signup-password-help";
     hint.className = "field-help";
     hint.textContent = "At least 6 characters.";
-    form.append(passwordLabel, password, hint);
+    form.append(passwordLabel, passwordField, hint);
   }
 
   const button = document.createElement("button");
   button.type = "submit";
   button.className = "button button-primary auth-submit";
   button.textContent = signin ? "Sign in" : "Create account";
+  const idleButtonLabel = button.textContent;
 
   const error = document.createElement("p");
   error.className = "field-error";
@@ -73,6 +90,7 @@ export function authCard(kind, { safeNext, onSignedIn }) {
     event.preventDefault();
     error.hidden = true;
     button.disabled = true;
+    button.textContent = signin ? "Signing in…" : "Creating account…";
     try {
       const result = signin
         ? await signIn(email.value, password.value)
@@ -93,6 +111,7 @@ export function authCard(kind, { safeNext, onSignedIn }) {
       error.hidden = false;
     } finally {
       button.disabled = false;
+      button.textContent = idleButtonLabel;
     }
   });
 

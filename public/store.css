@@ -312,11 +312,14 @@
   gap: var(--space-2) var(--space-3);
   align-items: baseline;
   color: inherit;
+  text-decoration: none;
 }
 
 .account-order-code {
   font-family: var(--font-mono);
   font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
 }
 
 .account-order-date {
@@ -454,5 +457,218 @@
   .bag-remove {
     grid-column: 2 / -1;
     justify-self: start;
+  }
+}
+
+.checkout-page h1,
+.payment-page h1,
+.order-page h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+}
+
+.checkout-steps {
+  display: flex;
+  justify-content: flex-start;
+  gap: calc(var(--space-3) + var(--space-2));
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  color: var(--color-ink);
+  counter-reset: checkout-step;
+  list-style: none;
+}
+
+.checkout-steps li {
+  position: relative;
+  padding-bottom: 0.25rem;
+  counter-increment: checkout-step;
+  font-size: 0.8rem;
+}
+
+.checkout-steps li::before {
+  margin-right: 0.4rem;
+  content: counter(checkout-step);
+  font-family: var(--font-mono);
+}
+
+/* Connector sits centred in the gap at mid-letter height, so it reads as a
+   link between steps rather than an underline on the previous one. */
+.checkout-steps li + li::after {
+  position: absolute;
+  top: 0.6em;
+  right: calc(100% + var(--space-1));
+  width: var(--space-3);
+  height: 1px;
+  background: var(--color-line);
+  content: "";
+}
+
+.checkout-steps li[aria-current="step"] {
+  border-bottom: 2px solid var(--color-ink);
+  font-weight: 700;
+}
+
+.checkout-steps li[aria-current="step"] ~ li {
+  color: var(--color-muted);
+}
+
+.checkout-page .checkout-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.order-page .summary-receipt {
+  animation: receipt-print 420ms var(--ease-out) 120ms backwards;
+}
+
+.checkout-page .checkout-layout > .summary-receipt {
+  grid-row: 1;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0 var(--space-3);
+}
+
+.checkout-eyebrow {
+  justify-content: center;
+}
+
+.payment-page > h1,
+.order-page #order-details > .eyebrow,
+.order-page #order-details > h1 {
+  text-align: center;
+}
+
+.payment-page .checkout-steps,
+.order-page .checkout-steps {
+  justify-content: center;
+}
+
+.payment-column {
+  display: grid;
+  gap: var(--space-3);
+  width: min(100%, 34rem);
+  margin-inline: auto;
+}
+
+#payment-details {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.payment-page .demo-card,
+.payment-page .shipping-panel {
+  margin-bottom: 0;
+}
+
+.panel-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.panel-heading h2 {
+  margin-bottom: 0;
+}
+
+.checkout-page .checkout-layout > .summary-receipt h2 {
+  font-size: 1.6rem;
+}
+
+.order-page .confirmation-grid {
+  grid-template-columns: minmax(0, 1fr);
+  width: min(100%, 32rem);
+  margin-inline: auto;
+}
+
+.order-page .confirmation-grid .shipping-panel {
+  margin-bottom: 0;
+}
+
+.order-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+@keyframes receipt-print {
+  from {
+    clip-path: inset(0 0 100% 0);
+    translate: 0 -8px;
+  }
+
+  to {
+    clip-path: inset(0 0 -20px 0);
+    translate: 0 0;
+  }
+}
+
+.password-field {
+  position: relative;
+}
+
+.store-form .password-field input {
+  padding-right: 4.5rem;
+}
+
+/* Full input height, so the tap target is as tall as the field. */
+.password-toggle {
+  position: absolute;
+  top: 2px;
+  right: var(--space-2);
+  bottom: 2px;
+  padding: 0 0.35rem;
+}
+
+/* Standalone small links get the same invisible 44px hit area as the nav. */
+.auth-label-row a,
+.account-actions a,
+.panel-heading a,
+.order-actions a:not(.button) {
+  position: relative;
+}
+
+.auth-label-row a::before,
+.account-actions a::before,
+.panel-heading a::before,
+.order-actions a:not(.button)::before {
+  position: absolute;
+  inset: -0.75rem -0.25rem;
+  content: "";
+}
+
+.account-orders a:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+@media (width >= 600px) {
+  .field-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (width >= 900px) {
+  .checkout-page .checkout-layout {
+    grid-template-columns: minmax(0, 1fr) 22rem;
+  }
+
+  .checkout-page .checkout-layout > .summary-receipt {
+    position: sticky;
+    top: var(--space-4);
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .order-page .summary-receipt {
+    clip-path: inset(0 0 -20px 0);
+    translate: 0 0;
+    animation: none;
   }
 }

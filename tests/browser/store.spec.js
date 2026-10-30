@@ -183,6 +183,40 @@ test("account page explains offline accounts", async ({ page }) => {
   ).toBeVisible();
 });
 
+test("positive: the password can be shown and hidden", async ({ page }) => {
+  await reset(page);
+  await page.goto("/account.html");
+  const password = page.locator("#signin-password");
+  const toggle = page.locator(".password-toggle");
+
+  await expect(password).toHaveAttribute("type", "password");
+  await toggle.click();
+  await expect(password).toHaveAttribute("type", "text");
+  await expect(toggle).toHaveAttribute("aria-pressed", "true");
+  await expect(toggle).toHaveText("Hide");
+
+  await toggle.click();
+  await expect(password).toHaveAttribute("type", "password");
+  await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  await expect(toggle).toHaveText("Show");
+});
+
+test("positive: each checkout step marks where the shopper is", async ({
+  page,
+}) => {
+  await seedStore(page);
+
+  await page.goto("/checkout.html");
+  await expect(page.locator('[aria-current="step"]')).toHaveText("Shipping");
+
+  await page.goto("/payment.html");
+  await expect(page.locator('[aria-current="step"]')).toHaveText("Payment");
+  await page.locator("#place-order").click();
+
+  await expect(page).toHaveURL(/order\.html\?id=/);
+  await expect(page.locator('[aria-current="step"]')).toHaveText("Done");
+});
+
 test("positive: sign-in and create-account are separate screens", async ({
   page,
 }) => {

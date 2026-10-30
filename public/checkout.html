@@ -45,8 +45,15 @@
         >Demo bag <span id="bag-count" class="bag-count">0</span></a
       >
     </header>
-    <main id="main" class="store-page wrap">
+    <main id="main" class="store-page checkout-page wrap">
       <p class="eyebrow">Demo checkout</p>
+      <nav class="checkout-progress" aria-label="Checkout progress">
+        <ol class="checkout-steps">
+          <li aria-current="step">Shipping</li>
+          <li>Payment</li>
+          <li>Done</li>
+        </ol>
+      </nav>
       <h1><span class="label-tape">Checkout.</span></h1>
       <div id="checkout-content" class="checkout-layout">
         <section id="checkout-message" class="shipping-panel" hidden></section>
@@ -74,25 +81,27 @@
             ></textarea>
             <p id="address-error" class="field-error" hidden></p>
           </div>
-          <div class="field">
-            <label for="city">City</label>
-            <input
-              type="text"
-              id="city"
-              name="city"
-              autocomplete="address-level2"
-            />
-            <p id="city-error" class="field-error" hidden></p>
-          </div>
-          <div class="field">
-            <label for="postalCode">Postal code</label>
-            <input
-              type="text"
-              id="postalCode"
-              name="postalCode"
-              autocomplete="postal-code"
-            />
-            <p id="postalCode-error" class="field-error" hidden></p>
+          <div class="field-row">
+            <div class="field">
+              <label for="city">City</label>
+              <input
+                type="text"
+                id="city"
+                name="city"
+                autocomplete="address-level2"
+              />
+              <p id="city-error" class="field-error" hidden></p>
+            </div>
+            <div class="field">
+              <label for="postalCode">Postal code</label>
+              <input
+                type="text"
+                id="postalCode"
+                name="postalCode"
+                autocomplete="postal-code"
+              />
+              <p id="postalCode-error" class="field-error" hidden></p>
+            </div>
           </div>
           <div class="field">
             <label for="country">Country</label>
