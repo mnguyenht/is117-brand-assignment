@@ -14,13 +14,6 @@
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <aside class="starter-notice" aria-label="Demo information">
-      <span
-        ><strong>Demo store.</strong> A classroom project with fictional product
-        data. Nothing is sold here.</span
-      >
-      <a href="studio.html">Studio brief <span aria-hidden="true">↗</span></a>
-    </aside>
     <header class="site-header wrap">
       <a
         class="brand-link"
@@ -60,8 +53,26 @@
             fetchpriority="high"
           />
           <div class="image-caption">
-            <span>Nothing more, nothing less.</span>
+            <span>White T-shirt</span>
           </div>
+          <dl class="product-facts hang-tag">
+            <div>
+              <dt>Contents</dt>
+              <dd>1 white T-shirt</dd>
+            </div>
+            <div>
+              <dt>Color</dt>
+              <dd>White</dd>
+            </div>
+            <div>
+              <dt>Sizes</dt>
+              <dd>S, M, L, XL</dd>
+            </div>
+            <div>
+              <dt>Claims</dt>
+              <dd>It's a white T-shirt.</dd>
+            </div>
+          </dl>
         </div>
         <div class="product-information">
           <h1 id="product-title">
@@ -71,19 +82,16 @@
             >
           </h1>
           <p class="product-intro">But it'll sure be a great white T-shirt</p>
-          <p class="muted product-description">
-            White. Short sleeves. Sizes S to XL. That's the whole list.
-          </p>
           <div class="price-row">
             <p class="price">$28 <span>USD</span></p>
             <span class="micro-label">Fictional demo price</span>
           </div>
           <form id="product-form" class="product-form" novalidate>
-            <fieldset aria-describedby="size-help size-error">
+            <p class="liking-line">
+              This is a white T-shirt, nothing more or less.
+            </p>
+            <fieldset aria-describedby="size-error">
               <legend>Choose a size</legend>
-              <p id="size-help" class="field-help">
-                Demo sizes: S, M, L, and XL.
-              </p>
               <div class="size-options">
                 <label class="size-option"
                   ><input type="radio" name="size" value="S" /><span
@@ -107,54 +115,35 @@
                 >
               </div>
               <p id="size-error" class="field-error" role="alert" hidden>
-                Choose a size before adding the shirt to your demo bag.
+                Please pick a shirt size.
               </p>
             </fieldset>
             <button class="button button-primary add-button" type="submit">
               Add to demo bag <span aria-hidden="true">↗</span>
             </button>
+            <!-- Visual echo only; #bag-status already announces the change. -->
+            <p id="add-confirm" class="add-confirm" aria-hidden="true" hidden>
+              Added to demo bag
+            </p>
           </form>
           <p class="demo-disclaimer">
             A classroom interaction, using fictional product data. No order,
             payment, or personal information is collected.
           </p>
-          <dl class="product-facts hang-tag">
-            <div>
-              <dt>Contents</dt>
-              <dd>1 white T-shirt</dd>
-            </div>
-            <div>
-              <dt>Color</dt>
-              <dd>White</dd>
-            </div>
-            <div>
-              <dt>Sizes</dt>
-              <dd>S, M, L, XL</dd>
-            </div>
-            <div>
-              <dt>Claims</dt>
-              <dd>None. It's a T-shirt.</dd>
-            </div>
-          </dl>
         </div>
       </section>
 
       <section class="tips-section wrap" aria-labelledby="tips-title">
         <div>
-          <p class="eyebrow">Free tip, no purchase needed</p>
+          <p class="eyebrow">Free styling tip</p>
           <h2 id="tips-title">How to wear it.</h2>
         </div>
         <ol class="tip-list">
+          <li><strong>With jeans.</strong> Front tucked, back loose.</li>
           <li>
-            <strong>With jeans.</strong> Tuck the front in, leave the back out.
+            <strong>Under an open shirt.</strong> Leave the top buttons undone.
           </li>
-          <li>
-            <strong>Under an open shirt.</strong> Let the white show at the
-            collar.
-          </li>
-          <li>
-            <strong>On its own.</strong> It's a white T-shirt. That's allowed.
-          </li>
+          <li><strong>On its own.</strong> Roll the sleeves once.</li>
         </ol>
       </section>
 
@@ -164,7 +153,7 @@
         aria-labelledby="bag-title"
       >
         <div>
-          <p class="eyebrow">What you've picked</p>
+          <p class="eyebrow">Your picks</p>
           <h2 id="bag-title">Your demo bag.</h2>
         </div>
         <div class="bag-details">
@@ -189,12 +178,11 @@
 
       <section class="starter-next wrap" aria-labelledby="next-title">
         <p class="eyebrow">About Standard Issue</p>
-        <h2 id="next-title">One shirt.<br />No story to buy into.</h2>
+        <h2 id="next-title">Just the basics.</h2>
         <div>
           <p>
-            Standard Issue sells one thing: a plain white T-shirt. No print, no
-            slogan, no season. It's the shirt you reach for without thinking
-            about it.
+            Standard Issue makes one thing: a plain white T-shirt in sizes S to
+            XL.
           </p>
           <a class="button button-secondary" href="styleguide.html"
             >See the style guide <span aria-hidden="true">↗</span></a
@@ -203,12 +191,18 @@
       </section>
     </main>
 
+    <aside class="starter-notice" aria-label="Demo information">
+      <span
+        ><strong>Demo store.</strong> A classroom project with fictional product
+        data. Nothing is sold here.</span
+      >
+      <a href="studio.html">Studio brief <span aria-hidden="true">↗</span></a>
+    </aside>
     <footer class="site-footer wrap">
       <p>
         Standard Issue <span class="footer-separator"> / </span> IS117 Brand
         Studio demo
       </p>
-      <p class="footer-tagline">Fictional product. Real design decisions.</p>
       <a href="https://github.com/kaw393939/is117-brand-studio#readme"
         >Project README <span aria-hidden="true">↗</span></a
       >

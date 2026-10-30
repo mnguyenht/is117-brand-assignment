@@ -36,6 +36,31 @@ test("positive: a shopper can choose sizes, add items, and empty the demo bag", 
   await expect(page.locator("#bag-count")).toHaveText("0");
 });
 
+test("positive: adding a size shows a visible confirmation next to the button", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const confirmation = page.locator("#add-confirm");
+  await expect(confirmation).toBeHidden();
+  await page.locator('input[name="size"][value="S"]').check();
+  await page
+    .getByRole("button", { name: "Add to demo bag", exact: true })
+    .click();
+  await expect(confirmation).toBeVisible();
+  await expect(confirmation).toHaveText("Added to demo bag");
+});
+
+test("negative: no confirmation appears when no size is chosen", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page
+    .getByRole("button", { name: "Add to demo bag", exact: true })
+    .click();
+  await expect(page.locator("#size-error")).toBeVisible();
+  await expect(page.locator("#add-confirm")).toBeHidden();
+});
+
 test("keyboard: the skip link reaches main and the size controls work without a mouse", async ({
   page,
 }) => {

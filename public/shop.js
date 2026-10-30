@@ -9,8 +9,32 @@
   const bagStatus = document.querySelector("#bag-status");
   const bagItems = document.querySelector("#bag-items");
   const clearBag = document.querySelector("#clear-bag");
+  const addConfirm = document.querySelector("#add-confirm");
   const sizes = ["S", "M", "L", "XL"];
   const bag = [];
+  let holdTimer;
+  let leaveTimer;
+  let bumpTimer;
+
+  // Show the "Added" sticker (CSS @starting-style fades it in), hold it, then
+  // fade it out quickly. Adding again while it shows just restarts the hold.
+  const showAdded = () => {
+    clearTimeout(holdTimer);
+    clearTimeout(leaveTimer);
+    addConfirm.classList.remove("is-leaving");
+    addConfirm.hidden = false;
+    holdTimer = setTimeout(() => {
+      addConfirm.classList.add("is-leaving");
+      leaveTimer = setTimeout(() => {
+        addConfirm.hidden = true;
+        addConfirm.classList.remove("is-leaving");
+      }, 120); // matches --motion-fast
+    }, 1400);
+
+    clearTimeout(bumpTimer);
+    bagCount.classList.add("is-bumped");
+    bumpTimer = setTimeout(() => bagCount.classList.remove("is-bumped"), 400);
+  };
 
   const renderBag = () => {
     bagCount.textContent = String(bag.length);
@@ -40,6 +64,7 @@
     sizeError.hidden = true;
     bag.push(selected.value);
     renderBag();
+    showAdded();
     const itemWord = bag.length === 1 ? "item" : "items";
     bagStatus.textContent = `Added a white T-shirt in size ${selected.value}. Your demo bag has ${bag.length} ${itemWord}.`;
   });
