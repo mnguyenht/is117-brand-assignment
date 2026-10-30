@@ -18,6 +18,43 @@ async function addSize(page, size, times = 1) {
   }
 }
 
+async function seedStore(page) {
+  await page.addInitScript(() => {
+    localStorage.setItem(
+      "standard-issue:cart",
+      JSON.stringify([{ size: "M", qty: 1 }]),
+    );
+    sessionStorage.setItem(
+      "standard-issue:shipping",
+      JSON.stringify({
+        fullName: "Alex Doe",
+        address: "12 Main Street",
+        city: "Newark",
+        postalCode: "07102",
+        country: "United States",
+      }),
+    );
+  });
+}
+
+async function openRealLayout(page, route) {
+  if (route === "/account.html") {
+    await page.goto(route);
+    return page.locator("#account-content");
+  }
+  await seedStore(page);
+  if (route === "/order.html") {
+    await page.goto("/payment.html");
+    await page.locator("#place-order").click();
+    await expect(page).toHaveURL(/order\.html\?id=/);
+    return page.locator("#order-number");
+  }
+  await page.goto(route);
+  return page.locator(
+    route === "/checkout.html" ? "#fullName" : "#place-order",
+  );
+}
+
 test("positive: a size stays in the bag after reload", async ({ page }) => {
   await reset(page);
   await addSize(page, "S");
@@ -34,6 +71,22 @@ test("positive: Remove removes only that line", async ({ page }) => {
   await expect(page.locator("#bag-items")).not.toContainText("Size S");
   await expect(page.locator("#bag-items")).toContainText("Size L");
   await expect(page.locator("#bag-count")).toHaveText("1");
+  await expect(
+    page.getByRole("button", { name: "Remove size L" }),
+  ).toBeFocused();
+});
+
+test("negative: a full bag stays unchanged and explains the limit", async ({
+  page,
+}) => {
+  await reset(page);
+  await addSize(page, "S", 11);
+  await expect(page.locator("#bag-limit")).toHaveText(
+    "Your bag is full: up to 10 of a size and 20 shirts in total.",
+  );
+  await expect(page.locator("#bag-limit")).toBeVisible();
+  await expect(page.locator("#add-confirm")).toBeHidden();
+  await expect(page.locator("#bag-count")).toHaveText("10");
 });
 
 test("positive: complete offline demo order", async ({ page }) => {
@@ -107,26 +160,10 @@ for (const route of [
 ]) {
   test(`store page integrity and accessibility: ${route}`, async ({ page }) => {
     await reset(page);
-    if (route !== "/account.html" && route !== "/order.html") {
-      await addSize(page, "M");
-    }
-    if (route === "/payment.html") {
-      await page.evaluate(() =>
-        sessionStorage.setItem(
-          "standard-issue:shipping",
-          JSON.stringify({
-            fullName: "Alex Doe",
-            address: "12 Main Street",
-            city: "Newark",
-            postalCode: "07102",
-            country: "United States",
-          }),
-        ),
-      );
-    }
     const failures = [];
     page.on("pageerror", (error) => failures.push(error.message));
-    await page.goto(route);
+    const layoutElement = await openRealLayout(page, route);
+    await expect(layoutElement).toBeVisible();
     await expect(page.getByRole("main")).toBeVisible();
     const brokenImages = await page
       .locator("img")
@@ -161,7 +198,8 @@ for (const route of [
   test(`store page has no narrow overflow: ${route}`, async ({ page }) => {
     await reset(page);
     await page.setViewportSize({ width: 375, height: 812 });
-    await page.goto(route);
+    const layoutElement = await openRealLayout(page, route);
+    await expect(layoutElement).toBeVisible();
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= window.innerWidth,

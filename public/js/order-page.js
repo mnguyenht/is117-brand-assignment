@@ -11,12 +11,13 @@ const details = document.querySelector("#order-details");
 
 function showNotFound() {
   message.hidden = false;
+  const title = message.querySelector("h1");
   const paragraph = document.createElement("p");
   const link = document.createElement("a");
   paragraph.textContent = "We couldn't find that order.";
   link.href = "index.html";
   link.textContent = "Back to the shop";
-  message.replaceChildren(paragraph, link);
+  message.replaceChildren(title, paragraph, link);
 }
 
 function addAddress(container, shipping) {
@@ -75,11 +76,17 @@ if (!order) {
     } catch {
       mail = null;
     }
-    emailStatus.textContent =
-      mail?.deliveredTo === "buyer"
-        ? "A confirmation email is on its way to you."
-        : mail?.deliveredTo === "store_owner"
-          ? "Email is in test mode, so the confirmation went to the store owner's inbox instead."
-          : "We couldn't send the confirmation email.";
+    if (mail) {
+      emailStatus.textContent =
+        mail.deliveredTo === "buyer"
+          ? "A confirmation email is on its way to you."
+          : mail.deliveredTo === "store_owner"
+            ? "Email is in test mode, so the confirmation went to the store owner's inbox instead."
+            : "We couldn't send the confirmation email.";
+    } else {
+      emailStatus.textContent = order.confirmation_sent_at
+        ? "A confirmation email was sent for this order."
+        : "No confirmation email was sent for this order.";
+    }
   }
 }

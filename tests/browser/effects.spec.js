@@ -23,6 +23,20 @@ test("grid is decorative and does not block the shop", async ({ page }) => {
   await expect(page.locator("#bag-count")).toHaveText("1");
 });
 
+test("grid canvas stays viewport-sized at high device scale", async ({
+  browser,
+}) => {
+  const context = await browser.newContext({
+    deviceScaleFactor: 2,
+    viewport: { width: 800, height: 600 },
+  });
+  const page = await context.newPage();
+  await page.goto("/");
+  const box = await page.locator("#grid-bg").boundingBox();
+  expect(box).toEqual({ x: 0, y: 0, width: 800, height: 600 });
+  await context.close();
+});
+
 test("reduced motion skips the intro", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");

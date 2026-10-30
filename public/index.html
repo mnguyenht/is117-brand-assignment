@@ -40,7 +40,7 @@
         >
         <a id="account-link" class="nav-link" href="account.html">Account</a>
       </nav>
-      <a class="bag-link" href="#demo-bag" aria-label="View demo bag"
+      <a class="bag-link" href="#demo-bag" aria-label="Demo bag, 0 items"
         >Demo bag <span id="bag-count" class="bag-count">0</span></a
       >
     </header>
@@ -128,14 +128,16 @@
             <button class="button button-primary add-button" type="submit">
               Add to demo bag <span aria-hidden="true">↗</span>
             </button>
+            <p id="bag-limit" class="field-help" role="status" hidden></p>
             <!-- Visual echo only; #bag-status already announces the change. -->
             <p id="add-confirm" class="add-confirm" aria-hidden="true" hidden>
               Added to demo bag
             </p>
           </form>
           <p class="demo-disclaimer">
-            A classroom interaction, using fictional product data. No order,
-            payment, or personal information is collected.
+            Demo store: nothing is charged or shipped. When accounts are
+            switched on, your email, bag and the shipping address you type are
+            stored to run the demo.
           </p>
         </div>
       </section>
@@ -161,7 +163,7 @@
       >
         <div>
           <p class="eyebrow">Your picks</p>
-          <h2 id="bag-title">Your demo bag.</h2>
+          <h2 id="bag-title" tabindex="-1">Your demo bag.</h2>
         </div>
         <div class="bag-details">
           <p

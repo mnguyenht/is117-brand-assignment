@@ -8,6 +8,27 @@ if (sceneUrl && panel) {
   const shirt = panel.querySelector(".shirt-image");
   let loading = false;
 
+  function addLoadButton(noteText = "") {
+    const button = document.createElement("button");
+    button.className = "spline-button";
+    button.type = "button";
+    button.textContent = "View in 3D";
+    button.addEventListener("click", () => {
+      panel.tabIndex = -1;
+      panel.focus();
+      button.remove();
+      panel.querySelector(".spline-error")?.remove();
+      loadViewer();
+    });
+    panel.append(button);
+    if (noteText) {
+      const note = document.createElement("span");
+      note.className = "spline-error";
+      note.textContent = noteText;
+      panel.append(note);
+    }
+  }
+
   function loadViewer() {
     if (loading) return;
     loading = true;
@@ -31,6 +52,7 @@ if (sceneUrl && panel) {
       viewer.remove();
       loader.remove();
       loading = false;
+      addLoadButton("3D view couldn't load.");
     }
 
     loader.addEventListener("error", fail, { once: true });
@@ -52,15 +74,7 @@ if (sceneUrl && panel) {
   }
 
   if (reducedMotion) {
-    const button = document.createElement("button");
-    button.className = "spline-button";
-    button.type = "button";
-    button.textContent = "View in 3D";
-    button.addEventListener("click", () => {
-      button.remove();
-      loadViewer();
-    });
-    panel.append(button);
+    addLoadButton();
   } else {
     const observer = new IntersectionObserver(
       (entries) => {

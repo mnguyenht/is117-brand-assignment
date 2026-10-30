@@ -47,20 +47,35 @@ if (canvas) {
   function updateGlow() {
     const targets = new Map();
     if (hovered) targets.set(`${hovered.col},${hovered.row}`, 1);
-    trail.forEach((cell, index) => {
+    const activeTrail = calm.matches ? [] : trail;
+    activeTrail.forEach((cell, index) => {
       const key = `${cell.col},${cell.row}`;
       if (!targets.has(key)) {
-        targets.set(key, (trail.length - index) / (trail.length + 1));
+        targets.set(
+          key,
+          (activeTrail.length - index) / (activeTrail.length + 1),
+        );
       }
     });
+    if (calm.matches) {
+      glow.clear();
+      for (const [key, opacity] of targets) glow.set(key, opacity);
+      return false;
+    }
     for (const key of targets.keys()) {
       if (!glow.has(key)) glow.set(key, 0);
     }
+    let changing = false;
     for (const [key, opacity] of glow) {
-      const next = opacity + ((targets.get(key) || 0) - opacity) * 0.15;
+      const target = targets.get(key) || 0;
+      const next = opacity + (target - opacity) * 0.15;
       if (next < 0.005) glow.delete(key);
-      else glow.set(key, next);
+      else {
+        glow.set(key, next);
+        if (Math.abs(target - next) >= 0.005) changing = true;
+      }
     }
+    return changing;
   }
 
   function draw() {
@@ -69,7 +84,7 @@ if (canvas) {
       offset.x += settings.speed;
       offset.y += settings.speed;
     }
-    updateGlow();
+    const glowChanging = updateGlow();
     context.clearRect(0, 0, innerWidth, innerHeight);
     context.strokeStyle = lineColor;
     context.lineWidth = 1;
@@ -97,7 +112,10 @@ if (canvas) {
         context.globalAlpha = 1;
       }
     }
-    if (!document.hidden) frame = requestAnimationFrame(draw);
+    const drifting = !calm.matches && settings.speed !== 0;
+    if (!document.hidden && (drifting || glowChanging)) {
+      frame = requestAnimationFrame(draw);
+    }
   }
 
   function start() {
@@ -115,7 +133,10 @@ if (canvas) {
     },
   };
 
-  addEventListener("resize", resize);
+  addEventListener("resize", () => {
+    resize();
+    start();
+  });
   addEventListener("pointermove", (event) => {
     if (!canHover.matches) return;
     const cell = cellAt(event.clientX, event.clientY);
@@ -123,10 +144,16 @@ if (canvas) {
       trail = [hovered, ...trail].slice(0, settings.trail);
     }
     hovered = cell;
+    start();
   });
   document.documentElement.addEventListener("pointerleave", () => {
     if (hovered) trail = [hovered, ...trail].slice(0, settings.trail);
     hovered = null;
+    start();
+  });
+  calm.addEventListener("change", () => {
+    if (calm.matches) trail = [];
+    start();
   });
   document.addEventListener("visibilitychange", start);
   resize();

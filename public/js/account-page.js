@@ -13,8 +13,22 @@ import { listLocalOrders } from "./local-orders.js";
 import { startHeader } from "./site-header.js";
 
 const content = document.querySelector("#account-content");
+const status = document.querySelector("#account-status");
 const next = new URLSearchParams(window.location.search).get("next");
 const safeNext = /^[a-z-]+\.html$/.test(next ?? "") ? next : null;
+let currentUserId = null;
+
+function announce(text) {
+  status.textContent = text;
+}
+
+function focusViewHeading() {
+  const title = content.querySelector("h2");
+  if (title) {
+    title.tabIndex = -1;
+    title.focus();
+  }
+}
 
 function heading(text) {
   const element = document.createElement("h2");
@@ -85,13 +99,15 @@ function makeAuthForm(kind) {
         ? await signIn(email.value, password.value)
         : await signUp(email.value, password.value);
       if (!isSignIn && !result.session) {
-        error.textContent =
-          "Check your email to confirm your account, then sign in.";
-        error.hidden = false;
+        announce("Check your email to confirm your account, then sign in.");
+        focusViewHeading();
       } else if (safeNext) {
         window.location.href = safeNext;
       } else {
+        currentUserId = result.user?.id ?? result.session?.user?.id ?? null;
         await renderSignedIn(result.user ?? result.session?.user);
+        announce("Signed in.");
+        focusViewHeading();
       }
     } catch (problem) {
       error.textContent = problem.message;
@@ -113,7 +129,10 @@ async function renderSignedIn(user) {
   button.textContent = "Sign out";
   button.addEventListener("click", async () => {
     await signOut();
+    currentUserId = null;
     renderSignedOut();
+    announce("Signed out.");
+    focusViewHeading();
   });
   panel.className = "account-panel shipping-panel";
   panel.append(signedIn, button, heading("Recent orders."));
@@ -152,9 +171,13 @@ if (!LIVE_MODE) {
   renderOffline();
 } else {
   const user = await getUser();
+  currentUserId = user?.id ?? null;
   if (user) await renderSignedIn(user);
   else renderSignedOut();
   await onAuthChange((changedUser) => {
+    const nextUserId = changedUser?.id ?? null;
+    if (nextUserId === currentUserId) return;
+    currentUserId = nextUserId;
     if (changedUser) renderSignedIn(changedUser);
     else renderSignedOut();
   });

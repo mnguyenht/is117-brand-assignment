@@ -9,6 +9,12 @@ const SHIPPING_KEY = "standard-issue:shipping";
 const form = document.querySelector("#shipping-form");
 const summary = document.querySelector("#order-summary");
 const message = document.querySelector("#checkout-message");
+let handleSubmit = () => {};
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  handleSubmit();
+});
 
 function showMessage(text, href, linkText) {
   form.remove();
@@ -57,8 +63,7 @@ if (!itemCount(cart)) {
     sessionStorage.removeItem(SHIPPING_KEY);
   }
 
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
+  handleSubmit = () => {
     const input = Object.fromEntries(new FormData(form));
     const result = validateShipping(input);
     for (const field of SHIPPING_FIELDS) {
@@ -83,5 +88,5 @@ if (!itemCount(cart)) {
     }
     sessionStorage.setItem(SHIPPING_KEY, JSON.stringify(result.value));
     window.location.href = "payment.html";
-  });
+  };
 }

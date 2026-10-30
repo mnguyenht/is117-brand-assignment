@@ -11,6 +11,7 @@ const details = document.querySelector("#payment-details");
 const summary = document.querySelector("#order-summary");
 const button = document.querySelector("#place-order");
 const error = document.querySelector("#payment-error");
+const status = document.querySelector("#payment-status");
 
 function showMessage(text, href, linkText) {
   details.remove();
@@ -34,6 +35,20 @@ function addAddress(container, shipping) {
   place.textContent = `${shipping.city}, ${shipping.postalCode}`;
   country.textContent = shipping.country;
   container.replaceChildren(name, address, place, country);
+}
+
+function renderSummary(cartToRender) {
+  const total = formatPrice(subtotalCents(cartToRender));
+  const lines = document.querySelector("#summary-lines");
+  lines.replaceChildren();
+  for (const { size, qty } of cartToRender) {
+    const item = document.createElement("li");
+    item.textContent = `White T-shirt · Size ${size} · Quantity ${qty}`;
+    lines.append(item);
+  }
+  document.querySelector("#summary-subtotal").textContent = total;
+  document.querySelector("#summary-total").textContent = total;
+  if (!button.disabled) button.textContent = `Place demo order — ${total}`;
 }
 
 startHeader();
@@ -67,10 +82,19 @@ if (!itemCount(cart)) {
   addAddress(document.querySelector("#shipping-address"), shipping);
   button.textContent = `Place demo order — ${total}`;
 
+  window.addEventListener("cart:change", () => renderSummary(getCart()));
+  window.addEventListener("pageshow", (event) => {
+    if (!event.persisted) return;
+    button.disabled = false;
+    status.textContent = "";
+    renderSummary(getCart());
+  });
+
   button.addEventListener("click", async () => {
     const original = button.textContent;
     button.disabled = true;
     button.textContent = "Placing order…";
+    status.textContent = "Placing your order…";
     error.hidden = true;
     try {
       let order;
@@ -92,8 +116,10 @@ if (!itemCount(cart)) {
     } catch (problem) {
       button.disabled = false;
       button.textContent = original;
+      status.textContent = "";
       error.textContent = problem.message;
       error.hidden = false;
+      error.focus();
     }
   });
 }

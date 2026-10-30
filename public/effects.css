@@ -19,6 +19,8 @@ body {
   position: fixed;
   z-index: -1;
   inset: 0;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
   opacity: 0;
   transition: opacity 600ms var(--ease-out);
@@ -103,6 +105,18 @@ html.intro .product-information > :not(h1) {
   background: var(--color-white);
   color: var(--color-ink);
   padding: 0.45rem 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+}
+
+.spline-error {
+  position: absolute;
+  z-index: 3;
+  right: 1.4rem;
+  bottom: 4.2rem;
+  max-width: 12rem;
+  background: var(--color-white);
+  padding: 0.25rem 0.4rem;
   font-family: var(--font-mono);
   font-size: 0.7rem;
 }

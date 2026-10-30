@@ -52,6 +52,8 @@
 
 .store-form input,
 .store-form textarea {
+  font: inherit;
+  font-size: max(1rem, 16px);
   width: 100%;
   border: 2px solid var(--color-ink);
   border-radius: 0;
@@ -192,6 +194,10 @@
 }
 
 #payment-error {
+  margin-top: var(--space-2);
+}
+
+#payment-status {
   margin-top: var(--space-2);
 }
 

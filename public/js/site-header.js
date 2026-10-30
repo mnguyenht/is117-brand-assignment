@@ -5,8 +5,15 @@ import { getUser, onAuthChange } from "./backend.js";
 
 export function startHeader() {
   const updateCount = (cart) => {
+    const count = itemCount(cart);
     document.querySelectorAll("#bag-count").forEach((element) => {
-      element.textContent = String(itemCount(cart));
+      element.textContent = String(count);
+      element
+        .closest(".bag-link")
+        ?.setAttribute(
+          "aria-label",
+          `Demo bag, ${count} ${count === 1 ? "item" : "items"}`,
+        );
     });
   };
   const updateAccount = (user) => {
