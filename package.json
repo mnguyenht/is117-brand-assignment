@@ -15,7 +15,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint . && html-validate 'public/**/*.html' && stylelint 'public/**/*.css'",
-    "test": "node --test tests/server.test.mjs",
+    "test": "node --test tests/server.test.mjs tests/unit/*.test.mjs",
     "test:e2e": "playwright test",
     "check": "npm run format:check && npm run lint && npm test && npm run test:e2e"
   },

@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Checkout for the Standard Issue demo store."
+    />
+    <title>Checkout — Standard Issue</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="store.css" />
+    <link rel="stylesheet" href="effects.css" />
+  </head>
+  <body>
+    <canvas id="grid-bg" aria-hidden="true"></canvas>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a
+        class="brand-link"
+        href="index.html"
+        aria-label="Standard Issue storefront home"
+      >
+        <img
+          class="wordmark"
+          src="assets/standard-issue-wordmark.svg"
+          alt="Standard Issue"
+          width="175"
+          height="30"
+        />
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a class="nav-link" href="index.html">Shop</a>
+        <a class="nav-link" href="styleguide.html">Style guide</a>
+        <a class="nav-link" href="studio.html"
+          >Studio <span aria-hidden="true">↗</span></a
+        >
+        <a id="account-link" class="nav-link" href="account.html">Account</a>
+      </nav>
+      <a
+        class="bag-link"
+        href="index.html#demo-bag"
+        aria-label="Demo bag, 0 items"
+        >Demo bag <span id="bag-count" class="bag-count">0</span></a
+      >
+    </header>
+    <main id="main" class="store-page wrap">
+      <p class="eyebrow">Demo checkout</p>
+      <h1><span class="label-tape">Checkout.</span></h1>
+      <div id="checkout-content" class="checkout-layout">
+        <section id="checkout-message" class="shipping-panel" hidden></section>
+        <form id="shipping-form" class="store-form" novalidate>
+          <h2>Shipping details.</h2>
+          <p class="demo-store-note">
+            Demo store — nothing is charged or shipped.
+          </p>
+          <div class="field">
+            <label for="fullName">Full name</label>
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              autocomplete="name"
+            />
+            <p id="fullName-error" class="field-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="address">Street address</label>
+            <textarea
+              id="address"
+              name="address"
+              autocomplete="street-address"
+            ></textarea>
+            <p id="address-error" class="field-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="city">City</label>
+            <input
+              type="text"
+              id="city"
+              name="city"
+              autocomplete="address-level2"
+            />
+            <p id="city-error" class="field-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="postalCode">Postal code</label>
+            <input
+              type="text"
+              id="postalCode"
+              name="postalCode"
+              autocomplete="postal-code"
+            />
+            <p id="postalCode-error" class="field-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="country">Country</label>
+            <input
+              type="text"
+              id="country"
+              name="country"
+              autocomplete="country-name"
+            />
+            <p id="country-error" class="field-error" hidden></p>
+          </div>
+          <button class="button button-primary" type="submit">
+            Continue to payment
+          </button>
+        </form>
+        <section
+          id="order-summary"
+          class="summary-receipt"
+          aria-labelledby="summary-title"
+        >
+          <h2 id="summary-title">Order summary.</h2>
+          <ul id="summary-lines" class="summary-lines"></ul>
+          <dl class="summary-totals">
+            <div>
+              <dt>Subtotal</dt>
+              <dd id="summary-subtotal"></dd>
+            </div>
+            <div>
+              <dt>Shipping</dt>
+              <dd>Free (demo)</dd>
+            </div>
+            <div>
+              <dt>Total</dt>
+              <dd id="summary-total"></dd>
+            </div>
+          </dl>
+        </section>
+      </div>
+    </main>
+    <aside class="starter-notice" aria-label="Demo information">
+      <span
+        ><strong>Demo store.</strong> A classroom project with fictional product
+        data. Nothing is sold here.</span
+      >
+      <a href="studio.html">Studio brief <span aria-hidden="true">↗</span></a>
+    </aside>
+    <footer class="site-footer wrap">
+      <p>
+        Standard Issue <span class="footer-separator"> / </span> IS117 Brand
+        Studio demo
+      </p>
+      <a href="https://github.com/kaw393939/is117-brand-studio#readme"
+        >Project README <span aria-hidden="true">↗</span></a
+      >
+    </footer>
+    <script type="module" src="js/checkout-page.js"></script>
+    <script type="module" src="js/grid-bg.js"></script>
+  </body>
+</html>

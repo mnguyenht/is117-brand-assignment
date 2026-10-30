@@ -1,6 +1,8 @@
 # IS117 Brand Studio
 
 > **Status (2026-10-30):** `BRAND-001` is complete and merged in [PR #3](https://github.com/mnguyenht/is117-brand-assignment/pull/3). The neutral starter is now **Standard Issue**, an Everyman white-T-shirt brand for a value-conscious shopper. It has a package-label storefront, a live style guide and two persuasion touches. Decisions and evidence are in [SPEC.md](SPEC.md), and the learning record is in [LEARNING.md](LEARNING.md). Live on Vercel: <https://is117-brand-assignment.vercel.app>.
+>
+> **In progress on branch `brand-002-real-store` (not merged):** `BRAND-002` turns the demo into a nearly real store, with saved bags, accounts, checkout, a fake payment step, order emails, an opening animation, an ambient grid and an optional 3D shirt. See [docs/brand-002-plan.md](docs/brand-002-plan.md) and [docs/setup-live-mode.md](docs/setup-live-mode.md).
 
 **The same white T-shirt can carry very different meanings.** Develop a brand for it with an AI collaborator, then make those decisions visible in a professional website and a live style guide.
 
@@ -31,7 +33,7 @@ This template starts with a working, deliberately neutral storefront. Your audie
 
    Open the address printed by the server in your browser (normally `http://127.0.0.1:5173`). Leave this terminal running while you work. The agent can edit files and run checks in its separate project terminal.
 
-Save an HTML, CSS, JavaScript, or asset file under `public/` to refresh the local browser automatically; unsaved edits do not appear. A refresh resets the temporary demo bag. `npm start` is an alias for this same development mode. Press **Ctrl+C** in the terminal running the server to stop it. To switch to a plain preview, stop the server first, then use `npm run preview` and reopen its printed address. Refresh the browser yourself after saving. These commands serve your local files; publishing to GitHub Pages is a later step.
+Save an HTML, CSS, JavaScript, or asset file under `public/` to refresh the local browser automatically; unsaved edits do not appear. The demo bag is saved in your browser, so it survives a refresh. `npm start` is an alias for this same development mode. Press **Ctrl+C** in the terminal running the server to stop it. To switch to a plain preview, stop the server first, then use `npm run preview` and reopen its printed address. Refresh the browser yourself after saving. These commands serve your local files; publishing to GitHub Pages is a later step.
 
 **First success checkpoint:** you can see the neutral white T-shirt page, choose a size, and add it to the demo bag. Tell the agent what you actually see. The bag is a demonstration; it does not take payments, persist between visits, or place orders.
 

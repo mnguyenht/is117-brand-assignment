@@ -51,7 +51,8 @@ test("development refreshes saved HTML, CSS, JavaScript and assets; plain previe
       html.replace("</title>", " — saved HTML</title>"),
     );
     await expect(page).toHaveTitle(`${originalTitle} — saved HTML`);
-    await expect(page.locator("#bag-count")).toHaveText("0");
+    // BRAND-002: the bag is saved in the browser, so it survives the reload.
+    await expect(page.locator("#bag-count")).toHaveText("1");
 
     await save(
       "styles.css",

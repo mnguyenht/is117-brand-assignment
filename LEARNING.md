@@ -5,7 +5,7 @@ AI-drafted task evidence, not a transcript or grade. This file may be public: re
 - **Feature:** BRAND-001 — in progress
 - **Date:** 2026-10-27 to 2026-10-28
 - **Conversation context available:** This chat from first setup onward
-- **Review status:** Not reviewed; draft kept local until the learner checks it
+- **Review status:** Not yet confirmed as accurate by the learner. The learner committed an earlier version themselves on 2026-10-28 and asked for everything to be pushed on 2026-10-30, but has not yet answered the accuracy question.
 
 ## Student contributions
 
@@ -27,4 +27,8 @@ AI-drafted task evidence, not a transcript or grade. This file may be public: re
 
 **Persuasion:** Of two AI proposals, learner chose the free styling tip: "lets go with a, the rest of the website is already bold enough." That reason is about visual restraint; how the tip helps Alex is not yet stated. For the second touch, the AI explained the term and proposed a liking line; the learner approved it and rewrote the wording to "This is a white T-shirt, nothing more or less." How it helps Alex is not yet stated.
 
-**Next step:** A keep decision, then this record's review and the PR. (Promise written by learner: "A white T-shirt is a white T-shirt. But it'll be a good white T-shirt." — built from their own earlier line after AI pointed to it.)
+**Keep decision (BRAND-001):** on 2026-10-30 the learner asked to "commit what we have to GitHub, merge, pull, and push"; the AI opened and merged PR #3. That is an approval to keep. No separate reason was given.
+
+**BRAND-002 (optional extension):** the learner asked for "the best T-shirt website we can… practically a real website" and listed the features. The AI built it overnight on branch `brand-002-real-store` (Codex wrote the store pages and effects from AI-written specs; the AI wrote the backend and security code and reviewed everything). The learner's own explanations of why these features help Alex are not yet recorded.
+
+**Next step:** The learner reviews this record for accuracy. (Promise written by learner: "A white T-shirt is a white T-shirt. But it'll be a good white T-shirt." — built from their own earlier line after AI pointed to it.)

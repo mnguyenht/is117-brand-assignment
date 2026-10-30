@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="intro-gate.js"></script>
     <meta
       name="description"
       content="Standard Issue: a plain white T-shirt. Nothing more, nothing less. A classroom demo store for the IS117 Brand Studio."
@@ -10,9 +11,14 @@
     <title>Standard Issue — the white T-shirt</title>
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="styles.css" />
-    <script src="shop.js" defer></script>
+    <link rel="stylesheet" href="store.css" />
+    <link rel="stylesheet" href="effects.css" />
+    <script type="module" src="shop.js"></script>
+    <script type="module" src="js/grid-bg.js"></script>
+    <script type="module" src="js/spline-shirt.js"></script>
   </head>
   <body>
+    <canvas id="grid-bg" aria-hidden="true"></canvas>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header wrap">
       <a
@@ -32,8 +38,9 @@
         <a class="nav-link" href="studio.html"
           >Studio <span aria-hidden="true">↗</span></a
         >
+        <a id="account-link" class="nav-link" href="account.html">Account</a>
       </nav>
-      <a class="bag-link" href="#demo-bag" aria-label="View demo bag"
+      <a class="bag-link" href="#demo-bag" aria-label="Demo bag, 0 items"
         >Demo bag <span id="bag-count" class="bag-count">0</span></a
       >
     </header>
@@ -121,14 +128,16 @@
             <button class="button button-primary add-button" type="submit">
               Add to demo bag <span aria-hidden="true">↗</span>
             </button>
+            <p id="bag-limit" class="field-help" role="status" hidden></p>
             <!-- Visual echo only; #bag-status already announces the change. -->
             <p id="add-confirm" class="add-confirm" aria-hidden="true" hidden>
               Added to demo bag
             </p>
           </form>
           <p class="demo-disclaimer">
-            A classroom interaction, using fictional product data. No order,
-            payment, or personal information is collected.
+            Demo store: nothing is charged or shipped. When accounts are
+            switched on, your email, bag and the shipping address you type are
+            stored to run the demo.
           </p>
         </div>
       </section>
@@ -154,7 +163,7 @@
       >
         <div>
           <p class="eyebrow">Your picks</p>
-          <h2 id="bag-title">Your demo bag.</h2>
+          <h2 id="bag-title" tabindex="-1">Your demo bag.</h2>
         </div>
         <div class="bag-details">
           <p
@@ -167,12 +176,18 @@
             Your demo bag is empty. Choose a size to try it.
           </p>
           <ul id="bag-items" class="bag-items"></ul>
+          <p id="bag-subtotal" class="bag-subtotal" hidden></p>
+          <a
+            id="checkout-link"
+            class="button button-primary"
+            href="checkout.html"
+            hidden
+            >Check out</a
+          >
           <button id="clear-bag" class="text-button" type="button" disabled>
             Empty demo bag
           </button>
-          <p class="field-help">
-            The bag resets when this page reloads. There is no checkout.
-          </p>
+          <p class="field-help">Your demo bag is saved in this browser.</p>
         </div>
       </section>
 

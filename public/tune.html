@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Local effect tuning for Standard Issue."
+    />
+    <title>Effect tuning — Standard Issue</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="effects.css" />
+  </head>
+  <body class="tune-page">
+    <main
+      id="tune-unavailable"
+      class="tune-unavailable"
+      aria-label="Tuning unavailable"
+      hidden
+    >
+      <p>The tuning page only works on your own computer.</p>
+    </main>
+    <main id="tune-app" class="tune-app" aria-label="Effect tuning" hidden>
+      <section class="tune-panel" aria-labelledby="tune-title">
+        <h1 id="tune-title">Effect tuning.</h1>
+        <div id="tune-form">
+          <fieldset>
+            <legend>Intro</legend>
+            <div id="intro-controls"></div>
+          </fieldset>
+          <fieldset>
+            <legend>Grid</legend>
+            <div id="grid-controls"></div>
+          </fieldset>
+          <div class="tune-actions">
+            <button type="button" id="replay-intro">Replay intro</button>
+            <button type="button" id="reset-values">
+              Reset to shipped values
+            </button>
+            <button type="button" id="copy-values">Copy values</button>
+          </div>
+        </div>
+        <pre id="tune-output"></pre>
+      </section>
+      <iframe id="shop-preview" src="index.html" title="Shop preview"></iframe>
+    </main>
+    <script type="module" src="js/tune.js"></script>
+  </body>
+</html>
