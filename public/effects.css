@@ -10,8 +10,8 @@
   --panel-grid-speed: 0.08;
   --panel-grid-glow: 0.6;
 
-  /* pointer glow; try #2f5d8a for stamp-ink blue */
-  --panel-grid-glow-color: #8c6d43;
+  /* pointer glow: stamp-ink blue, chosen by the learner over kraft brown #8c6d43 */
+  --panel-grid-glow-color: #2f5d8a;
   --panel-grid-radius: 60;
 }
 

@@ -95,7 +95,7 @@ The automated tests run in offline mode, so they never need the network or real 
 
 8. Round 4, from the learner's feedback; Codex implemented two specs and Claude reviewed and fixed:
    - The 3D shirt is removed (laggy, broken controls). The flat shirt stays, and a test checks that nothing is requested from spline.design.
-   - The pointer glow colour is a token, `--panel-grid-glow-color`, set to kraft brown, with stamp blue offered.
+   - The pointer glow colour is a token, `--panel-grid-glow-color`, set to stamp blue (`#2f5d8a`). The learner chose it over kraft brown from paired screenshots.
    - Auth: sign-in and create-account are separate centred cards.
      - Forgot and reset share the card.
      - The forms gain show/hide password and busy labels.
