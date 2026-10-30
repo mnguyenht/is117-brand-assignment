@@ -217,6 +217,13 @@
   margin-top: var(--space-3);
 }
 
+/* "Forgot your password?" gets its own line under the password field. */
+.auth-form > a {
+  display: block;
+  width: fit-content;
+  margin-top: var(--space-2);
+}
+
 .account-panel {
   margin-top: var(--space-5);
 }
@@ -319,6 +326,10 @@
   display: block;
   margin-top: var(--space-3);
   font-weight: 700;
+}
+
+.account-narrow > label:first-child {
+  margin-top: 0;
 }
 
 .store-form.account-narrow input {

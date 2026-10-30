@@ -25,8 +25,15 @@
   background-image: none;
 }
 
-.product-visual > :not(.panel-grid) {
+/* Lift the panel's content above the dot canvas. :where() keeps this at
+   class-level specificity, so the hang tag and 3D controls keep their own
+   z-index. */
+.product-visual > :where(:not(.panel-grid)) {
   z-index: 1;
+}
+
+.product-visual .shirt-image {
+  position: relative;
 }
 
 html.unbox::before,
@@ -97,8 +104,10 @@ html.enter .hang-tag {
   transition: opacity var(--motion-base) var(--ease-out);
 }
 
+/* 3D controls sit bottom-left, just above the caption line: the hang tag
+   and Spline's own badge take the bottom-right corner. */
 .spline-label {
-  inset: auto 1.4rem 1.3rem auto;
+  inset: auto auto 4.4rem 1.4rem;
   width: max-content;
   pointer-events: none;
 }
@@ -106,8 +115,8 @@ html.enter .hang-tag {
 .spline-button {
   position: absolute;
   z-index: 3;
-  right: 1.4rem;
-  bottom: 1.3rem;
+  bottom: 4.4rem;
+  left: 1.4rem;
   border: 2px solid var(--color-ink);
   background: var(--color-white);
   color: var(--color-ink);
@@ -119,8 +128,8 @@ html.enter .hang-tag {
 .spline-error {
   position: absolute;
   z-index: 3;
-  right: 1.4rem;
-  bottom: 4.2rem;
+  bottom: 6.8rem;
+  left: 1.4rem;
   max-width: 12rem;
   background: var(--color-white);
   padding: 0.25rem 0.4rem;
