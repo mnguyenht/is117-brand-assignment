@@ -16,6 +16,7 @@ import {
   loadRemoteCart,
   saveRemoteCart,
 } from "./backend.js";
+import { LIVE_MODE } from "./config.js";
 
 const KEY = "standard-issue:cart";
 
@@ -50,7 +51,8 @@ export const getCart = () => cart;
 // Call once per page. Signs the cart into the account if there is one.
 export async function initCart() {
   try {
-    const user = await getUser();
+    // Demo accounts (offline mode) keep the cart in this browser.
+    const user = LIVE_MODE ? await getUser() : null;
     if (user) {
       const guest = readLocal();
       const merged = mergeCarts(await loadRemoteCart(user.id), guest);
