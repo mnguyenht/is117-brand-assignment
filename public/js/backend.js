@@ -36,19 +36,74 @@ export function getClient() {
   return clientPromise;
 }
 
+// ── Demo accounts (offline mode only) ────────────────────────────────────────
+// So every account page can be tried before Supabase is set up. A demo
+// "sign-in" keeps only the email address in this browser. The password is
+// never stored, sent or checked; the pages say so. Live mode never uses this.
+export const DEMO_ACCOUNTS = !LIVE_MODE;
+const DEMO_KEY = "standard-issue:demo-user";
+const demoListeners = new Set();
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const readDemoUser = () => {
+  try {
+    const user = JSON.parse(localStorage.getItem(DEMO_KEY) ?? "null");
+    return user && typeof user.email === "string" ? user : null;
+  } catch {
+    return null;
+  }
+};
+
+const setDemoUser = (user) => {
+  try {
+    if (user) localStorage.setItem(DEMO_KEY, JSON.stringify(user));
+    else localStorage.removeItem(DEMO_KEY);
+  } catch {
+    // Storage blocked: the demo sign-in lasts for this page only.
+  }
+  demoListeners.forEach((listener) => listener(user));
+};
+
+function demoSignIn(email, password) {
+  const address = String(email ?? "").trim();
+  if (!EMAIL.test(address)) throw new Error("Enter a valid email address.");
+  if (String(password ?? "").length < 6)
+    throw new Error("Use a password of at least 6 characters.");
+  const user = { id: "demo", email: address, demo: true };
+  setDemoUser(user);
+  return { user, session: { user } };
+}
+
+window.addEventListener("storage", (event) => {
+  if (event.key === DEMO_KEY)
+    demoListeners.forEach((listener) => listener(readDemoUser()));
+});
+
 export async function getUser() {
   const client = await getClient();
-  if (!client) return null;
+  if (!client) return readDemoUser();
   const { data } = await client.auth.getSession();
   return data.session?.user ?? null;
 }
 
 export async function onAuthChange(callback) {
   const client = await getClient();
-  if (!client) return;
+  if (!client) {
+    demoListeners.add(callback);
+    return;
+  }
   client.auth.onAuthStateChange((_event, session) =>
     callback(session?.user ?? null),
   );
+}
+
+// Live mode: fires when someone arrives from a password-reset email link.
+export async function onPasswordRecovery(callback) {
+  const client = await getClient();
+  if (!client) return;
+  client.auth.onAuthStateChange((event) => {
+    if (event === "PASSWORD_RECOVERY") callback();
+  });
 }
 
 // Supabase error text is technical; give people a sentence they can act on.
@@ -73,17 +128,43 @@ async function call(action) {
   return data;
 }
 
-export const signUp = (email, password) =>
-  call((client) => client.auth.signUp({ email, password }));
+export const signUp = async (email, password) =>
+  DEMO_ACCOUNTS
+    ? demoSignIn(email, password)
+    : call((client) => client.auth.signUp({ email, password }));
 
-export const signIn = (email, password) =>
-  call((client) => client.auth.signInWithPassword({ email, password }));
+export const signIn = async (email, password) =>
+  DEMO_ACCOUNTS
+    ? demoSignIn(email, password)
+    : call((client) => client.auth.signInWithPassword({ email, password }));
 
-export const signOut = () =>
-  call(async (client) => ({
+export const signOut = async () => {
+  if (DEMO_ACCOUNTS) return setDemoUser(null);
+  return call(async (client) => ({
     data: null,
     error: (await client.auth.signOut()).error,
   }));
+};
+
+// Source: https://supabase.com/docs/reference/javascript/auth-resetpasswordforemail
+// Sends a reset link that returns to reset.html. Demo mode sends nothing.
+export async function requestPasswordReset(email) {
+  const address = String(email ?? "").trim();
+  if (!EMAIL.test(address)) throw new Error("Enter a valid email address.");
+  if (DEMO_ACCOUNTS) return { demo: true };
+  return call((client) =>
+    client.auth.resetPasswordForEmail(address, {
+      redirectTo: new URL("reset.html", window.location.href).href,
+    }),
+  );
+}
+
+export async function updatePassword(password) {
+  if (String(password ?? "").length < 6)
+    throw new Error("Use a password of at least 6 characters.");
+  if (DEMO_ACCOUNTS) return { demo: true };
+  return call((client) => client.auth.updateUser({ password }));
+}
 
 export async function loadRemoteCart(userId) {
   const data = await call((client) =>

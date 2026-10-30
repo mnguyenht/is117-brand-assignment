@@ -1,6 +1,11 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
+test.beforeEach(async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.route(/spline\.design/, (route) => route.abort());
+});
+
 test("negative: choosing no size explains the problem and keeps the bag empty", async ({
   page,
 }) => {
@@ -11,6 +16,24 @@ test("negative: choosing no size explains the problem and keeps the bag empty", 
   await expect(page.locator("#size-error")).toBeVisible();
   await expect(page.locator("#size-error")).not.toBeEmpty();
   await expect(page.locator("#bag-count")).toHaveText("0");
+});
+
+test('negative: an empty demo bag shows no "Empty demo bag" button', async ({
+  page,
+}) => {
+  await page.goto("/");
+  const clearBag = page.getByRole("button", {
+    name: "Empty demo bag",
+    exact: true,
+  });
+  await expect(clearBag).toBeHidden();
+  await page.locator('input[name="size"][value="M"]').check();
+  await page
+    .getByRole("button", { name: "Add to demo bag", exact: true })
+    .click();
+  await expect(clearBag).toBeVisible();
+  await clearBag.click();
+  await expect(clearBag).toBeHidden();
 });
 
 test("positive: a shopper can choose sizes, add items, and empty the demo bag", async ({

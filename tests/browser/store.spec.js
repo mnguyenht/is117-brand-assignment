@@ -1,6 +1,11 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
+test.beforeEach(async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.route(/spline\.design/, (route) => route.abort());
+});
+
 async function reset(page) {
   await page.goto("/");
   await page.evaluate(() => {
@@ -10,6 +15,13 @@ async function reset(page) {
   await page.reload();
 }
 
+async function signInDemo(page) {
+  await page.goto("/account.html");
+  await page.locator("#signin-email").fill("alex@example.com");
+  await page.locator("#signin-password").fill("demo123");
+  await page.getByRole("button", { name: "Sign in", exact: true }).click();
+  await expect(page.getByText("Signed in as alex@example.com")).toBeVisible();
+}
 async function addSize(page, size, times = 1) {
   await page.goto("/");
   await page.locator(`input[name="size"][value="${size}"]`).check();
@@ -20,6 +32,10 @@ async function addSize(page, size, times = 1) {
 
 async function seedStore(page) {
   await page.addInitScript(() => {
+    localStorage.setItem(
+      "standard-issue:demo-user",
+      JSON.stringify({ id: "demo", email: "alex@example.com", demo: true }),
+    );
     localStorage.setItem(
       "standard-issue:cart",
       JSON.stringify([{ size: "M", qty: 1 }]),
@@ -38,9 +54,21 @@ async function seedStore(page) {
 }
 
 async function openRealLayout(page, route) {
-  if (route === "/account.html") {
+  if (
+    ["/account.html", "/signup.html", "/forgot.html", "/reset.html"].includes(
+      route,
+    )
+  ) {
     await page.goto(route);
-    return page.locator("#account-content");
+    return page.locator(
+      route === "/account.html"
+        ? "#account-content"
+        : route === "/signup.html"
+          ? "#signup-content"
+          : route === "/forgot.html"
+            ? "#forgot-form"
+            : "#reset-form",
+    );
   }
   await seedStore(page);
   if (route === "/order.html") {
@@ -92,7 +120,9 @@ test("negative: a full bag stays unchanged and explains the limit", async ({
 test("positive: complete offline demo order", async ({ page }) => {
   await reset(page);
   await addSize(page, "M", 2);
-  await page.getByRole("link", { name: "Check out" }).click();
+  await signInDemo(page);
+  await page.goto("/#demo-bag");
+  await page.getByRole("link", { name: /Check out/ }).click();
   await page.locator("#fullName").fill("Alex Doe");
   await page.locator("#address").fill("12 Main Street");
   await page.locator("#city").fill("Newark");
@@ -116,6 +146,7 @@ test("negative: empty checkout form shows five errors and focuses name", async (
 }) => {
   await reset(page);
   await addSize(page, "M");
+  await signInDemo(page);
   await page.goto("/checkout.html");
   await page.getByRole("button", { name: "Continue to payment" }).click();
   await expect(page.locator(".field-error:visible")).toHaveCount(5);
@@ -146,10 +177,92 @@ test("account page explains offline accounts", async ({ page }) => {
   await reset(page);
   await page.goto("/account.html");
   await expect(
-    page.getByText("Accounts are switched off in this demo copy.", {
+    page.getByText("Demo accounts: your email stays in this browser", {
       exact: false,
     }),
   ).toBeVisible();
+});
+
+test("positive: the password can be shown and hidden", async ({ page }) => {
+  await reset(page);
+  await page.goto("/account.html");
+  const password = page.locator("#signin-password");
+  const toggle = page.locator(".password-toggle");
+
+  await expect(password).toHaveAttribute("type", "password");
+  await toggle.click();
+  await expect(password).toHaveAttribute("type", "text");
+  await expect(toggle).toHaveAttribute("aria-pressed", "true");
+  await expect(toggle).toHaveText("Hide");
+
+  await toggle.click();
+  await expect(password).toHaveAttribute("type", "password");
+  await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  await expect(toggle).toHaveText("Show");
+});
+
+test("positive: each checkout step marks where the shopper is", async ({
+  page,
+}) => {
+  await seedStore(page);
+
+  await page.goto("/checkout.html");
+  await expect(page.locator('[aria-current="step"]')).toHaveText("Shipping");
+
+  await page.goto("/payment.html");
+  await expect(page.locator('[aria-current="step"]')).toHaveText("Payment");
+  await page.locator("#place-order").click();
+
+  await expect(page).toHaveURL(/order\.html\?id=/);
+  await expect(page.locator('[aria-current="step"]')).toHaveText("Done");
+});
+
+test("positive: sign-in and create-account are separate screens", async ({
+  page,
+}) => {
+  await reset(page);
+  await page.goto("/account.html");
+  await expect(page.locator("form")).toHaveCount(1);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Sign in");
+  await expect(
+    page.getByRole("link", { name: "Create an account" }),
+  ).toHaveAttribute("href", "signup.html");
+
+  await page.goto("/signup.html");
+  await expect(page.locator("form")).toHaveCount(1);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Create an account",
+  );
+  await expect(
+    page.locator("#signup-content").getByRole("link", { name: "Sign in" }),
+  ).toHaveAttribute("href", "account.html");
+});
+
+test("positive: creating an account from checkout returns to checkout", async ({
+  page,
+}) => {
+  await reset(page);
+  await addSize(page, "M");
+  await page.goto("/signup.html?next=checkout.html");
+  await page.locator("#signup-email").fill("alex@example.com");
+  await page.locator("#signup-password").fill("demo123");
+  await page.getByRole("button", { name: "Create account" }).click();
+  await expect(page).toHaveURL(/\/checkout\.html$/);
+});
+
+test("negative: an outside next is ignored", async ({ page }) => {
+  await reset(page);
+  await page.goto("/signup.html?next=https%3A%2F%2Fexample.com");
+  await page.locator("#signup-email").fill("alex@example.com");
+  await page.locator("#signup-password").fill("demo123");
+  await page.getByRole("button", { name: "Create account" }).click();
+  await expect(page).toHaveURL(/\/account\.html$/);
+
+  await page.evaluate(() => localStorage.clear());
+  await page.goto("/account.html?next=https%3A%2F%2Fexample.com");
+  await expect(
+    page.getByRole("link", { name: "Create an account" }),
+  ).toHaveAttribute("href", "signup.html");
 });
 
 for (const route of [
@@ -157,6 +270,9 @@ for (const route of [
   "/payment.html",
   "/order.html",
   "/account.html",
+  "/signup.html",
+  "/forgot.html",
+  "/reset.html",
 ]) {
   test(`store page integrity and accessibility: ${route}`, async ({ page }) => {
     await reset(page);
@@ -207,3 +323,51 @@ for (const route of [
     ).toBeTruthy();
   });
 }
+
+test("demo account changes the header and can sign out", async ({ page }) => {
+  await reset(page);
+  await signInDemo(page);
+  await expect(page.locator("#account-link")).toHaveText("Account");
+  await page.getByRole("button", { name: "Sign out" }).click();
+  await expect(page.locator("#account-link")).toHaveText("Sign in");
+});
+
+test("signed-out checkout requires sign in and has no form", async ({
+  page,
+}) => {
+  await reset(page);
+  await addSize(page, "M");
+  await page.goto("/checkout.html");
+  await expect(page.getByText("Sign in to check out.")).toBeVisible();
+  await expect(page.locator("form")).toHaveCount(0);
+});
+
+test("forgot and reset pages explain demo behavior", async ({ page }) => {
+  await reset(page);
+  await page.goto("/forgot.html");
+  await page.locator("#forgot-email").fill("alex@example.com");
+  await page.getByRole("button", { name: "Send reset link" }).click();
+  await expect(page.locator("#forgot-status")).toContainText(
+    "Demo mode: no email is sent",
+  );
+  await page.goto("/reset.html");
+  await page.locator("#new-password").fill("demo123");
+  await page.locator("#confirm-password").fill("different");
+  await page.getByRole("button", { name: "Update password" }).click();
+  await expect(page.locator("#reset-status")).toHaveText(
+    "Passwords must match.",
+  );
+  await page.locator("#confirm-password").fill("demo123");
+  await page.getByRole("button", { name: "Update password" }).click();
+  await expect(page.locator("#reset-status")).toContainText(
+    "Demo mode: nothing was changed.",
+  );
+});
+
+test("bag rows have thumbnails and a live checkout total", async ({ page }) => {
+  await reset(page);
+  await addSize(page, "M", 2);
+  await expect(page.locator("#bag-items img")).toHaveCount(1);
+  await expect(page.locator("#bag-items")).toContainText("Size M · Quantity 2");
+  await expect(page.locator("#checkout-link")).toHaveText("Check out — $56.00");
+});
