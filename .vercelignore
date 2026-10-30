@@ -1,0 +1,11 @@
+# Vercel only needs the static site (public/) and, on BRAND-002, the email
+# function (api/). The local dev server must not be uploaded, or Vercel turns
+# it into a function and routes "/" to it.
+server.mjs
+dev-reload.mjs
+tests
+docs
+supabase
+playwright.config.js
+eslint.config.js
+.github

@@ -11,8 +11,10 @@
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="store.css" />
+    <link rel="stylesheet" href="effects.css" />
   </head>
   <body>
+    <canvas id="grid-bg" aria-hidden="true"></canvas>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header wrap">
       <a
@@ -51,7 +53,20 @@
               Order <span id="order-number"></span>
             </h2>
             <ul id="order-lines" class="summary-lines"></ul>
-            <p id="order-total" class="summary-grand-total"></p>
+            <dl class="summary-totals">
+              <div>
+                <dt>Subtotal</dt>
+                <dd id="order-subtotal"></dd>
+              </div>
+              <div>
+                <dt>Shipping</dt>
+                <dd>Free (demo)</dd>
+              </div>
+              <div>
+                <dt>Total</dt>
+                <dd id="order-total"></dd>
+              </div>
+            </dl>
             <p id="order-date"></p>
           </section>
           <section class="shipping-panel" aria-labelledby="ship-to-title">
@@ -82,5 +97,6 @@
       >
     </footer>
     <script type="module" src="js/order-page.js"></script>
+    <script type="module" src="js/grid-bg.js"></script>
   </body>
 </html>

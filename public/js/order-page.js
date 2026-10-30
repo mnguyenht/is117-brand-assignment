@@ -55,8 +55,9 @@ if (!order) {
     item.textContent = `White T-shirt · Size ${size} · Quantity ${qty}`;
     lines.append(item);
   }
-  document.querySelector("#order-total").textContent =
-    `Total ${formatPrice(order.subtotal_cents)}`;
+  const total = formatPrice(order.subtotal_cents);
+  document.querySelector("#order-subtotal").textContent = total;
+  document.querySelector("#order-total").textContent = total;
   document.querySelector("#order-date").textContent = new Date(
     order.created_at,
   ).toLocaleDateString(undefined, { dateStyle: "long" });

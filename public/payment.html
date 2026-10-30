@@ -11,8 +11,10 @@
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="store.css" />
+    <link rel="stylesheet" href="effects.css" />
   </head>
   <body>
+    <canvas id="grid-bg" aria-hidden="true"></canvas>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header wrap">
       <a
@@ -47,7 +49,7 @@
         <section id="payment-message" class="shipping-panel" hidden></section>
         <div id="payment-details">
           <section class="demo-card" aria-labelledby="card-title">
-            <p id="card-title" class="eyebrow">DEMO CARD</p>
+            <p id="card-title" class="demo-card-sticker">Demo</p>
             <p class="card-number">4242 4242 4242 4242</p>
             <p>12/34</p>
             <p>
@@ -70,7 +72,20 @@
         >
           <h2 id="summary-title">Order summary.</h2>
           <ul id="summary-lines" class="summary-lines"></ul>
-          <p id="summary-total" class="summary-grand-total"></p>
+          <dl class="summary-totals">
+            <div>
+              <dt>Subtotal</dt>
+              <dd id="summary-subtotal"></dd>
+            </div>
+            <div>
+              <dt>Shipping</dt>
+              <dd>Free (demo)</dd>
+            </div>
+            <div>
+              <dt>Total</dt>
+              <dd id="summary-total"></dd>
+            </div>
+          </dl>
         </section>
       </div>
     </main>
@@ -91,5 +106,6 @@
       >
     </footer>
     <script type="module" src="js/payment-page.js"></script>
+    <script type="module" src="js/grid-bg.js"></script>
   </body>
 </html>

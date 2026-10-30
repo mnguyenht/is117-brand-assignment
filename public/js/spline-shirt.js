@@ -1,0 +1,72 @@
+import { CONFIG } from "./config.js";
+
+const sceneUrl = CONFIG.splineSceneUrl.trim();
+const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const panel = document.querySelector(".product-visual");
+
+if (sceneUrl && panel) {
+  const shirt = panel.querySelector(".shirt-image");
+  let loading = false;
+
+  function loadViewer() {
+    if (loading) return;
+    loading = true;
+    const viewer = document.createElement("spline-viewer");
+    viewer.setAttribute("url", sceneUrl);
+    viewer.setAttribute("loading-anim-type", "none");
+    viewer.setAttribute("role", "img");
+    viewer.setAttribute("aria-label", "3D white T-shirt. Drag to turn it.");
+    const loader = document.createElement("script");
+    loader.type = "module";
+    loader.src =
+      "https://unpkg.com/@splinetool/viewer@2.0.85/build/spline-viewer.js";
+    const timeout = setTimeout(fail, 8000);
+
+    function fail() {
+      clearTimeout(timeout);
+      viewer.remove();
+      loader.remove();
+      loading = false;
+    }
+
+    loader.addEventListener("error", fail, { once: true });
+    viewer.addEventListener(
+      "load-complete",
+      () => {
+        clearTimeout(timeout);
+        viewer.classList.add("is-ready");
+        shirt.classList.add("has-3d-view");
+        const label = document.createElement("span");
+        label.className = "visual-label spline-label";
+        label.textContent = "Drag to turn";
+        panel.append(label);
+      },
+      { once: true },
+    );
+    panel.append(viewer);
+    document.head.append(loader);
+  }
+
+  if (reducedMotion) {
+    const button = document.createElement("button");
+    button.className = "spline-button";
+    button.type = "button";
+    button.textContent = "View in 3D";
+    button.addEventListener("click", () => {
+      button.remove();
+      loadViewer();
+    });
+    panel.append(button);
+  } else {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          observer.disconnect();
+          loadViewer();
+        }
+      },
+      { rootMargin: "120px" },
+    );
+    observer.observe(panel);
+  }
+}

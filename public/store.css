@@ -152,11 +152,25 @@
 }
 
 .demo-card {
+  position: relative;
   margin-bottom: var(--space-4);
   border: 2px solid var(--color-ink);
-  background: var(--color-accent);
+  background: var(--color-white);
   padding: var(--space-4);
   font-family: var(--font-mono);
+}
+
+.demo-card-sticker {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  rotate: 3deg;
+  border: 2px solid var(--color-ink);
+  background: var(--color-accent);
+  padding: 0.15rem 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .card-number {
@@ -183,6 +197,10 @@
 
 .confirmation-grid {
   margin-block: var(--space-5);
+}
+
+#order-details > .eyebrow {
+  margin-bottom: var(--space-2);
 }
 
 #email-status {

@@ -62,7 +62,8 @@ if (!itemCount(cart)) {
     item.textContent = `White T-shirt · Size ${size} · Quantity ${qty}`;
     lines.append(item);
   }
-  document.querySelector("#summary-total").textContent = `Total ${total}`;
+  document.querySelector("#summary-subtotal").textContent = total;
+  document.querySelector("#summary-total").textContent = total;
   addAddress(document.querySelector("#shipping-address"), shipping);
   button.textContent = `Place demo order — ${total}`;
 
