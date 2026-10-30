@@ -24,13 +24,9 @@ export function buildOrderEmail(order) {
       `White T-shirt, size ${line.size} × ${line.qty} — ${formatPrice(line.qty * 2800)}`,
   );
   const total = formatPrice(order.subtotal_cents);
-  const ship = order.shipping;
-  const address = [
-    ship.fullName,
-    ship.address,
-    `${ship.city} ${ship.postalCode}`,
-    ship.country,
-  ];
+  // Deliberately no customer-typed text (name, address): sign-ups are not
+  // email-verified in the demo, so anything typed could be used to make the
+  // store send a convincing phishing message. The order page shows the address.
   const subject = `Your Standard Issue order ${number} (demo)`;
   const text = [
     `Thanks for your order. This is a classroom demo: nothing was charged and nothing will ship.`,
@@ -39,8 +35,7 @@ export function buildOrderEmail(order) {
     ...lines,
     `Total: ${total}`,
     ``,
-    `Shipping to:`,
-    ...address,
+    `Your shipping details are on the order page of the site.`,
     ``,
     `Standard Issue — a white T-shirt is a white T-shirt.`,
   ].join("\n");
@@ -51,7 +46,7 @@ export function buildOrderEmail(order) {
 <p style="margin:0 0 16px">Thanks for your order. This is a classroom demo: nothing was charged and nothing will ship.</p>
 <ul style="padding-left:18px;margin:0 0 16px">${lines.map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul>
 <p style="font-weight:700;margin:0 0 16px">Total: ${escapeHtml(total)}</p>
-<p style="font-family:Consolas,monospace;font-size:13px;margin:0">${address.map(escapeHtml).join("<br>")}</p>
+<p style="font-size:13px;margin:0">Your shipping details are on the order page of the site.</p>
 </div></body></html>`;
   return { subject, text, html };
 }

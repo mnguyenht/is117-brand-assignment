@@ -49,6 +49,15 @@ test("postal codes with letters, spaces and dashes are allowed", () => {
   );
 });
 
+test("line breaks and other control characters are rejected", () => {
+  const result = validateShipping({
+    ...good,
+    fullName: "Jane\nTotal: $0.00 refund issued",
+  });
+  assert.equal(result.ok, false);
+  assert.ok(result.errors.fullName);
+});
+
 test("overlong answers are rejected", () => {
   const result = validateShipping({ ...good, address: "x".repeat(201) });
   assert.equal(result.ok, false);

@@ -4,15 +4,33 @@
 import { CONFIG, LIVE_MODE } from "./config.js";
 import { normalizeCart } from "./cart.js";
 
-// Pinned, released at least two weeks before use.
-const SUPABASE_JS =
-  "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/+esm";
+// Pinned (released at least two weeks before use) and checked with Subresource
+// Integrity: if the CDN ever served different bytes, the browser refuses to run
+// them. This page holds the visitor's session, so third-party code must match.
+const SUPABASE_JS = {
+  src: "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js",
+  integrity:
+    "sha384-BWcjm9OdFth9TbhCxZPdm+gAOUMAzQy9nmTs12ioXdCcbVnJaPMn+fMUoQCLt60R",
+};
 
 let clientPromise;
 
+const loadSupabase = () =>
+  new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = SUPABASE_JS.src;
+    script.integrity = SUPABASE_JS.integrity;
+    script.crossOrigin = "anonymous";
+    script.addEventListener("load", () => resolve(window.supabase));
+    script.addEventListener("error", () =>
+      reject(new Error("Could not load the account service.")),
+    );
+    document.head.append(script);
+  });
+
 export function getClient() {
   if (!LIVE_MODE) return Promise.resolve(null);
-  clientPromise ??= import(SUPABASE_JS).then(({ createClient }) =>
+  clientPromise ??= loadSupabase().then(({ createClient }) =>
     createClient(CONFIG.supabaseUrl, CONFIG.supabaseAnonKey),
   );
   return clientPromise;

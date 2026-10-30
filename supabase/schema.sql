@@ -8,9 +8,17 @@ create table if not exists public.carts (
     references auth.users (id) on delete cascade,
   -- At most one line per size (S, M, L, XL). The browser cleans the lines;
   -- place_order() re-checks everything before an order exists.
-  items jsonb not null default '[]'::jsonb
-    check (jsonb_typeof(items) = 'array' and jsonb_array_length(items) <= 4),
+  items jsonb not null default '[]'::jsonb,
   updated_at timestamptz not null default now()
+);
+
+-- A list of at most four short lines, and small: free sign-ups must not be
+-- able to fill the free plan's database with padded carts.
+alter table public.carts drop constraint if exists carts_items_check;
+alter table public.carts add constraint carts_items_check check (
+  jsonb_typeof(items) = 'array'
+  and jsonb_array_length(items) <= 4
+  and pg_column_size(items) <= 1024
 );
 
 alter table public.carts enable row level security;
@@ -116,6 +124,9 @@ begin
     if v_value = '' or char_length(v_value) > v_max then
       raise exception 'Shipping % is missing or too long.', v_field using errcode = '22023';
     end if;
+    if v_value ~ '[[:cntrl:]]' then
+      raise exception 'Shipping % must be on one line.', v_field using errcode = '22023';
+    end if;
     v_shipping := v_shipping || jsonb_build_object(v_field, v_value);
   end loop;
   if (v_shipping ->> 'postalCode') !~ '^[A-Za-z0-9 -]+$' then
@@ -123,6 +134,9 @@ begin
   end if;
 
   -- A demo store still should not be an email cannon: at most 10 orders an hour.
+  -- The per-user lock makes parallel calls wait their turn, so they cannot all
+  -- pass the count before any of them has inserted.
+  perform pg_advisory_xact_lock(hashtextextended('place_order:' || v_user::text, 0));
   if (select count(*) from public.orders
       where user_id = v_user and created_at > now() - interval '1 hour') >= 10 then
     raise exception 'Too many orders in the last hour. Try again later.' using errcode = '54000';
@@ -143,6 +157,8 @@ grant execute on function public.place_order(jsonb, jsonb) to authenticated;
 -- ── claim_confirmation(order_id) ────────────────────────────────────────────
 -- Marks an order's email as sent. Returns true only the first time, and only
 -- for the order's owner, so each order gets at most one confirmation email.
+-- Store-wide, at most 50 confirmations go out per day (Resend's free plan
+-- allows 100), so scripted sign-ups cannot use up the email quota.
 create or replace function public.claim_confirmation(p_order_id uuid)
 returns boolean
 language plpgsql
@@ -150,6 +166,11 @@ security definer
 set search_path = ''
 as $$
 begin
+  perform pg_advisory_xact_lock(hashtextextended('claim_confirmation', 0));
+  if (select count(*) from public.orders
+      where confirmation_sent_at > now() - interval '1 day') >= 50 then
+    return false;
+  end if;
   update public.orders
      set confirmation_sent_at = now()
    where id = p_order_id

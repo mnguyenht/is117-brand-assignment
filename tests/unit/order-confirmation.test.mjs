@@ -139,13 +139,16 @@ test("the email goes to the signed-in account, never to an address in the reques
   assert.equal(sent.headers.Authorization, "Bearer re_test");
 });
 
-test("customer text is escaped in the HTML email", async () => {
+test("the email carries no customer-typed text, so it cannot be used for phishing", async () => {
   const { fetch, calls } = fakeServices();
   await handleOrderConfirmation(request(), { env, fetch });
   const sent = calls.find((call) => call.url.includes("resend"));
-  assert.ok(!sent.body.html.includes("<b>Doe</b>"));
-  assert.ok(sent.body.html.includes("Alex &lt;b&gt;Doe&lt;/b&gt;"));
+  for (const part of [sent.body.html, sent.body.text, sent.body.subject]) {
+    assert.ok(!part.includes("Alex"));
+    assert.ok(!part.includes("Main Street"));
+  }
   assert.ok(sent.body.text.includes("$56.00"));
+  assert.ok(sent.body.text.includes("6F1C2B3A"));
 });
 
 test("in Resend test mode the email falls back to a copy for the store owner", async () => {

@@ -20,6 +20,10 @@ if (sceneUrl && panel) {
     loader.type = "module";
     loader.src =
       "https://unpkg.com/@splinetool/viewer@2.0.85/build/spline-viewer.js";
+    // Subresource Integrity: refuse to run it if the CDN's bytes ever change.
+    loader.integrity =
+      "sha384-cKWAMtcouy1GocV1plRuo2lmtlKkvD2obiK7vtOcvmhs+JMKax+Ke70vJOdEiiqC";
+    loader.crossOrigin = "anonymous";
     const timeout = setTimeout(fail, 8000);
 
     function fail() {

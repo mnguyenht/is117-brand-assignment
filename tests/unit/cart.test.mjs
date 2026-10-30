@@ -49,6 +49,26 @@ test("the whole cart cannot go above the item limit", () => {
   assert.equal(itemCount(cart), MAX_ITEMS);
 });
 
+test("adding when the bag is full changes nothing, so no other size is dropped", () => {
+  const full = [
+    { size: "L", qty: 10 },
+    { size: "XL", qty: 10 },
+  ];
+  assert.deepEqual(addItem(full, "S"), full);
+});
+
+test("raising one size only uses the room that is left", () => {
+  const cart = [
+    { size: "S", qty: 5 },
+    { size: "XL", qty: 10 },
+  ];
+  assert.deepEqual(setQuantity(cart, "M", 9), [
+    { size: "S", qty: 5 },
+    { size: "M", qty: 5 },
+    { size: "XL", qty: 10 },
+  ]);
+});
+
 test("setting quantity to zero removes the line", () => {
   assert.deepEqual(setQuantity([{ size: "M", qty: 3 }], "M", 0), []);
 });

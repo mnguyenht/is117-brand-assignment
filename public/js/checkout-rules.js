@@ -18,6 +18,9 @@ export function validateShipping(input = {}) {
     const text = String(input[name] ?? "").trim();
     value[name] = text;
     if (!text) errors[name] = `Please enter your ${rule.label}.`;
+    // eslint-disable-next-line no-control-regex -- rejecting them is the point
+    else if (/[\u0000-\u001f\u007f]/.test(text))
+      errors[name] = `Please keep your ${rule.label} on one line.`;
     else if (text.length > rule.max)
       errors[name] =
         `Please keep your ${rule.label} under ${rule.max} characters.`;

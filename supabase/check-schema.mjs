@@ -81,6 +81,15 @@ await fails(
   () => as(A, `update public.carts set items='[1,2,3,4,5]'`),
   /check constraint/,
 );
+await fails(
+  "an oversized saved cart is refused",
+  () =>
+    as(
+      A,
+      `update public.carts set items = jsonb_build_array(jsonb_build_object('size','S','qty',1,'pad', repeat('x', 5000)))`,
+    ),
+  /check constraint/,
+);
 rows = (await as(null, "select * from public.carts")).rows;
 assert.equal(rows.length, 0);
 console.log("ok  - signed-out visitors see no carts");
@@ -196,6 +205,15 @@ await fails(
     ]),
   /Postal/,
 );
+await fails(
+  "line breaks in an address are refused",
+  () =>
+    as(A, `select public.place_order($1::jsonb, $2::jsonb)`, [
+      '[{"size":"M","qty":1}]',
+      JSON.stringify({ ...JSON.parse(ship), fullName: "Jane\nTotal: $0" }),
+    ]),
+  /one line/,
+);
 
 rows = (await as(B, "select * from public.orders")).rows;
 assert.equal(rows.length, 0);
@@ -238,6 +256,25 @@ await fails(
     ]),
   /Too many orders/,
 );
+
+// Store-wide email cap: once 50 confirmations went out in a day, no more.
+await db.exec(`
+  insert into public.orders (user_id, items, item_count, subtotal_cents, shipping, confirmation_sent_at, created_at)
+  select '${B}', '[{"size":"S","qty":1}]', 1, 2800, '{}', now(), now() - interval '2 hours'
+  from generate_series(1, 50);
+`);
+const fresh = (
+  await as(B, `select * from public.place_order($1::jsonb, $2::jsonb)`, [
+    '[{"size":"S","qty":1}]',
+    ship,
+  ])
+).rows[0];
+assert.equal(
+  (await as(B, `select public.claim_confirmation($1) as c`, [fresh.id])).rows[0]
+    .c,
+  false,
+);
+console.log("ok  - no more than 50 confirmation emails go out per day");
 
 // Running the schema a second time must not fail.
 await db.exec(schema);

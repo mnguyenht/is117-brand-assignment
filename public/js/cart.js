@@ -38,10 +38,14 @@ export function normalizeCart(raw) {
 const quantityOf = (cart, size) =>
   cart.find((line) => line.size === size)?.qty ?? 0;
 
+// Changes one size only. It is clamped to the room the other sizes leave, so
+// a full bag never quietly gives up a different size to make space.
 export function setQuantity(cart, size, qty) {
   if (!SIZES.includes(size)) throw new RangeError(`Unknown size: ${size}`);
-  const others = cart.filter((line) => line.size !== size);
-  return normalizeCart([...others, { size, qty }]);
+  const others = normalizeCart(cart.filter((line) => line.size !== size));
+  const room = MAX_ITEMS - itemCount(others);
+  const clamped = Math.min(toWholeNumber(qty), MAX_PER_LINE, room);
+  return normalizeCart([...others, { size, qty: clamped }]);
 }
 
 export function addItem(cart, size) {

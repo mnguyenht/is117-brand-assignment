@@ -10,7 +10,12 @@ import {
   mergeCarts,
   normalizeCart,
 } from "./cart.js";
-import { getUser, loadRemoteCart, saveRemoteCart } from "./backend.js";
+import {
+  getUser,
+  onAuthChange,
+  loadRemoteCart,
+  saveRemoteCart,
+} from "./backend.js";
 
 const KEY = "standard-issue:cart";
 
@@ -32,6 +37,9 @@ const writeLocal = (cart) => {
 };
 
 let cart = readLocal();
+// Set only once the account's saved cart has really loaded. Until then the
+// page stays in guest mode, so a failed load can never overwrite the saved
+// cart with an empty one.
 let userId = null;
 
 const announce = () =>
@@ -44,14 +52,17 @@ export async function initCart() {
   try {
     const user = await getUser();
     if (user) {
-      userId = user.id;
       const guest = readLocal();
-      cart = mergeCarts(await loadRemoteCart(user.id), guest);
-      if (guest.length) await saveRemoteCart(user.id, cart);
+      const merged = mergeCarts(await loadRemoteCart(user.id), guest);
+      if (guest.length) await saveRemoteCart(user.id, merged);
+      // The guest lines are now part of the account: clear them only after
+      // the save worked, so they are never merged in a second time.
       writeLocal([]);
+      cart = merged;
+      userId = user.id;
     }
   } catch {
-    // Network trouble: keep the browser's cart rather than losing it.
+    // Network trouble: stay in guest mode with the browser's cart.
   }
   announce();
   return cart;
@@ -63,7 +74,8 @@ async function commit(next) {
     try {
       await saveRemoteCart(userId, cart);
     } catch {
-      writeLocal(cart); // keep it somewhere if the save fails
+      // Keep the change on this page only. Writing it to the guest key would
+      // merge it into the account again on the next load and double it.
     }
   } else {
     writeLocal(cart);
@@ -85,9 +97,31 @@ export function forgetCart() {
   announce();
 }
 
-// The other tab changed the cart: follow it.
+// Another guest tab changed the cart: follow it.
 window.addEventListener("storage", (event) => {
   if (event.key === KEY && !userId) {
+    cart = readLocal();
+    announce();
+  }
+});
+
+// Signed-in tabs share no storage, so re-read the account's cart whenever
+// this tab comes back into view (it may have changed or been ordered).
+document.addEventListener("visibilitychange", async () => {
+  if (document.visibilityState !== "visible" || !userId) return;
+  try {
+    cart = await loadRemoteCart(userId);
+    announce();
+  } catch {
+    // Keep what is on screen.
+  }
+});
+
+// Signed out (here or in another tab): stop using the account's cart, so
+// the next person on this browser does not inherit it.
+onAuthChange((user) => {
+  if (!user && userId) {
+    userId = null;
     cart = readLocal();
     announce();
   }
