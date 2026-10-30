@@ -91,4 +91,23 @@ The automated tests run in offline mode, so they never need the network or real 
 
    Two new browser tests cover the off-screen grid pause and the empty bag; both were seen failing before the fix.
 
-   Accepted limit: the "Built with Spline" badge stays. Removing it needs a paid Spline plan.
+   Accepted limit: the "Built with Spline" badge stays. Removing it needs a paid Spline plan. (Moot after round 4.)
+
+8. Round 4, from the learner's feedback; Codex implemented two specs and Claude reviewed and fixed:
+   - The 3D shirt is removed (laggy, broken controls). The flat shirt stays, and a test checks that nothing is requested from spline.design.
+   - The pointer glow colour is a token, `--panel-grid-glow-color`, set to kraft brown, with stamp blue offered.
+   - Auth: sign-in and create-account are separate centred cards.
+     - Forgot and reset share the card.
+     - The forms gain show/hide password and busy labels.
+     - The next-page check is still the original same-site regex, with a negative test for an outside URL.
+   - A different composition per page instead of the same title-plus-split:
+     - shop: the bag is centred and About is stacked;
+     - checkout: steps and a sticky sidebar;
+     - payment: one centred column;
+     - order: a centred receipt that prints in;
+     - style guide: a stacked specimen sheet.
+   - `/bld-refine-sprint` on every page:
+     - new links and the toggle reach 44 px;
+     - no sideways overflow at 375 and 1280 px on all 11 views;
+     - no console errors.
+   - Remaining small targets are the footer links and the style-guide sub-nav, which pass WCAG AA through spacing.
