@@ -1,162 +1,168 @@
-// Drifting background grid that lights up the squares under your mouse, leaving a fading trail.
-// Ported from React Bits' ShapeGrid by David Haz (MIT + Commons Clause), squares only:
-// https://github.com/DavidHDev/react-bits/tree/main/src/content/Backgrounds/ShapeGrid
-// Changes from the original: plain JS instead of a React component, sharp lines on high-DPI
-// screens, mouse tracked on the window (the canvas sits behind the page), no drift with reduced motion.
-
-const canvas = document.querySelector("#grid-bg");
-
-if (canvas) {
+const panel = document.querySelector(".product-visual");
+if (panel) {
+  const canvas = document.createElement("canvas");
+  canvas.className = "panel-grid";
+  canvas.setAttribute("aria-hidden", "true");
+  panel.prepend(canvas);
+  panel.classList.add("has-panel-grid");
   const context = canvas.getContext("2d");
-  const rootStyle = getComputedStyle(document.documentElement);
-  const calm = matchMedia("(prefers-reduced-motion: reduce)");
-  const canHover = matchMedia("(hover: hover) and (pointer: fine)");
-  const lineColor = rootStyle.getPropertyValue("--color-ink").trim();
-  const glowColor = rootStyle.getPropertyValue("--color-accent").trim();
-  const numberFromCss = (property, fallback) => {
-    const value = Number.parseFloat(rootStyle.getPropertyValue(property));
-    return Number.isFinite(value) ? value : fallback;
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+  const fine = matchMedia("(hover: hover) and (pointer: fine)");
+  const defaults = {
+    gap: 9,
+    dot: 1.2,
+    alpha: 0.14,
+    speed: 0.08,
+    glow: 0.6,
+    radius: 60,
   };
-  const settings = {
-    cell: numberFromCss("--grid-cell", 48),
-    speed: numberFromCss("--grid-speed", 0.2),
-    lineAlpha: numberFromCss("--grid-line-alpha", 0.07),
-    glowAlpha: numberFromCss("--grid-glow-alpha", 0.5),
-    trail: numberFromCss("--grid-trail", 10),
+  const settings = {};
+  let width = 0;
+  let height = 0;
+  let offset = 0;
+  let frame = 0;
+  let pointer = null;
+  let glow = null;
+  let lastTime = 0;
+  let lastPaint = 0;
+  let pattern = null;
+  const color = (name) =>
+    getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const readSettings = () => {
+    const style = getComputedStyle(document.documentElement);
+    for (const [key, fallback] of Object.entries(defaults)) {
+      const value = Number.parseFloat(
+        style.getPropertyValue(`--panel-grid-${key}`),
+      );
+      settings[key] = Number.isFinite(value) ? value : fallback;
+    }
   };
-  const offset = { x: 0, y: 0 };
-  const glow = new Map();
-  let hovered = null;
-  let trail = [];
-  let frame = null;
-
-  function resize() {
+  function makePattern() {
     const dpr = devicePixelRatio || 1;
-    canvas.width = Math.round(innerWidth * dpr);
-    canvas.height = Math.round(innerHeight * dpr);
+    const tile = document.createElement("canvas");
+    tile.width = Math.max(1, Math.round(settings.gap * dpr));
+    tile.height = tile.width;
+    const tileContext = tile.getContext("2d");
+    tileContext.globalAlpha = settings.alpha;
+    tileContext.fillStyle = color("--color-ink") || "#111";
+    tileContext.beginPath();
+    tileContext.arc(0, 0, settings.dot * dpr, 0, Math.PI * 2);
+    tileContext.fill();
+    pattern = context.createPattern(tile, "repeat");
+  }
+  function resize() {
+    const box = panel.getBoundingClientRect();
+    const dpr = devicePixelRatio || 1;
+    width = box.width;
+    height = box.height;
+    const nextWidth = Math.round(width * dpr);
+    const nextHeight = Math.round(height * dpr);
+    if (canvas.width === nextWidth && canvas.height === nextHeight) return;
+    canvas.width = nextWidth;
+    canvas.height = nextHeight;
     context.setTransform(dpr, 0, 0, dpr, 0, 0);
+    makePattern();
+    start();
   }
-
-  function cellAt(x, y) {
-    return {
-      col: Math.floor((x - offset.x) / settings.cell),
-      row: Math.floor((y - offset.y) / settings.cell),
-    };
-  }
-
-  function updateGlow() {
-    const targets = new Map();
-    if (hovered) targets.set(`${hovered.col},${hovered.row}`, 1);
-    const activeTrail = calm.matches ? [] : trail;
-    activeTrail.forEach((cell, index) => {
-      const key = `${cell.col},${cell.row}`;
-      if (!targets.has(key)) {
-        targets.set(
-          key,
-          (activeTrail.length - index) / (activeTrail.length + 1),
-        );
-      }
-    });
-    if (calm.matches) {
-      glow.clear();
-      for (const [key, opacity] of targets) glow.set(key, opacity);
-      return false;
+  function draw(time = 0) {
+    frame = 0;
+    if (!reduced.matches && time - lastPaint < 34) {
+      start();
+      return;
     }
-    for (const key of targets.keys()) {
-      if (!glow.has(key)) glow.set(key, 0);
+    lastPaint = time;
+    const moving = !reduced.matches && settings.speed !== 0;
+    if (moving) offset = (offset + settings.speed) % settings.gap;
+    if (glow && !pointer && !reduced.matches) {
+      const elapsed = lastTime ? time - lastTime : 16;
+      glow.strength = Math.max(0, glow.strength - elapsed / 400);
+      if (!glow.strength) glow = null;
     }
-    let changing = false;
-    for (const [key, opacity] of glow) {
-      const target = targets.get(key) || 0;
-      const next = opacity + (target - opacity) * 0.15;
-      if (next < 0.005) glow.delete(key);
-      else {
-        glow.set(key, next);
-        if (Math.abs(target - next) >= 0.005) changing = true;
-      }
-    }
-    return changing;
-  }
-
-  function draw() {
-    frame = null;
-    if (!calm.matches) {
-      offset.x += settings.speed;
-      offset.y += settings.speed;
-    }
-    const glowChanging = updateGlow();
-    context.clearRect(0, 0, innerWidth, innerHeight);
-    context.strokeStyle = lineColor;
-    context.lineWidth = 1;
-    const firstCol = Math.floor(-offset.x / settings.cell);
-    const firstRow = Math.floor(-offset.y / settings.cell);
-    const lastCol = firstCol + Math.ceil(innerWidth / settings.cell);
-    const lastRow = firstRow + Math.ceil(innerHeight / settings.cell);
-    for (let col = firstCol; col <= lastCol; col += 1) {
-      for (let row = firstRow; row <= lastRow; row += 1) {
-        const x = col * settings.cell + offset.x;
-        const y = row * settings.cell + offset.y;
-        const opacity = glow.get(`${col},${row}`);
-        if (opacity) {
-          context.globalAlpha = settings.glowAlpha * opacity;
-          context.fillStyle = glowColor;
-          context.fillRect(x, y, settings.cell, settings.cell);
+    lastTime = time;
+    context.clearRect(0, 0, width, height);
+    context.save();
+    context.translate(offset, offset);
+    context.fillStyle = pattern;
+    context.fillRect(
+      -settings.gap,
+      -settings.gap,
+      width + settings.gap,
+      height + settings.gap,
+    );
+    context.restore();
+    if (glow) {
+      const accent = color("--color-accent") || "#f2c94c";
+      const startX = Math.floor(
+        (glow.x - settings.radius - offset) / settings.gap,
+      );
+      const endX = Math.ceil(
+        (glow.x + settings.radius - offset) / settings.gap,
+      );
+      const startY = Math.floor(
+        (glow.y - settings.radius - offset) / settings.gap,
+      );
+      const endY = Math.ceil(
+        (glow.y + settings.radius - offset) / settings.gap,
+      );
+      context.fillStyle = accent;
+      for (let column = startX; column <= endX; column += 1) {
+        for (let row = startY; row <= endY; row += 1) {
+          const x = column * settings.gap + offset;
+          const y = row * settings.gap + offset;
+          const falloff =
+            Math.max(
+              0,
+              1 - Math.hypot(x - glow.x, y - glow.y) / settings.radius,
+            ) * glow.strength;
+          if (!falloff) continue;
+          context.globalAlpha = settings.glow * falloff;
+          context.beginPath();
+          context.arc(
+            x,
+            y,
+            settings.dot + (2.4 - settings.dot) * falloff,
+            0,
+            Math.PI * 2,
+          );
+          context.fill();
         }
-        context.globalAlpha = settings.lineAlpha;
-        context.strokeRect(
-          Math.round(x) + 0.5,
-          Math.round(y) + 0.5,
-          settings.cell,
-          settings.cell,
-        );
-        context.globalAlpha = 1;
       }
+      context.globalAlpha = 1;
     }
-    const drifting = !calm.matches && settings.speed !== 0;
-    if (!document.hidden && (drifting || glowChanging)) {
-      frame = requestAnimationFrame(draw);
-    }
+    if (!document.hidden && (moving || (glow && !pointer))) start();
   }
-
   function start() {
     if (!frame && !document.hidden) frame = requestAnimationFrame(draw);
   }
-
   window.siGrid = {
-    set(nextSettings) {
-      for (const key of Object.keys(settings)) {
-        const value = Number(nextSettings[key]);
+    set(next = {}) {
+      for (const key of Object.keys(defaults)) {
+        const value = Number(next[key]);
         if (Number.isFinite(value)) settings[key] = value;
       }
-      trail = trail.slice(0, Math.max(0, Math.round(settings.trail)));
+      makePattern();
       start();
     },
   };
-
-  addEventListener("resize", () => {
-    resize();
+  panel.addEventListener("pointermove", (event) => {
+    if (!fine.matches) return;
+    const box = panel.getBoundingClientRect();
+    pointer = { x: event.clientX - box.left, y: event.clientY - box.top };
+    glow = { ...pointer, strength: 1 };
     start();
   });
-  addEventListener("pointermove", (event) => {
-    if (!canHover.matches) return;
-    const cell = cellAt(event.clientX, event.clientY);
-    if (hovered && (hovered.col !== cell.col || hovered.row !== cell.row)) {
-      trail = [hovered, ...trail].slice(0, settings.trail);
-    }
-    hovered = cell;
+  panel.addEventListener("pointerleave", () => {
+    pointer = null;
+    if (reduced.matches) glow = null;
     start();
   });
-  document.documentElement.addEventListener("pointerleave", () => {
-    if (hovered) trail = [hovered, ...trail].slice(0, settings.trail);
-    hovered = null;
-    start();
-  });
-  calm.addEventListener("change", () => {
-    if (calm.matches) trail = [];
+  reduced.addEventListener("change", () => {
+    offset = 0;
+    if (reduced.matches && !pointer) glow = null;
     start();
   });
   document.addEventListener("visibilitychange", start);
+  readSettings();
+  new ResizeObserver(resize).observe(panel);
   resize();
-  start();
-  requestAnimationFrame(() => canvas.classList.add("is-ready"));
 }

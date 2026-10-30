@@ -5,6 +5,10 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { createApp } from "../../server.mjs";
 
+test.beforeEach(async ({ page }) => {
+  await page.route(/spline\.design/, (route) => route.abort());
+});
+
 test("development refreshes saved HTML, CSS, JavaScript and assets; plain preview waits", async ({
   browser,
 }) => {
@@ -21,8 +25,8 @@ test("development refreshes saved HTML, CSS, JavaScript and assets; plain previe
     once(development, "listening"),
     once(preview, "listening"),
   ]);
-  const page = await browser.newPage();
-  const plain = await browser.newPage();
+  const page = await browser.newPage({ reducedMotion: "reduce" });
+  const plain = await browser.newPage({ reducedMotion: "reduce" });
   const connected = (target) =>
     target.waitForResponse(
       (response) => new URL(response.url()).pathname === "/__dev/events",
@@ -79,9 +83,10 @@ test("development refreshes saved HTML, CSS, JavaScript and assets; plain previe
     await save("assets/white-shirt-cutout.svg", (svg) =>
       svg.replace("<svg ", '<svg width="123" height="123" '),
     );
-    await expect(
-      page.locator('img[src="assets/white-shirt-cutout.svg"]'),
-    ).toHaveJSProperty("naturalWidth", 123);
+    await expect(page.locator(".shirt-image")).toHaveJSProperty(
+      "naturalWidth",
+      123,
+    );
 
     await expect(plain).toHaveTitle(originalTitle);
     await expect(plain.locator('script[src="/__dev/reload.js"]')).toHaveCount(

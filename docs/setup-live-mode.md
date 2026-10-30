@@ -42,12 +42,17 @@ You will create three things: a **Supabase** project (accounts + database), a **
 2. Add a shirt, **Check out**, fill in an address, **Place demo order**.
 3. Your Resend inbox gets the confirmation. In Supabase → **Table Editor** → `orders`, the row is there, priced by the database.
 
-## 5. The 3D shirt (optional, about 5 minutes)
+## 5. The 3D shirt (done — one fix left in Spline)
 
-1. Log in at <https://spline.design>, open **Community**, and search for "t-shirt". Pick a scene you like (a plain white tee fits the brand best) and click **Remix**.
-2. In the editor, select the camera → **Play settings** → turn on **Orbit** so visitors can drag to turn it.
-3. **Export** → **Code Export** → **Viewer / Web Content** → copy the URL ending in `/scene.splinecode`. (The free plan allows a few exports a month.)
-4. Paste it into `splineSceneUrl` in [`public/js/config.js`](../public/js/config.js). The site lazy-loads the 3D shirt and keeps the flat SVG shirt as a fallback for slow connections and reduced-motion settings.
+Your scene (`NxwbTGxwVcrRqPgS`) is already in [`public/js/config.js`](../public/js/config.js), loaded with viewer 2.0.122. The site makes its dark background transparent in code, so you don't need to change that.
+
+**The one thing to fix:** when you drag, the shirt swings off to the side instead of turning in place. The camera orbits around the scene's centre, but the shirt isn't sitting on it. In the Spline editor:
+
+1. Select the shirt and set its **Position** to `0, 0, 0` (right panel → Transform). If the shirt is a group, select the group.
+2. Select the camera → **Play settings** → **Orbit**: keep it on, and turn **Zoom** and **Pan** off. Zoom would fight with page scrolling, and pan lets people drag the shirt out of view.
+3. **Export** → **Code Export** → **Update** (the URL stays the same). Refresh the site to see it.
+
+The "Built with Spline" badge comes with Spline's free plan and can only be removed on a paid plan.
 
 ## If something goes wrong
 

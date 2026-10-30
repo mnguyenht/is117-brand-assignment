@@ -5,6 +5,19 @@ import { placeOrder, requestConfirmation } from "./backend.js";
 import { saveLocalOrder } from "./local-orders.js";
 import { startHeader } from "./site-header.js";
 
+function makeSummaryLine(size, qty) {
+  const item = document.createElement("li");
+  item.className = "summary-line";
+  const image = document.createElement("img");
+  image.src = "assets/white-shirt-cutout.svg";
+  image.alt = "";
+  image.width = 44;
+  image.height = 48;
+  const copy = document.createElement("span");
+  copy.textContent = `White T-shirt · Size ${size} · Quantity ${qty}`;
+  item.append(image, copy);
+  return item;
+}
 const SHIPPING_KEY = "standard-issue:shipping";
 const message = document.querySelector("#payment-message");
 const details = document.querySelector("#payment-details");
@@ -42,9 +55,7 @@ function renderSummary(cartToRender) {
   const lines = document.querySelector("#summary-lines");
   lines.replaceChildren();
   for (const { size, qty } of cartToRender) {
-    const item = document.createElement("li");
-    item.textContent = `White T-shirt · Size ${size} · Quantity ${qty}`;
-    lines.append(item);
+    lines.append(makeSummaryLine(size, qty));
   }
   document.querySelector("#summary-subtotal").textContent = total;
   document.querySelector("#summary-total").textContent = total;
@@ -73,9 +84,7 @@ if (!itemCount(cart)) {
   const total = formatPrice(subtotalCents(cart));
   const lines = document.querySelector("#summary-lines");
   for (const { size, qty } of cart) {
-    const item = document.createElement("li");
-    item.textContent = `White T-shirt · Size ${size} · Quantity ${qty}`;
-    lines.append(item);
+    lines.append(makeSummaryLine(size, qty));
   }
   document.querySelector("#summary-subtotal").textContent = total;
   document.querySelector("#summary-total").textContent = total;

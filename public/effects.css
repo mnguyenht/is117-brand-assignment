@@ -1,74 +1,81 @@
-:root {
-  --intro-tape-ms: 360ms;
-  --intro-stagger-ms: 120ms;
-  --intro-rise-px: 16px;
-  --intro-tag-ms: 640ms;
-  --grid-cell: 48;
-  --grid-speed: 0.2;
-  --grid-line-alpha: 0.07;
-  --grid-glow-alpha: 0.5;
-  --grid-trail: 10;
+﻿:root {
+  --unbox-hold: 180ms;
+  --unbox-ms: 560ms;
+  --enter-stagger: 60ms;
+  --enter-rise: 12px;
+  --enter-start: 0ms;
+  --panel-grid-gap: 9;
+  --panel-grid-dot: 1.2;
+  --panel-grid-alpha: 0.14;
+  --panel-grid-speed: 0.08;
+  --panel-grid-glow: 0.6;
+  --panel-grid-radius: 60;
 }
 
-body {
-  position: relative;
-  isolation: isolate;
-}
-
-#grid-bg {
-  position: fixed;
-  z-index: -1;
+.panel-grid {
+  position: absolute;
+  z-index: 0;
   inset: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 600ms var(--ease-out);
 }
 
-#grid-bg.is-ready {
-  opacity: 1;
+.product-visual.has-panel-grid {
+  background-image: none;
 }
 
-html.intro .site-header {
-  animation: intro-fade 160ms var(--ease-out) backwards;
+.product-visual > :not(.panel-grid) {
+  z-index: 1;
 }
 
-html.intro .product-visual {
-  animation: intro-product 420ms var(--ease-out) 80ms backwards;
+html.unbox::before,
+html.unbox::after {
+  position: fixed;
+  z-index: 1000;
+  right: 0;
+  left: 0;
+  height: 50vh;
+  background: var(--color-paper) var(--texture-kraft);
+  pointer-events: none;
+  content: "";
 }
 
-html.intro .product-information h1 .label-tape {
-  animation: intro-tape var(--intro-tape-ms) var(--ease-out) 180ms backwards;
+html.unbox::before {
+  top: 0;
+  border-bottom: 14px solid var(--color-ink);
+  box-shadow: 0 8px 22px rgb(17 17 17 / 22%);
+  animation: unbox-top var(--unbox-ms) cubic-bezier(0.77, 0, 0.175, 1)
+    var(--unbox-hold) forwards;
 }
 
-html.intro .product-information h1 .label-tape:nth-of-type(2) {
-  animation-delay: calc(180ms + var(--intro-stagger-ms));
+html.unbox::after {
+  bottom: 0;
+  border-top: 14px solid var(--color-ink);
+  box-shadow: 0 -8px 22px rgb(17 17 17 / 22%);
+  animation: unbox-bottom var(--unbox-ms) cubic-bezier(0.77, 0, 0.175, 1)
+    var(--unbox-hold) forwards;
 }
 
-html.intro .product-visual .hang-tag {
-  animation: intro-tag var(--intro-tag-ms)
-    linear(
-      0,
-      0.034 2.3%,
-      0.13 4.7%,
-      0.479 11.7%,
-      0.723 17.3%,
-      0.873 22.4%,
-      0.968 28%,
-      1.024 34.6%,
-      1.044 40%,
-      1.047 45%,
-      1.036 53.4%,
-      1.008 68.6%,
-      0.998 80.4%,
-      1
-    )
-    520ms backwards;
+html.enter .site-header {
+  animation: enter-fade 200ms var(--ease-out) backwards;
 }
 
-html.intro .product-information > :not(h1) {
-  animation: intro-details 300ms var(--ease-out) 560ms backwards;
+html.enter [data-enter] {
+  animation: enter-block 340ms var(--ease-out) backwards;
+  animation-delay: calc(
+    var(--enter-start) + var(--i, 0) * var(--enter-stagger)
+  );
+}
+
+html.enter h1 .label-tape {
+  animation: enter-tape 340ms var(--ease-out) backwards;
+  animation-delay: calc(var(--enter-start) + 120ms);
+}
+
+html.enter .hang-tag {
+  animation: enter-tag 340ms var(--ease-out) backwards;
+  animation-delay: calc(var(--enter-start) + 180ms);
 }
 
 .product-visual spline-viewer {
@@ -204,6 +211,45 @@ html.intro .product-information > :not(h1) {
   padding: var(--space-4);
 }
 
+@keyframes unbox-top {
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes unbox-bottom {
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes enter-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes enter-block {
+  from {
+    translate: 0 var(--enter-rise);
+    opacity: 0;
+  }
+}
+
+@keyframes enter-tape {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+}
+
+@keyframes enter-tag {
+  from {
+    translate: 0 -8px;
+    rotate: -8deg;
+    opacity: 0;
+  }
+}
+
 @media (width <= 700px) {
   .tune-page {
     overflow: auto;
@@ -223,79 +269,16 @@ html.intro .product-information > :not(h1) {
   }
 }
 
-@keyframes intro-fade {
-  0% {
-    opacity: 0;
-  }
-
-  5%,
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes intro-product {
-  0% {
-    translate: 0 var(--intro-rise-px);
-    opacity: 0;
-  }
-
-  5% {
-    opacity: 1;
-  }
-
-  100% {
-    translate: 0 0;
-    opacity: 1;
-  }
-}
-
-@keyframes intro-tape {
-  from {
-    clip-path: inset(0 100% 0 0);
-  }
-
-  to {
-    clip-path: inset(0 0 0 0);
-  }
-}
-
-@keyframes intro-tag {
-  0% {
-    translate: 0 -10px;
-    rotate: -14deg;
-    opacity: 0;
-  }
-
-  5% {
-    opacity: 1;
-  }
-
-  100% {
-    translate: 0 0;
-    rotate: 0deg;
-    opacity: 1;
-  }
-}
-
-@keyframes intro-details {
-  0% {
-    translate: 0 8px;
-    opacity: 0;
-  }
-
-  5% {
-    opacity: 1;
-  }
-
-  100% {
-    translate: 0 0;
-    opacity: 1;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  #grid-bg {
+  html.unbox::before,
+  html.unbox::after,
+  html.enter .site-header,
+  html.enter [data-enter],
+  html.enter h1 .label-tape,
+  html.enter .hang-tag,
+  .product-visual spline-viewer,
+  .shirt-image.has-3d-view {
+    animation: none;
     transition: none;
   }
 }

@@ -1,13 +1,14 @@
-import { CONFIG } from "./config.js";
-
+﻿import { CONFIG } from "./config.js";
 const sceneUrl = CONFIG.splineSceneUrl.trim();
-const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const panel = document.querySelector(".product-visual");
-
 if (sceneUrl && panel) {
   const shirt = panel.querySelector(".shirt-image");
   let loading = false;
-
+  panel.addEventListener("wheel", (event) => event.stopPropagation(), {
+    capture: true,
+    passive: true,
+  });
   function addLoadButton(noteText = "") {
     const button = document.createElement("button");
     button.className = "spline-button";
@@ -28,7 +29,6 @@ if (sceneUrl && panel) {
       panel.append(note);
     }
   }
-
   function loadViewer() {
     if (loading) return;
     loading = true;
@@ -40,13 +40,11 @@ if (sceneUrl && panel) {
     const loader = document.createElement("script");
     loader.type = "module";
     loader.src =
-      "https://unpkg.com/@splinetool/viewer@2.0.85/build/spline-viewer.js";
-    // Subresource Integrity: refuse to run it if the CDN's bytes ever change.
+      "https://cdn.spline.design/@splinetool/viewer@2.0.122/build/spline-viewer.js";
     loader.integrity =
-      "sha384-cKWAMtcouy1GocV1plRuo2lmtlKkvD2obiK7vtOcvmhs+JMKax+Ke70vJOdEiiqC";
+      "sha384-UxGIOjoGfkAIHT0tTRRLMF74vfbaZnCyq8+7jNxOwRZP65RLb8sKZKQXVS/nRKYo";
     loader.crossOrigin = "anonymous";
-    const timeout = setTimeout(fail, 8000);
-
+    const timeout = setTimeout(fail, 20000);
     function fail() {
       clearTimeout(timeout);
       viewer.remove();
@@ -54,12 +52,13 @@ if (sceneUrl && panel) {
       loading = false;
       addLoadButton("3D view couldn't load.");
     }
-
     loader.addEventListener("error", fail, { once: true });
     viewer.addEventListener(
       "load-complete",
       () => {
         clearTimeout(timeout);
+        viewer._spline?.setBackgroundColor?.("transparent");
+        if (viewer._canvas) viewer._canvas.style.touchAction = "pan-y";
         viewer.classList.add("is-ready");
         shirt.classList.add("has-3d-view");
         const label = document.createElement("span");
@@ -72,10 +71,8 @@ if (sceneUrl && panel) {
     panel.append(viewer);
     document.head.append(loader);
   }
-
-  if (reducedMotion) {
-    addLoadButton();
-  } else {
+  if (reduced) addLoadButton();
+  else {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries.some((entry) => entry.isIntersecting)) {

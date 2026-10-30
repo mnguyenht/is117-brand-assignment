@@ -1,6 +1,11 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
+test.beforeEach(async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.route(/spline\.design/, (route) => route.abort());
+});
+
 test("negative: choosing no size explains the problem and keeps the bag empty", async ({
   page,
 }) => {

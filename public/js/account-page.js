@@ -1,7 +1,5 @@
-import { LIVE_MODE } from "./config.js";
-import { formatPrice } from "./cart.js";
-import { initCart } from "./cart-store.js";
-import {
+﻿import {
+  DEMO_ACCOUNTS,
   getUser,
   onAuthChange,
   signIn,
@@ -9,33 +7,37 @@ import {
   signOut,
   loadOrders,
 } from "./backend.js";
+import { formatPrice } from "./cart.js";
+import { initCart } from "./cart-store.js";
 import { listLocalOrders } from "./local-orders.js";
 import { startHeader } from "./site-header.js";
-
 const content = document.querySelector("#account-content");
 const status = document.querySelector("#account-status");
-const next = new URLSearchParams(window.location.search).get("next");
+const next = new URLSearchParams(location.search).get("next");
 const safeNext = /^[a-z-]+\.html$/.test(next ?? "") ? next : null;
-let currentUserId = null;
-
-function announce(text) {
+let currentUserId;
+const heading = (text) => {
+  const element = document.createElement("h2");
+  element.textContent = text;
+  return element;
+};
+const announce = (text) => {
   status.textContent = text;
-}
-
-function focusViewHeading() {
+};
+const focusHeading = () => {
   const title = content.querySelector("h2");
   if (title) {
     title.tabIndex = -1;
     title.focus();
   }
+};
+function demoNotice() {
+  const note = document.createElement("p");
+  note.className = "draft-label account-demo-note";
+  note.textContent =
+    "Demo accounts: your email stays in this browser and your password is never stored or checked. Real accounts switch on later.";
+  return note;
 }
-
-function heading(text) {
-  const element = document.createElement("h2");
-  element.textContent = text;
-  return element;
-}
-
 function orderList(orders) {
   const list = document.createElement("ul");
   list.className = "account-orders";
@@ -54,60 +56,64 @@ function orderList(orders) {
   }
   return list;
 }
-
-function makeAuthForm(kind) {
-  const isSignIn = kind === "signin";
+function makeForm(kind) {
+  const signin = kind === "signin";
   const form = document.createElement("form");
-  const title = heading(isSignIn ? "Sign in." : "Create an account.");
-  const emailLabel = document.createElement("label");
-  const email = document.createElement("input");
-  const passwordLabel = document.createElement("label");
-  const password = document.createElement("input");
-  const button = document.createElement("button");
-  const error = document.createElement("p");
-
   form.className = "store-form auth-form";
+  const title = heading(signin ? "Sign in." : "Create an account.");
+  const emailLabel = document.createElement("label");
   emailLabel.htmlFor = `${kind}-email`;
   emailLabel.textContent = "Email";
-  email.id = `${kind}-email`;
+  const email = document.createElement("input");
+  email.id = emailLabel.htmlFor;
   email.name = "email";
   email.type = "email";
   email.autocomplete = "email";
   email.required = true;
+  const passwordLabel = document.createElement("label");
   passwordLabel.htmlFor = `${kind}-password`;
   passwordLabel.textContent = "Password";
-  password.id = `${kind}-password`;
+  const password = document.createElement("input");
+  password.id = passwordLabel.htmlFor;
   password.name = "password";
   password.type = "password";
-  password.autocomplete = isSignIn ? "current-password" : "new-password";
+  password.autocomplete = signin ? "current-password" : "new-password";
   password.required = true;
-  if (!isSignIn) password.minLength = 6;
+  if (!signin) password.minLength = 6;
+  const button = document.createElement("button");
   button.type = "submit";
   button.className = "button button-primary";
-  button.textContent = isSignIn ? "Sign in" : "Create account";
+  button.textContent = signin ? "Sign in" : "Create account";
+  const error = document.createElement("p");
   error.className = "field-error";
-  error.setAttribute("role", "alert");
+  error.role = "alert";
   error.hidden = true;
-  form.append(title, emailLabel, email, passwordLabel, password, button, error);
-
+  form.append(title, emailLabel, email, passwordLabel, password);
+  if (signin) {
+    const forgot = document.createElement("a");
+    forgot.href = "forgot.html";
+    forgot.textContent = "Forgot your password?";
+    form.append(forgot);
+  }
+  form.append(button, error);
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     error.hidden = true;
     button.disabled = true;
     try {
-      const result = isSignIn
+      const result = signin
         ? await signIn(email.value, password.value)
         : await signUp(email.value, password.value);
-      if (!isSignIn && !result.session) {
+      if (!signin && !result.session) {
         announce("Check your email to confirm your account, then sign in.");
-        focusViewHeading();
-      } else if (safeNext) {
-        window.location.href = safeNext;
-      } else {
-        currentUserId = result.user?.id ?? result.session?.user?.id ?? null;
-        await renderSignedIn(result.user ?? result.session?.user);
+        focusHeading();
+      } else if (safeNext) location.href = safeNext;
+      else {
+        const user = result.user ?? result.session?.user;
+        currentUserId = user?.id;
+        await renderSignedIn(user);
         announce("Signed in.");
-        focusViewHeading();
+        focusHeading();
       }
     } catch (problem) {
       error.textContent = problem.message;
@@ -118,12 +124,15 @@ function makeAuthForm(kind) {
   });
   return form;
 }
-
 async function renderSignedIn(user) {
   const panel = document.createElement("section");
-  const signedIn = document.createElement("p");
+  panel.className = "account-panel shipping-panel";
+  const signed = document.createElement("p");
+  signed.textContent = `Signed in as ${user.email}`;
+  const change = document.createElement("a");
+  change.href = "reset.html";
+  change.textContent = "Change password";
   const button = document.createElement("button");
-  signedIn.textContent = `Signed in as ${user.email}`;
   button.type = "button";
   button.className = "button button-secondary";
   button.textContent = "Sign out";
@@ -132,53 +141,45 @@ async function renderSignedIn(user) {
     currentUserId = null;
     renderSignedOut();
     announce("Signed out.");
-    focusViewHeading();
+    focusHeading();
   });
-  panel.className = "account-panel shipping-panel";
-  panel.append(signedIn, button, heading("Recent orders."));
+  panel.append(
+    heading("Your account."),
+    signed,
+    change,
+    button,
+    heading("Your orders."),
+  );
   try {
-    panel.append(orderList(await loadOrders()));
+    panel.append(
+      orderList(DEMO_ACCOUNTS ? listLocalOrders() : await loadOrders()),
+    );
   } catch (problem) {
     const error = document.createElement("p");
     error.className = "field-error";
-    error.setAttribute("role", "alert");
+    error.role = "alert";
     error.textContent = problem.message;
     panel.append(error);
   }
-  content.replaceChildren(panel);
+  content.replaceChildren(...(DEMO_ACCOUNTS ? [demoNotice(), panel] : [panel]));
 }
-
 function renderSignedOut() {
   const layout = document.createElement("div");
   layout.className = "auth-layout";
-  layout.append(makeAuthForm("signin"), makeAuthForm("signup"));
-  content.replaceChildren(layout);
+  layout.append(makeForm("signin"), makeForm("signup"));
+  content.replaceChildren(
+    ...(DEMO_ACCOUNTS ? [demoNotice(), layout] : [layout]),
+  );
 }
-
-function renderOffline() {
-  const panel = document.createElement("section");
-  const notice = document.createElement("p");
-  panel.className = "account-panel shipping-panel";
-  notice.textContent =
-    "Accounts are switched off in this demo copy. Your bag and orders are saved in this browser.";
-  panel.append(notice, heading("Recent orders."), orderList(listLocalOrders()));
-  content.replaceChildren(panel);
-}
-
 startHeader();
 await initCart();
-if (!LIVE_MODE) {
-  renderOffline();
-} else {
-  const user = await getUser();
-  currentUserId = user?.id ?? null;
-  if (user) await renderSignedIn(user);
+const user = await getUser();
+currentUserId = user?.id;
+if (user) await renderSignedIn(user);
+else renderSignedOut();
+await onAuthChange((changed) => {
+  if (changed?.id === currentUserId) return;
+  currentUserId = changed?.id;
+  if (changed) renderSignedIn(changed);
   else renderSignedOut();
-  await onAuthChange((changedUser) => {
-    const nextUserId = changedUser?.id ?? null;
-    if (nextUserId === currentUserId) return;
-    currentUserId = nextUserId;
-    if (changedUser) renderSignedIn(changedUser);
-    else renderSignedOut();
-  });
-}
+});

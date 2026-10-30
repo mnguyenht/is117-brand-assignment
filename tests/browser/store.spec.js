@@ -1,6 +1,11 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
+test.beforeEach(async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.route(/spline\.design/, (route) => route.abort());
+});
+
 async function reset(page) {
   await page.goto("/");
   await page.evaluate(() => {
@@ -10,6 +15,13 @@ async function reset(page) {
   await page.reload();
 }
 
+async function signInDemo(page) {
+  await page.goto("/account.html");
+  await page.locator("#signin-email").fill("alex@example.com");
+  await page.locator("#signin-password").fill("demo123");
+  await page.getByRole("button", { name: "Sign in", exact: true }).click();
+  await expect(page.getByText("Signed in as alex@example.com")).toBeVisible();
+}
 async function addSize(page, size, times = 1) {
   await page.goto("/");
   await page.locator(`input[name="size"][value="${size}"]`).check();
@@ -20,6 +32,10 @@ async function addSize(page, size, times = 1) {
 
 async function seedStore(page) {
   await page.addInitScript(() => {
+    localStorage.setItem(
+      "standard-issue:demo-user",
+      JSON.stringify({ id: "demo", email: "alex@example.com", demo: true }),
+    );
     localStorage.setItem(
       "standard-issue:cart",
       JSON.stringify([{ size: "M", qty: 1 }]),
@@ -38,9 +54,15 @@ async function seedStore(page) {
 }
 
 async function openRealLayout(page, route) {
-  if (route === "/account.html") {
+  if (["/account.html", "/forgot.html", "/reset.html"].includes(route)) {
     await page.goto(route);
-    return page.locator("#account-content");
+    return page.locator(
+      route === "/account.html"
+        ? "#account-content"
+        : route === "/forgot.html"
+          ? "#forgot-form"
+          : "#reset-form",
+    );
   }
   await seedStore(page);
   if (route === "/order.html") {
@@ -92,7 +114,9 @@ test("negative: a full bag stays unchanged and explains the limit", async ({
 test("positive: complete offline demo order", async ({ page }) => {
   await reset(page);
   await addSize(page, "M", 2);
-  await page.getByRole("link", { name: "Check out" }).click();
+  await signInDemo(page);
+  await page.goto("/#demo-bag");
+  await page.getByRole("link", { name: /Check out/ }).click();
   await page.locator("#fullName").fill("Alex Doe");
   await page.locator("#address").fill("12 Main Street");
   await page.locator("#city").fill("Newark");
@@ -116,6 +140,7 @@ test("negative: empty checkout form shows five errors and focuses name", async (
 }) => {
   await reset(page);
   await addSize(page, "M");
+  await signInDemo(page);
   await page.goto("/checkout.html");
   await page.getByRole("button", { name: "Continue to payment" }).click();
   await expect(page.locator(".field-error:visible")).toHaveCount(5);
@@ -146,7 +171,7 @@ test("account page explains offline accounts", async ({ page }) => {
   await reset(page);
   await page.goto("/account.html");
   await expect(
-    page.getByText("Accounts are switched off in this demo copy.", {
+    page.getByText("Demo accounts: your email stays in this browser", {
       exact: false,
     }),
   ).toBeVisible();
@@ -157,6 +182,8 @@ for (const route of [
   "/payment.html",
   "/order.html",
   "/account.html",
+  "/forgot.html",
+  "/reset.html",
 ]) {
   test(`store page integrity and accessibility: ${route}`, async ({ page }) => {
     await reset(page);
@@ -207,3 +234,51 @@ for (const route of [
     ).toBeTruthy();
   });
 }
+
+test("demo account changes the header and can sign out", async ({ page }) => {
+  await reset(page);
+  await signInDemo(page);
+  await expect(page.locator("#account-link")).toHaveText("Account");
+  await page.getByRole("button", { name: "Sign out" }).click();
+  await expect(page.locator("#account-link")).toHaveText("Sign in");
+});
+
+test("signed-out checkout requires sign in and has no form", async ({
+  page,
+}) => {
+  await reset(page);
+  await addSize(page, "M");
+  await page.goto("/checkout.html");
+  await expect(page.getByText("Sign in to check out.")).toBeVisible();
+  await expect(page.locator("form")).toHaveCount(0);
+});
+
+test("forgot and reset pages explain demo behavior", async ({ page }) => {
+  await reset(page);
+  await page.goto("/forgot.html");
+  await page.locator("#forgot-email").fill("alex@example.com");
+  await page.getByRole("button", { name: "Send reset link" }).click();
+  await expect(page.locator("#forgot-status")).toContainText(
+    "Demo mode: no email is sent",
+  );
+  await page.goto("/reset.html");
+  await page.locator("#new-password").fill("demo123");
+  await page.locator("#confirm-password").fill("different");
+  await page.getByRole("button", { name: "Update password" }).click();
+  await expect(page.locator("#reset-status")).toHaveText(
+    "Passwords must match.",
+  );
+  await page.locator("#confirm-password").fill("demo123");
+  await page.getByRole("button", { name: "Update password" }).click();
+  await expect(page.locator("#reset-status")).toContainText(
+    "Demo mode: nothing was changed.",
+  );
+});
+
+test("bag rows have thumbnails and a live checkout total", async ({ page }) => {
+  await reset(page);
+  await addSize(page, "M", 2);
+  await expect(page.locator("#bag-items img")).toHaveCount(1);
+  await expect(page.locator("#bag-items")).toContainText("Size M · Quantity 2");
+  await expect(page.locator("#checkout-link")).toHaveText("Check out — $56.00");
+});
