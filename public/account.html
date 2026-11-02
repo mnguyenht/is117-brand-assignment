@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="intro-gate.js"></script>
     <meta
       name="description"
       content="Account and orders for the Standard Issue demo store."
@@ -14,7 +15,6 @@
     <link rel="stylesheet" href="effects.css" />
   </head>
   <body>
-    <canvas id="grid-bg" aria-hidden="true"></canvas>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header wrap">
       <a
@@ -26,8 +26,8 @@
           class="wordmark"
           src="assets/standard-issue-wordmark.svg"
           alt="Standard Issue"
-          width="175"
-          height="30"
+          width="210"
+          height="36"
         />
       </a>
       <nav class="main-nav" aria-label="Main navigation">
@@ -52,8 +52,6 @@
       >
     </header>
     <main id="main" class="store-page wrap">
-      <p class="eyebrow">Account</p>
-      <h1><span class="label-tape">Your account.</span></h1>
       <p id="account-status" role="status"></p>
       <div id="account-content"></div>
     </main>
@@ -74,6 +72,5 @@
       >
     </footer>
     <script type="module" src="js/account-page.js"></script>
-    <script type="module" src="js/grid-bg.js"></script>
   </body>
 </html>

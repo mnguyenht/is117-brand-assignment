@@ -1,62 +1,119 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
-test("default config does not load Spline", async ({ page }) => {
-  const unpkgRequests = [];
-  page.on("request", (request) => {
-    if (request.url().startsWith("https://unpkg.com")) {
-      unpkgRequests.push(request.url());
-    }
-  });
+test.beforeEach(async ({ page }) => {
+  await page.route(/spline\.design/, (route) => route.abort());
+});
+
+test("the shop shows the flat shirt and never requests the 3D viewer", async ({
+  page,
+}) => {
+  const requests = [];
+  page.on("request", (request) => requests.push(request.url()));
   await page.goto("/");
+  await page.waitForLoadState("load");
+  await expect(page.locator(".shirt-image")).toBeVisible();
   await expect(page.locator("spline-viewer")).toHaveCount(0);
-  expect(unpkgRequests).toEqual([]);
+  expect(requests.filter((url) => url.includes("spline.design"))).toEqual([]);
 });
 
-test("grid is decorative and does not block the shop", async ({ page }) => {
-  await page.goto("/");
-  const grid = page.locator("#grid-bg");
-  await expect(grid).toHaveAttribute("aria-hidden", "true");
-  await expect(grid).toHaveCSS("pointer-events", "none");
-  await page.locator('input[name="size"][value="M"]').check();
-  await page.getByRole("button", { name: "Add to demo bag" }).click();
-  await expect(page.locator("#bag-count")).toHaveText("1");
-});
-
-test("grid canvas stays viewport-sized at high device scale", async ({
+test("only the product panel gets a decorative high-DPI grid", async ({
   browser,
 }) => {
   const context = await browser.newContext({
     deviceScaleFactor: 2,
-    viewport: { width: 800, height: 600 },
+    reducedMotion: "reduce",
+    viewport: { width: 800, height: 900 },
   });
   const page = await context.newPage();
+  await page.route(/spline\.design/, (route) => route.abort());
   await page.goto("/");
-  const box = await page.locator("#grid-bg").boundingBox();
-  expect(box).toEqual({ x: 0, y: 0, width: 800, height: 600 });
+  await expect(page.locator("#grid-bg")).toHaveCount(0);
+  const canvas = page.locator(".product-visual > .panel-grid");
+  await expect(canvas).toHaveAttribute("aria-hidden", "true");
+  const panelBox = await page.locator(".product-visual").boundingBox();
+  const canvasBox = await canvas.boundingBox();
+  expect(canvasBox).toEqual(panelBox);
   await context.close();
 });
 
-test("reduced motion skips the intro", async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/");
-  await expect(page.locator("html")).not.toHaveClass(/intro/);
-});
-
-test("intro runs once per session", async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.goto("/");
-  await expect(page.locator("html")).toHaveClass(/intro/);
-  await page.reload();
-  await expect(page.locator("html")).not.toHaveClass(/intro/);
-});
-
-test("local tuning page has nine controls and is axe clean", async ({
+test("the panel grid stops painting while scrolled off-screen", async ({
   page,
 }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/");
+  const canvas = page.locator(".panel-grid");
+  const snapshot = () => canvas.evaluate((element) => element.toDataURL());
+  const visibleBefore = await snapshot();
+  await page.waitForTimeout(400);
+  const visibleAfter = await snapshot();
+  expect(visibleAfter).not.toBe(visibleBefore);
+
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await expect
+    .poll(() =>
+      page.locator(".product-visual").evaluate((element) => {
+        const box = element.getBoundingClientRect();
+        return box.bottom <= 0 || box.top >= window.innerHeight;
+      }),
+    )
+    .toBe(true);
+  await page.waitForTimeout(100);
+  const hiddenBefore = await snapshot();
+  await page.waitForTimeout(400);
+  const hiddenAfter = await snapshot();
+  expect(hiddenAfter).toBe(hiddenBefore);
+});
+
+test("no page has the retired page-wide grid", async ({ page }) => {
+  for (const route of [
+    "/",
+    "/checkout.html",
+    "/payment.html",
+    "/order.html",
+    "/account.html",
+    "/forgot.html",
+    "/reset.html",
+    "/styleguide.html",
+  ]) {
+    await page.goto(route);
+    await expect(page.locator("#grid-bg")).toHaveCount(0);
+  }
+});
+
+test("unboxing runs once in a tab and heading becomes visible", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.addInitScript(() => {
+    sessionStorage.setItem(
+      "si:tune-overrides",
+      JSON.stringify({ "--unbox-hold": "5000ms" }),
+    );
+  });
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveClass(/unbox/);
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible({
+    timeout: 2000,
+  });
+  await page.reload();
+  await expect(page.locator("html")).not.toHaveClass(/unbox/);
+});
+
+test("reduced motion never adds intro classes", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await expect(page.locator("html")).not.toHaveClass(/unbox|enter/);
+});
+
+test("local tuning page has ten controls and is axe clean", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/tune.html");
   await expect(page.getByTitle("Shop preview")).toBeVisible();
-  await expect(page.locator('input[type="range"]')).toHaveCount(9);
+  await expect(page.locator('input[type="range"]')).toHaveCount(10);
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
     .analyze();

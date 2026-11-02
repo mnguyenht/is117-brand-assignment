@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="intro-gate.js"></script>
     <meta
       name="description"
       content="Checkout for the Standard Issue demo store."
@@ -14,7 +15,6 @@
     <link rel="stylesheet" href="effects.css" />
   </head>
   <body>
-    <canvas id="grid-bg" aria-hidden="true"></canvas>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header wrap">
       <a
@@ -26,8 +26,8 @@
           class="wordmark"
           src="assets/standard-issue-wordmark.svg"
           alt="Standard Issue"
-          width="175"
-          height="30"
+          width="210"
+          height="36"
         />
       </a>
       <nav class="main-nav" aria-label="Main navigation">
@@ -45,8 +45,15 @@
         >Demo bag <span id="bag-count" class="bag-count">0</span></a
       >
     </header>
-    <main id="main" class="store-page wrap">
+    <main id="main" class="store-page checkout-page wrap">
       <p class="eyebrow">Demo checkout</p>
+      <nav class="checkout-progress" aria-label="Checkout progress">
+        <ol class="checkout-steps">
+          <li aria-current="step">Shipping</li>
+          <li>Payment</li>
+          <li>Done</li>
+        </ol>
+      </nav>
       <h1><span class="label-tape">Checkout.</span></h1>
       <div id="checkout-content" class="checkout-layout">
         <section id="checkout-message" class="shipping-panel" hidden></section>
@@ -74,25 +81,27 @@
             ></textarea>
             <p id="address-error" class="field-error" hidden></p>
           </div>
-          <div class="field">
-            <label for="city">City</label>
-            <input
-              type="text"
-              id="city"
-              name="city"
-              autocomplete="address-level2"
-            />
-            <p id="city-error" class="field-error" hidden></p>
-          </div>
-          <div class="field">
-            <label for="postalCode">Postal code</label>
-            <input
-              type="text"
-              id="postalCode"
-              name="postalCode"
-              autocomplete="postal-code"
-            />
-            <p id="postalCode-error" class="field-error" hidden></p>
+          <div class="field-row">
+            <div class="field">
+              <label for="city">City</label>
+              <input
+                type="text"
+                id="city"
+                name="city"
+                autocomplete="address-level2"
+              />
+              <p id="city-error" class="field-error" hidden></p>
+            </div>
+            <div class="field">
+              <label for="postalCode">Postal code</label>
+              <input
+                type="text"
+                id="postalCode"
+                name="postalCode"
+                autocomplete="postal-code"
+              />
+              <p id="postalCode-error" class="field-error" hidden></p>
+            </div>
           </div>
           <div class="field">
             <label for="country">Country</label>
@@ -149,6 +158,5 @@
       >
     </footer>
     <script type="module" src="js/checkout-page.js"></script>
-    <script type="module" src="js/grid-bg.js"></script>
   </body>
 </html>

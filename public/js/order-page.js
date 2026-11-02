@@ -5,6 +5,19 @@ import { loadOrder } from "./backend.js";
 import { getLocalOrder } from "./local-orders.js";
 import { startHeader } from "./site-header.js";
 
+function makeSummaryLine(size, qty) {
+  const item = document.createElement("li");
+  item.className = "summary-line";
+  const image = document.createElement("img");
+  image.src = "assets/white-shirt-cutout.svg";
+  image.alt = "";
+  image.width = 44;
+  image.height = 48;
+  const copy = document.createElement("span");
+  copy.textContent = `White T-shirt · Size ${size} · Quantity ${qty}`;
+  item.append(image, copy);
+  return item;
+}
 const id = new URLSearchParams(window.location.search).get("id");
 const message = document.querySelector("#order-message");
 const details = document.querySelector("#order-details");
@@ -52,9 +65,7 @@ if (!order) {
     .toUpperCase();
   const lines = document.querySelector("#order-lines");
   for (const { size, qty } of order.items) {
-    const item = document.createElement("li");
-    item.textContent = `White T-shirt · Size ${size} · Quantity ${qty}`;
-    lines.append(item);
+    lines.append(makeSummaryLine(size, qty));
   }
   const total = formatPrice(order.subtotal_cents);
   document.querySelector("#order-subtotal").textContent = total;

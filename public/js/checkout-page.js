@@ -1,10 +1,22 @@
-import { LIVE_MODE } from "./config.js";
 import { itemCount, subtotalCents, formatPrice } from "./cart.js";
 import { initCart, getCart } from "./cart-store.js";
 import { getUser } from "./backend.js";
 import { validateShipping, SHIPPING_FIELDS } from "./checkout-rules.js";
 import { startHeader } from "./site-header.js";
 
+function makeSummaryLine(size, qty) {
+  const item = document.createElement("li");
+  item.className = "summary-line";
+  const image = document.createElement("img");
+  image.src = "assets/white-shirt-cutout.svg";
+  image.alt = "";
+  image.width = 44;
+  image.height = 48;
+  const copy = document.createElement("span");
+  copy.textContent = `White T-shirt · Size ${size} · Quantity ${qty}`;
+  item.append(image, copy);
+  return item;
+}
 const SHIPPING_KEY = "standard-issue:shipping";
 const form = document.querySelector("#shipping-form");
 const summary = document.querySelector("#order-summary");
@@ -32,9 +44,7 @@ function renderSummary(cart) {
   const lines = document.querySelector("#summary-lines");
   lines.replaceChildren();
   for (const { size, qty } of cart) {
-    const item = document.createElement("li");
-    item.textContent = `White T-shirt · Size ${size} · Quantity ${qty}`;
-    lines.append(item);
+    lines.append(makeSummaryLine(size, qty));
   }
   const price = formatPrice(subtotalCents(cart));
   document.querySelector("#summary-subtotal").textContent = price;
@@ -46,7 +56,7 @@ await initCart();
 const cart = getCart();
 if (!itemCount(cart)) {
   showMessage("Your bag is empty.", "index.html", "Back to the shop");
-} else if (LIVE_MODE && !(await getUser())) {
+} else if (!(await getUser())) {
   showMessage(
     "Sign in to check out.",
     "account.html?next=checkout.html",

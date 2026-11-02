@@ -218,13 +218,21 @@ p + p {
 }
 
 .brand-link {
+  position: relative;
   display: inline-block;
   flex-shrink: 0;
 }
 
+.brand-link::before {
+  position: absolute;
+  inset: -0.4rem 0;
+  content: "";
+}
+
 .wordmark {
-  width: 175px; /* 30px tall: the smallest size the stamp stays legible */
+  width: 210px;
   height: auto;
+  transform: rotate(-2.5deg);
 }
 
 .main-nav {
@@ -237,8 +245,29 @@ p + p {
 
 .nav-link,
 .bag-link {
+  position: relative;
   text-decoration: none;
   font-size: 0.8rem;
+}
+
+.nav-link::before,
+.bag-link::before,
+.text-button::before {
+  position: absolute;
+  z-index: 1;
+  content: "";
+}
+
+.nav-link::before {
+  inset: -0.55rem 0 0;
+}
+
+.text-button::before {
+  inset: -0.25rem 0;
+}
+
+.bag-link::before {
+  inset: -0.625rem 0;
 }
 
 .nav-link {
@@ -431,8 +460,10 @@ legend {
   color: var(--color-paper);
 }
 
-.size-option input:hover + span {
-  border-color: var(--color-ink);
+@media (hover: hover) and (pointer: fine) {
+  .size-option input:hover + span {
+    border-color: var(--color-ink);
+  }
 }
 
 .size-option input:focus-visible + span {
@@ -490,18 +521,20 @@ legend {
   color: var(--color-paper);
 }
 
-.button-primary:hover {
-  background: var(--color-accent);
-  color: var(--color-ink);
-}
-
 .button-secondary {
   background: transparent;
   color: var(--color-ink);
 }
 
-.button-secondary:hover {
-  background: var(--color-soft);
+@media (hover: hover) and (pointer: fine) {
+  .button-primary:hover {
+    background: var(--color-accent);
+    color: var(--color-ink);
+  }
+
+  .button-secondary:hover {
+    background: var(--color-soft);
+  }
 }
 
 .add-button {
@@ -533,20 +566,22 @@ legend {
   transform: rotate(-3deg);
   transition:
     opacity var(--motion-base) var(--ease-out),
-    transform var(--motion-base) var(--ease-out);
+    translate var(--motion-base) var(--ease-out);
 }
 
 /* Entry: runs when the `hidden` attribute is removed. */
 @starting-style {
   .add-confirm {
     opacity: 0;
-    transform: translateY(4px) rotate(-3deg);
+    translate: 0 4px;
   }
 }
 
+/* Leaving is slower than arriving so the fade can actually be seen. */
 .add-confirm.is-leaving {
   opacity: 0;
-  transition-duration: var(--motion-fast);
+  translate: 0 -6px;
+  transition-duration: 260ms;
 }
 
 /* The header count gets a brief price-sticker highlight, no movement. */
@@ -788,6 +823,7 @@ legend {
 }
 
 .text-button {
+  position: relative;
   padding: 0.5rem 0;
   border: 0;
   background: transparent;
@@ -808,7 +844,7 @@ legend {
 
 .starter-next {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.5rem 3rem;
 
   /* About box as a shipping label: white stock, heavy double rule. */
@@ -1272,6 +1308,10 @@ legend {
 }
 
 @media (width <= 760px) {
+  .wordmark {
+    width: 190px;
+  }
+
   .wrap {
     width: calc(100% - 2.5rem);
   }
@@ -1595,5 +1635,110 @@ legend {
   *::after {
     transition: none !important;
     animation: none !important;
+  }
+
+  .add-confirm,
+  .add-confirm.is-leaving {
+    translate: none !important;
+    transition: opacity 200ms ease !important;
+  }
+
+  @starting-style {
+    .add-confirm {
+      opacity: 0;
+      translate: none !important;
+    }
+  }
+}
+
+/* Page-specific compositions */
+.bag-section {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  gap: var(--space-4);
+  text-align: center;
+}
+
+.bag-section .bag-details {
+  width: min(100%, 30rem);
+  text-align: left;
+}
+
+.starter-next h2 {
+  font-size: clamp(2.6rem, 6vw, 4.5rem);
+}
+
+.starter-next > .starter-next-row {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  max-width: none;
+  flex-wrap: wrap;
+}
+
+.starter-next-row p {
+  max-width: 40ch;
+}
+
+.starter-next-row .button {
+  margin-top: 0;
+}
+
+.guide-page .page-hero {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+}
+
+.guide-page .page-hero h1 {
+  grid-column: 1 / -1;
+}
+
+.guide-page .page-hero .hero-summary {
+  max-width: 46ch;
+}
+
+.guide-page .guide-section {
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: var(--space-3);
+}
+
+.guide-page .section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.guide-page .section-heading .section-number {
+  margin-bottom: 0;
+}
+
+.guide-page .section-heading p {
+  max-width: 32ch;
+  margin: 0 0 0 auto;
+  text-align: right;
+}
+
+.guide-page .guide-content {
+  width: 100%;
+}
+
+@media (width <= 760px) {
+  .starter-next > .starter-next-row {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .guide-page .section-heading {
+    align-items: start;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .guide-page .section-heading p {
+    margin-left: 0;
+    text-align: left;
   }
 }

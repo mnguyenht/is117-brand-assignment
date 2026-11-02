@@ -7,3 +7,5 @@ test-results/
 !.env.example
 *.log
 .vercel
+.claude/
+handoff.md

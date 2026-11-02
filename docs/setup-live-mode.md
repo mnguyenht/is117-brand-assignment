@@ -38,16 +38,13 @@ You will create three things: a **Supabase** project (accounts + database), a **
 
 ## 4. Try it
 
-1. Open the site → **Account** → create an account (any email + a 6+ character password).
+1. Open the site → **Sign in** → **Create an account** (any email + a 6+ character password).
 2. Add a shirt, **Check out**, fill in an address, **Place demo order**.
 3. Your Resend inbox gets the confirmation. In Supabase → **Table Editor** → `orders`, the row is there, priced by the database.
 
-## 5. The 3D shirt (optional, about 5 minutes)
+## 5. The 3D shirt (removed)
 
-1. Log in at <https://spline.design>, open **Community**, and search for "t-shirt". Pick a scene you like (a plain white tee fits the brand best) and click **Remix**.
-2. In the editor, select the camera → **Play settings** → turn on **Orbit** so visitors can drag to turn it.
-3. **Export** → **Code Export** → **Viewer / Web Content** → copy the URL ending in `/scene.splinecode`. (The free plan allows a few exports a month.)
-4. Paste it into `splineSceneUrl` in [`public/js/config.js`](../public/js/config.js). The site lazy-loads the 3D shirt and keeps the flat SVG shirt as a fallback for slow connections and reduced-motion settings.
+The Spline 3D shirt was taken out on 2026-10-30 at your request (the drag controls misbehaved and it was too laggy). The shop shows the flat SVG shirt, so there is nothing to set up in Spline.
 
 ## If something goes wrong
 

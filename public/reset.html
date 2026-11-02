@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="intro-gate.js"></script>
+    <meta
+      name="description"
+      content="Choose a new Standard Issue demo store password."
+    />
+    <title>Choose a new password — Standard Issue</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="store.css" />
+    <link rel="stylesheet" href="effects.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a
+        class="brand-link"
+        href="index.html"
+        aria-label="Standard Issue storefront home"
+        ><img
+          class="wordmark"
+          src="assets/standard-issue-wordmark.svg"
+          alt="Standard Issue"
+          width="210"
+          height="36"
+      /></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a class="nav-link" href="index.html">Shop</a
+        ><a class="nav-link" href="styleguide.html">Style guide</a
+        ><a class="nav-link" href="studio.html"
+          >Studio <span aria-hidden="true">↗</span></a
+        ><a id="account-link" class="nav-link" href="account.html">Sign in</a>
+      </nav>
+      <a
+        class="bag-link"
+        href="index.html#demo-bag"
+        aria-label="Demo bag, 0 items"
+        >Demo bag <span id="bag-count" class="bag-count">0</span></a
+      >
+    </header>
+    <main id="main" class="store-page wrap">
+      <div class="auth-shell">
+        <section class="auth-card">
+          <h1>Choose a new password</h1>
+          <section id="reset-message" class="shipping-panel" hidden>
+            <p>This reset link has expired or was already used.</p>
+            <a href="forgot.html">Request another reset link</a>
+          </section>
+          <form id="reset-form" class="store-form auth-form" novalidate>
+            <label for="new-password">New password</label>
+            <input
+              id="new-password"
+              name="password"
+              type="password"
+              autocomplete="new-password"
+              minlength="6"
+              required
+            />
+            <label for="confirm-password">Confirm new password</label>
+            <input
+              id="confirm-password"
+              name="confirm"
+              type="password"
+              autocomplete="new-password"
+              minlength="6"
+              required
+            />
+            <button class="button button-primary auth-submit" type="submit">
+              Update password
+            </button>
+            <p id="reset-status" role="status" tabindex="-1"></p>
+          </form>
+          <p class="auth-switch">
+            <a href="account.html">Back to sign in</a>
+          </p>
+        </section>
+        <p id="demo-accounts" class="account-demo-note" hidden>
+          Demo accounts: your email stays in this browser and your password is
+          never stored or checked. Real accounts switch on later.
+        </p>
+      </div>
+    </main>
+    <aside class="starter-notice" aria-label="Demo information">
+      <span
+        ><strong>Demo store.</strong> A classroom project with fictional product
+        data. Nothing is sold here.</span
+      ><a href="studio.html">Studio brief <span aria-hidden="true">↗</span></a>
+    </aside>
+    <footer class="site-footer wrap">
+      <p>
+        Standard Issue <span class="footer-separator"> / </span> IS117 Brand
+        Studio demo
+      </p>
+      <a href="https://github.com/kaw393939/is117-brand-studio#readme"
+        >Project README <span aria-hidden="true">↗</span></a
+      >
+    </footer>
+    <script type="module" src="js/reset-page.js"></script>
+  </body>
+</html>
