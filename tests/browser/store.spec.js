@@ -108,9 +108,10 @@ test("positive: placing the order is a separate confirm step", async ({
   await seedStore(page);
   await page.goto("/payment.html");
   await expect(
-    page.getByRole("heading", { name: "Confirm your order." }),
+    page.getByRole("heading", { level: 1, name: "Almost there." }),
   ).toBeVisible();
   await expect(page.locator(".confirm-order #place-order")).toHaveCount(1);
+  await expect(page.locator(".demo-card")).toHaveCount(0);
 });
 test("positive: a size stays in the bag after reload", async ({ page }) => {
   await reset(page);
@@ -239,7 +240,7 @@ test("positive: each checkout step marks where the shopper is", async ({
   await expect(page.locator('[aria-current="step"]')).toHaveText("Shipping");
 
   await page.goto("/payment.html");
-  await expect(page.locator('[aria-current="step"]')).toHaveText("Payment");
+  await expect(page.locator('[aria-current="step"]')).toHaveText("Review");
   await page.locator("#place-order").click();
 
   await expect(page).toHaveURL(/order\.html\?id=/);
