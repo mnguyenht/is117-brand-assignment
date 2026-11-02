@@ -63,6 +63,9 @@ if (!itemCount(cart)) {
     "Go to sign in",
   );
 } else {
+  // Hidden in the HTML so signed-out visitors never see a flash of the form.
+  form.hidden = false;
+  summary.hidden = false;
   renderSummary(cart);
   try {
     const saved = JSON.parse(sessionStorage.getItem(SHIPPING_KEY) ?? "null");

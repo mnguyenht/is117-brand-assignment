@@ -36,14 +36,17 @@
         <a class="nav-link" href="studio.html"
           >Studio <span aria-hidden="true">↗</span></a
         >
-        <a id="account-link" class="nav-link" href="account.html">Account</a>
       </nav>
-      <a
-        class="bag-link"
-        href="index.html#demo-bag"
-        aria-label="Demo bag, 0 items"
-        >Demo bag <span id="bag-count" class="bag-count">0</span></a
-      >
+      <div class="header-actions">
+        <a id="account-link" class="nav-link" href="account.html">Account</a>
+        <a
+          class="bag-link"
+          href="index.html#demo-bag"
+          aria-label="Demo bag, 0 items"
+          ><span class="bag-label">Demo bag</span>
+          <span id="bag-count" class="bag-count">0</span></a
+        >
+      </div>
     </header>
     <main id="main" class="store-page payment-page wrap">
       <p class="eyebrow checkout-eyebrow">Demo payment</p>
@@ -57,15 +60,15 @@
       <h1><span class="label-tape">Payment.</span></h1>
       <div id="payment-content" class="payment-column">
         <section id="payment-message" class="shipping-panel" hidden></section>
-        <div id="payment-details">
+        <div id="payment-details" hidden>
           <section class="demo-card" aria-labelledby="card-title">
             <p id="card-title" class="demo-card-sticker">Demo</p>
             <p class="card-number">4242 4242 4242 4242</p>
             <p>12/34</p>
-            <p>
-              Nothing is charged. This store never asks for real card details.
-            </p>
           </section>
+          <p class="demo-card-note">
+            Nothing is charged. This store never asks for real card details.
+          </p>
           <section
             id="order-summary"
             class="summary-receipt"
@@ -95,9 +98,15 @@
             </div>
             <div id="shipping-address"></div>
           </section>
-          <button id="place-order" class="button button-primary" type="button">
-            Place demo order
-          </button>
+          <section class="confirm-order" aria-labelledby="confirm-title">
+            <h2 id="confirm-title">Confirm your order.</h2>
+            <p class="confirm-note">
+              Check the summary and address above. Nothing is charged.
+            </p>
+            <button id="place-order" class="button place-order" type="button">
+              Place demo order
+            </button>
+          </section>
           <p
             id="payment-status"
             class="visually-hidden-or-help"

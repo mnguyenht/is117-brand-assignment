@@ -17,8 +17,12 @@ test("development refreshes saved HTML, CSS, JavaScript and assets; plain previe
   await cp(new URL("../../public/", import.meta.url), publicRoot, {
     recursive: true,
   });
-  const development = createApp({ publicRoot, development: true });
-  const preview = createApp({ publicRoot });
+  const development = createApp({
+    publicRoot,
+    development: true,
+    offline: true,
+  });
+  const preview = createApp({ publicRoot, offline: true });
   development.listen(0, "127.0.0.1");
   preview.listen(0, "127.0.0.1");
   await Promise.all([
