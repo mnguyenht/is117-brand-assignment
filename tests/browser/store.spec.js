@@ -160,7 +160,7 @@ test("positive: complete offline demo order", async ({ page }) => {
   await page.getByRole("button", { name: "Continue to payment" }).click();
   await expect(page).toHaveURL(/payment\.html$/);
   await expect(page.locator("input, select, textarea")).toHaveCount(0);
-  await page.getByRole("button", { name: "Place demo order — $56.00" }).click();
+  await page.getByRole("button", { name: "Place demo order · $56.00" }).click();
   await expect(page).toHaveURL(/order\.html\?id=/);
   await expect(page.locator("#order-number")).toHaveText(/^[A-F0-9]{8}$/);
   await expect(page.locator("#order-total")).toContainText("$56.00");
@@ -431,5 +431,5 @@ test("bag rows have thumbnails and a live checkout total", async ({ page }) => {
   await addSize(page, "M", 2);
   await expect(page.locator("#bag-items img")).toHaveCount(1);
   await expect(page.locator("#bag-items")).toContainText("Size M · Quantity 2");
-  await expect(page.locator("#checkout-link")).toHaveText("Check out — $56.00");
+  await expect(page.locator("#checkout-link")).toHaveText("Check out · $56.00");
 });

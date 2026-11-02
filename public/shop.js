@@ -91,7 +91,7 @@ if (form) {
     const total = formatPrice(subtotalCents(cart));
     bagSubtotal.textContent = `Subtotal ${total}`;
     bagSubtotal.hidden = count === 0;
-    checkoutLink.textContent = `Check out — ${total}`;
+    checkoutLink.textContent = `Check out · ${total}`;
     checkoutLink.hidden = count === 0;
   };
   window.addEventListener("cart:change", (event) => renderBag(event.detail));

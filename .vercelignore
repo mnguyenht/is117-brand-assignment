@@ -3,6 +3,9 @@
 # it into a function and routes "/" to it.
 server.mjs
 dev-reload.mjs
+# Local-only tuning page.
+public/tune.html
+public/js/tune.js
 tests
 docs
 supabase

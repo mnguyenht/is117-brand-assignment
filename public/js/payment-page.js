@@ -59,7 +59,7 @@ function renderSummary(cartToRender) {
   }
   document.querySelector("#summary-subtotal").textContent = total;
   document.querySelector("#summary-total").textContent = total;
-  if (!button.disabled) button.textContent = `Place demo order — ${total}`;
+  if (!button.disabled) button.textContent = `Place demo order · ${total}`;
 }
 
 startHeader();
@@ -91,7 +91,7 @@ if (!itemCount(cart)) {
   document.querySelector("#summary-subtotal").textContent = total;
   document.querySelector("#summary-total").textContent = total;
   addAddress(document.querySelector("#shipping-address"), shipping);
-  button.textContent = `Place demo order — ${total}`;
+  button.textContent = `Place demo order · ${total}`;
 
   window.addEventListener("cart:change", () => renderSummary(getCart()));
   window.addEventListener("pageshow", (event) => {
