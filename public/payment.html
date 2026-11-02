@@ -8,7 +8,7 @@
       name="description"
       content="Demo payment for the Standard Issue store."
     />
-    <title>Payment — Standard Issue</title>
+    <title>Review your order — Standard Issue</title>
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="store.css" />
@@ -49,26 +49,19 @@
       </div>
     </header>
     <main id="main" class="store-page payment-page wrap">
-      <p class="eyebrow checkout-eyebrow">Demo payment</p>
+      <p class="eyebrow checkout-eyebrow">Demo checkout</p>
       <nav class="checkout-progress" aria-label="Checkout progress">
         <ol class="checkout-steps">
           <li>Shipping</li>
-          <li aria-current="step">Payment</li>
+          <li aria-current="step">Review</li>
           <li>Done</li>
         </ol>
       </nav>
-      <h1><span class="label-tape">Payment.</span></h1>
+      <h1><span class="label-tape">Almost there.</span></h1>
+      <p class="page-lede">Check your order, then place it below.</p>
       <div id="payment-content" class="payment-column">
         <section id="payment-message" class="shipping-panel" hidden></section>
         <div id="payment-details" hidden>
-          <section class="demo-card" aria-labelledby="card-title">
-            <p id="card-title" class="demo-card-sticker">Demo</p>
-            <p class="card-number">4242 4242 4242 4242</p>
-            <p>12/34</p>
-          </section>
-          <p class="demo-card-note">
-            Nothing is charged. This store never asks for real card details.
-          </p>
           <section
             id="order-summary"
             class="summary-receipt"
@@ -98,14 +91,13 @@
             </div>
             <div id="shipping-address"></div>
           </section>
-          <section class="confirm-order" aria-labelledby="confirm-title">
-            <h2 id="confirm-title">Confirm your order.</h2>
-            <p class="confirm-note">
-              Check the summary and address above. Nothing is charged.
-            </p>
+          <section class="confirm-order" aria-label="Place your order">
             <button id="place-order" class="button place-order" type="button">
               Place demo order
             </button>
+            <p class="confirm-note">
+              Nothing is charged. This is a demo store.
+            </p>
           </section>
           <p
             id="payment-status"
