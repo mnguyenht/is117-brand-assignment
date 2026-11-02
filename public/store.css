@@ -145,13 +145,30 @@
   flex: none;
 }
 
+/* Shaped like a real card (ID-1 ratio): number low in the middle, expiry
+   under it, sticker in the corner, disclaimer outside as a caption. */
 .demo-card {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--space-1);
+  justify-self: center;
+  width: min(100%, 22rem);
+  aspect-ratio: 1.586;
   margin-bottom: var(--space-4);
   border: 2px solid var(--color-ink);
+  border-radius: 0.6rem;
   background: var(--color-white);
-  padding: var(--space-4);
+  padding: var(--space-3);
   font-family: var(--font-mono);
+}
+
+.demo-card-note {
+  margin-top: calc(-1 * var(--space-2));
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  text-align: center;
 }
 
 .demo-card-sticker {
@@ -168,8 +185,8 @@
 }
 
 .card-number {
-  margin-block: var(--space-5) var(--space-2);
-  font-size: clamp(1.05rem, 4vw, 1.7rem);
+  margin: 0;
+  font-size: clamp(1rem, 4.5vw, 1.3rem);
   letter-spacing: 0.06em;
 }
 
@@ -181,8 +198,51 @@
   margin-top: 0.3rem;
 }
 
-#place-order {
+.confirm-order {
+  margin-top: var(--space-2);
+  border-top: 2px solid var(--color-ink);
+  padding-top: var(--space-3);
+}
+
+.confirm-order h2 {
+  font-size: 1.4rem;
+}
+
+.confirm-note {
+  margin-block: var(--space-2) var(--space-3);
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+.place-order {
   width: 100%;
+  min-height: 4rem;
+  justify-content: center;
+  border: 2px solid var(--color-ink);
+  background: var(--color-accent);
+  color: var(--color-ink);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.place-order:active {
+  transform: scale(var(--press-scale));
+}
+
+.place-order:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+.place-order:disabled {
+  opacity: 0.6;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .place-order:hover {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
 }
 
 #payment-error {
@@ -301,9 +361,25 @@
   gap: var(--space-3);
 }
 
-.account-receipt {
-  max-width: 52rem;
+.account-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
   margin-top: var(--space-4);
+}
+
+.account-receipt {
+  width: 100%;
+  max-width: 52rem;
+}
+
+.account-aside {
+  width: 100%;
+}
+
+.account-aside .button {
+  width: 100%;
+  justify-content: center;
 }
 
 .account-orders a {
@@ -653,6 +729,23 @@
 }
 
 @media (width >= 900px) {
+  .account-body {
+    grid-template-columns: minmax(0, 52rem) 1fr;
+    gap: var(--space-5);
+    align-items: start;
+  }
+
+  .account-aside {
+    position: sticky;
+    top: var(--space-4);
+    width: auto;
+    justify-self: end;
+  }
+
+  .account-aside .button {
+    width: auto;
+  }
+
   .checkout-page .checkout-layout {
     grid-template-columns: minmax(0, 1fr) 22rem;
   }

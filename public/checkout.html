@@ -36,14 +36,17 @@
         <a class="nav-link" href="studio.html"
           >Studio <span aria-hidden="true">↗</span></a
         >
-        <a id="account-link" class="nav-link" href="account.html">Account</a>
       </nav>
-      <a
-        class="bag-link"
-        href="index.html#demo-bag"
-        aria-label="Demo bag, 0 items"
-        >Demo bag <span id="bag-count" class="bag-count">0</span></a
-      >
+      <div class="header-actions">
+        <a id="account-link" class="nav-link" href="account.html">Account</a>
+        <a
+          class="bag-link"
+          href="index.html#demo-bag"
+          aria-label="Demo bag, 0 items"
+          ><span class="bag-label">Demo bag</span>
+          <span id="bag-count" class="bag-count">0</span></a
+        >
+      </div>
     </header>
     <main id="main" class="store-page checkout-page wrap">
       <p class="eyebrow">Demo checkout</p>
@@ -57,7 +60,7 @@
       <h1><span class="label-tape">Checkout.</span></h1>
       <div id="checkout-content" class="checkout-layout">
         <section id="checkout-message" class="shipping-panel" hidden></section>
-        <form id="shipping-form" class="store-form" novalidate>
+        <form id="shipping-form" class="store-form" novalidate hidden>
           <h2>Shipping details.</h2>
           <p class="demo-store-note">
             Demo store — nothing is charged or shipped.
@@ -121,6 +124,7 @@
           id="order-summary"
           class="summary-receipt"
           aria-labelledby="summary-title"
+          hidden
         >
           <h2 id="summary-title">Order summary.</h2>
           <ul id="summary-lines" class="summary-lines"></ul>

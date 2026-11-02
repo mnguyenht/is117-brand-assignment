@@ -5,8 +5,8 @@
 // Leave the Supabase values empty to run the offline demo (no accounts; cart
 // and orders stay in this browser). The automated tests use offline mode.
 export const CONFIG = {
-  supabaseUrl: "",
-  supabaseAnonKey: "",
+  supabaseUrl: "https://ytvvbmevqfsrobfhjmzp.supabase.co",
+  supabaseAnonKey: "sb_publishable_I8Q0ybiEdj8_HtnHbpmDQA_eb0Nv_VY",
 };
 
 export const LIVE_MODE = Boolean(CONFIG.supabaseUrl && CONFIG.supabaseAnonKey);

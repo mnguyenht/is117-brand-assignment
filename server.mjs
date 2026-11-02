@@ -21,9 +21,16 @@ const types = {
   ".json": "application/json; charset=utf-8",
 };
 
+// Served instead of public/js/config.js when offline is on (the browser
+// tests), so they never sign up real accounts in a configured Supabase project.
+const offlineConfig = `export const CONFIG = { supabaseUrl: "", supabaseAnonKey: "" };
+export const LIVE_MODE = false;
+`;
+
 // Local server only. GitHub Pages serves the unchanged public/ files.
 export function createApp({
   development = false,
+  offline = false,
   publicRoot = publicDirectory,
 } = {}) {
   const reload = development ? createDevelopmentReload(publicRoot) : undefined;
@@ -38,6 +45,14 @@ export function createApp({
         new URL(request.url, "http://localhost").pathname,
       );
       if (reload?.handle(pathname, request, response)) return;
+      if (offline && pathname === "/js/config.js") {
+        response.writeHead(200, {
+          "Content-Type": types[".js"],
+          "Cache-Control": "no-store",
+        });
+        response.end(request.method === "HEAD" ? undefined : offlineConfig);
+        return;
+      }
       const segments = pathname.split("/");
       if (
         segments.some((segment) => segment.startsWith(".")) ||
@@ -89,7 +104,10 @@ if (
   const port = Number(process.env.PORT ?? 5173);
   const host = process.env.HOST ?? "127.0.0.1";
   const development = process.argv.includes("--dev");
-  const app = createApp({ development });
+  const app = createApp({
+    development,
+    offline: process.env.STORE_OFFLINE === "1",
+  });
   app.on("error", (error) => {
     if (error.code === "EADDRINUSE") {
       console.error(

@@ -93,7 +93,9 @@ if (!order) {
           ? "A confirmation email is on its way to you."
           : mail.deliveredTo === "store_owner"
             ? "Email is in test mode, so the confirmation went to the store owner's inbox instead."
-            : "We couldn't send the confirmation email.";
+            : mail.error === "local-server"
+              ? "Confirmation emails are only sent from the live site, not from this local preview."
+              : "We couldn't send the confirmation email.";
     } else {
       emailStatus.textContent = order.confirmation_sent_at
         ? "A confirmation email was sent for this order."

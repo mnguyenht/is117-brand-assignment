@@ -145,11 +145,26 @@ async function renderSignedIn(user) {
     receipt.append(error);
   }
 
+  const body = document.createElement("div");
+  body.className = "account-body";
+
+  const aside = document.createElement("aside");
+  aside.className = "account-aside";
+  aside.setAttribute("aria-label", "Keep shopping");
+
+  const backToStore = document.createElement("a");
+  backToStore.className = "button button-primary";
+  backToStore.href = "index.html";
+  backToStore.textContent = "Back to the store";
+
+  aside.append(backToStore);
+  body.append(receipt, aside);
+
   content.replaceChildren(
     heading,
     bar,
     ...(DEMO_ACCOUNTS ? [demoNote()] : []),
-    receipt,
+    body,
   );
 }
 

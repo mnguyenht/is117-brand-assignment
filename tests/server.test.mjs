@@ -117,3 +117,29 @@ test("a symlink cannot expose a file outside the public directory", async () => 
     await rm(directory, { recursive: true, force: true });
   }
 });
+
+test("offline mode serves a blank Supabase config so tests never reach a real project", async () => {
+  const directory = await mkdtemp(path.join(tmpdir(), "brand-offline-"));
+  await mkdir(path.join(directory, "js"));
+  await writeFile(
+    path.join(directory, "js", "config.js"),
+    'export const CONFIG = { supabaseUrl: "https://real.supabase.co", supabaseAnonKey: "sb_publishable_real" };',
+  );
+  const offline = createApp({ offline: true, publicRoot: directory });
+  offline.listen(0, "127.0.0.1");
+  await once(offline, "listening");
+  try {
+    const response = await fetch(
+      `http://127.0.0.1:${offline.address().port}/js/config.js`,
+    );
+    assert.equal(response.status, 200);
+    assert.match(response.headers.get("content-type"), /text\/javascript/);
+    const body = await response.text();
+    assert.doesNotMatch(body, /real/);
+    assert.match(body, /supabaseUrl: ""/);
+    assert.match(body, /LIVE_MODE = false/);
+  } finally {
+    await new Promise((resolve) => offline.close(resolve));
+    await rm(directory, { recursive: true, force: true });
+  }
+});

@@ -81,6 +81,8 @@ if (!itemCount(cart)) {
     "Back to checkout",
   );
 } else {
+  // Hidden in the HTML until we know there is a bag and an address.
+  details.hidden = false;
   const total = formatPrice(subtotalCents(cart));
   const lines = document.querySelector("#summary-lines");
   for (const { size, qty } of cart) {

@@ -83,6 +83,35 @@ async function openRealLayout(page, route) {
   );
 }
 
+test("positive: the account link sits on the right with the bag", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(page.locator(".header-actions #account-link")).toHaveCount(1);
+  await expect(page.locator("nav.main-nav #account-link")).toHaveCount(0);
+});
+
+test("positive: the signed-in account offers a way back to the store", async ({
+  page,
+}) => {
+  await reset(page);
+  await signInDemo(page);
+  await page.goto("/account.html");
+  await expect(
+    page.getByRole("link", { name: "Back to the store" }),
+  ).toHaveAttribute("href", "index.html");
+});
+
+test("positive: placing the order is a separate confirm step", async ({
+  page,
+}) => {
+  await seedStore(page);
+  await page.goto("/payment.html");
+  await expect(
+    page.getByRole("heading", { name: "Confirm your order." }),
+  ).toBeVisible();
+  await expect(page.locator(".confirm-order #place-order")).toHaveCount(1);
+});
 test("positive: a size stays in the bag after reload", async ({ page }) => {
   await reset(page);
   await addSize(page, "S");
@@ -340,6 +369,39 @@ test("signed-out checkout requires sign in and has no form", async ({
   await page.goto("/checkout.html");
   await expect(page.getByText("Sign in to check out.")).toBeVisible();
   await expect(page.locator("form")).toHaveCount(0);
+});
+
+test("negative: a signed-out shopper never sees the checkout form, even for a moment", async ({
+  page,
+}) => {
+  await reset(page);
+  await addSize(page, "M");
+  // Slow the page script so the moment before it decides is easy to catch.
+  await page.route(/\/js\/checkout-page\.js$/, async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    await route.continue();
+  });
+  // A module script delays DOMContentLoaded, so only wait for the HTML to
+  // arrive, then check once (isVisible does not retry) before the script runs.
+  await page.goto("/checkout.html", { waitUntil: "commit" });
+  await page.locator("#order-summary").waitFor({ state: "attached" });
+  expect(await page.locator("#shipping-form").isVisible()).toBe(false);
+  expect(await page.locator("#order-summary").isVisible()).toBe(false);
+  await expect(page.getByText("Sign in to check out.")).toBeVisible();
+});
+
+test("negative: payment details stay hidden until the page knows they apply", async ({
+  page,
+}) => {
+  await reset(page);
+  await page.route(/\/js\/payment-page\.js$/, async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    await route.continue();
+  });
+  await page.goto("/payment.html", { waitUntil: "commit" });
+  await page.locator("#payment-details").waitFor({ state: "attached" });
+  expect(await page.locator("#payment-details").isVisible()).toBe(false);
+  await expect(page.getByText("Your bag is empty.")).toBeVisible();
 });
 
 test("forgot and reset pages explain demo behavior", async ({ page }) => {

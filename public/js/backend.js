@@ -217,6 +217,8 @@ export async function requestConfirmation(orderId) {
       },
       body: JSON.stringify({ orderId }),
     });
+    // The local file server answers 405: the email function only runs on Vercel.
+    if (response.status === 405) return { error: "local-server" };
     const body = await response.json().catch(() => ({}));
     return response.ok ? body : { error: body.error ?? "Email not sent." };
   } catch {
