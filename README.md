@@ -1,8 +1,16 @@
 # IS117 Brand Studio
 
-> **Status (2026-10-30):** `BRAND-001` is complete and merged in [PR #3](https://github.com/mnguyenht/is117-brand-assignment/pull/3). The neutral starter is now **Standard Issue**, an Everyman white-T-shirt brand for a value-conscious shopper. It has a package-label storefront, a live style guide and two persuasion touches. Decisions and evidence are in [SPEC.md](SPEC.md), and the learning record is in [LEARNING.md](LEARNING.md). Live on Vercel: <https://is117-brand-assignment.vercel.app>.
+> **Status (2026-11-02):** `BRAND-001` is complete and merged in [PR #3](https://github.com/mnguyenht/is117-brand-assignment/pull/3). The neutral starter is now **Standard Issue**, an Everyman white-T-shirt brand for a value-conscious shopper. It has a package-label storefront, a live style guide and two persuasion touches. Decisions and evidence are in [SPEC.md](SPEC.md), and the reviewed learning record is in [LEARNING.md](LEARNING.md).
 >
-> **In progress on branch `brand-002-real-store` (not merged):** `BRAND-002` turns the demo into a nearly real store, with saved bags, accounts, checkout, a fake payment step, order emails, an opening animation, an ambient grid and an optional 3D shirt. See [docs/brand-002-plan.md](docs/brand-002-plan.md) and [docs/setup-live-mode.md](docs/setup-live-mode.md).
+> **Live site (hosted on Vercel, not GitHub Pages):** <https://standard-issue-is117.vercel.app>
+>
+> **`BRAND-002` is merged** (PRs #4 to #7). It turns the demo into a nearly real store:
+>
+> - accounts (Supabase), saved bags and order history;
+> - checkout with a review step, and confirmation emails (Resend, in test mode);
+> - an opening animation and a dot grid behind the shirt.
+>
+> Nothing is sold or charged. See [docs/brand-002-plan.md](docs/brand-002-plan.md) and [docs/setup-live-mode.md](docs/setup-live-mode.md); the security audit is in [security-report.md](security-report.md).
 
 **The same white T-shirt can carry very different meanings.** Develop a brand for it with an AI collaborator, then make those decisions visible in a professional website and a live style guide.
 

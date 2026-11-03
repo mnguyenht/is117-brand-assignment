@@ -20,7 +20,7 @@ In this policy, "we" means the person named above and "you" means anyone using t
 
 - Our hosting and sign-in providers record **IP addresses and basic request details** in their logs, to run and protect the service.
 
-We do not collect payment details. The payment page shows a fixed demo card and has no card fields.
+We do not collect payment details. Checkout has no card fields.
 
 ## How we use it
 

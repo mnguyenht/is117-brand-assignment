@@ -2,10 +2,10 @@
 
 AI-drafted task evidence, not a transcript or grade. This file may be public: review, correct or remove excerpts before commit/push. Use short actual quotes or labeled paraphrases and disclose help. Approval alone is not an explanation; leave missing evidence pending.
 
-- **Feature:** BRAND-001 — in progress
-- **Date:** 2026-10-27 to 2026-10-28
+- **Feature:** BRAND-001 — kept (PR #3); BRAND-002 — merged (PRs #4 to #7)
+- **Date:** 2026-10-27 to 2026-11-02
 - **Conversation context available:** This chat from first setup onward
-- **Review status:** Not yet confirmed as accurate by the learner. The learner committed an earlier version themselves on 2026-10-28 and asked for everything to be pushed on 2026-10-30, but has not yet answered the accuracy question.
+- **Review status:** Reviewed by the learner on 2026-11-02 ("yeah looks good", asked to push and merge). That confirms accuracy; it does not add explanations that are marked as not yet stated.
 
 ## Student contributions
 
@@ -31,4 +31,8 @@ AI-drafted task evidence, not a transcript or grade. This file may be public: re
 
 **BRAND-002 (optional extension):** the learner asked for "the best T-shirt website we can… practically a real website" and listed the features. The AI built it overnight on branch `brand-002-real-store` (Codex wrote the store pages and effects from AI-written specs; the AI wrote the backend and security code and reviewed everything). The learner's own explanations of why these features help Alex are not yet recorded.
 
-**Next step:** The learner reviews this record for accuracy. (Promise written by learner: "A white T-shirt is a white T-shirt. But it'll be a good white T-shirt." — built from their own earlier line after AI pointed to it.)
+**BRAND-002 round 3 (labeled paraphrase; that chat's exact wording is unavailable here apart from short fragments):** after looking at the branch, the learner asked for the grid to sit only under the T-shirt as a subtle moving dot grid, with the page keeping its cardboard texture; the "Added" sticker to fade rather than vanish; a Check out button and a small icon per bag item; a bigger wordmark, slightly rotated like a stamp on a cardboard box; a smooth but snappy opening animation, "not too flowy"; sign-in, account and password-reset pages built as if real accounts existed; and their own Spline scene, which the learner made and supplied. The AI and Codex built these, then the AI reviewed them and ran a refine pass on the shop. The learner's browser observations of round 3 are not yet recorded.
+
+**BRAND-002 round 4 (learner's own words, after trying round 3 in the browser):** "keep it the 2D shirt. The 3D one: the controls are broken, and also it's just way too laggy"; on the grid, "I like the tracking, but let's try to use a little bit more pleasant color"; "The whole site feels like it lives in the rule of thirds constantly. Let's try to use different compositions for the different pages"; "Why do we need sign in and create account on the same page?"; "Have the final checkout page just be centered… You don't need to be super out of the design conventions." The AI read "off screens" in the same message as the auth screens. The AI chose the per-page compositions and offered two glow colours as paired screenshots; the learner picked "Stamp blue" over kraft brown (a choice, no reason given). Codex implemented the changes from AI-written specs. These are concrete browser observations with revise decisions; how each change helps Alex is not yet stated.
+
+**Next step:** Submission. Record reviewed by the learner on 2026-11-02. (Promise written by learner: "A white T-shirt is a white T-shirt. But it'll be a good white T-shirt." — built from their own earlier line after AI pointed to it.)
