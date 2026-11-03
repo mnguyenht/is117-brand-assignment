@@ -12,6 +12,24 @@
 >
 > Nothing is sold or charged. See [docs/brand-002-plan.md](docs/brand-002-plan.md) and [docs/setup-live-mode.md](docs/setup-live-mode.md); the security audit is in [security-report.md](security-report.md).
 
+## Original designs (BRAND-001, as graded)
+
+The live site has moved on since BRAND-001. Every early design is still online, unchanged:
+
+**The two contrasting hero directions.** Both use the same shirt, headline, copy and action:
+
+- [A — Modernist hero](https://standard-issue-is117.vercel.app/explorations/modernist.html), after Josef Müller-Brockmann's _Der Film_ (1960).
+- [B — Postmodernist hero](https://standard-issue-is117.vercel.app/explorations/postmodernist.html), package-label layering. This is the direction the learner chose.
+- Notes on both (references, design choices, intended effect and risk for each): [docs/explorations/brand-001-heroes.md](docs/explorations/brand-001-heroes.md).
+
+**The logo exploration:** [crate-stamp wordmark](https://standard-issue-is117.vercel.app/explorations/logo.html), at navigation size and in one colour.
+
+**The BRAND-001 site, exactly as merged in [PR #3](https://github.com/mnguyenht/is117-brand-assignment/pull/3)** (copied file for file from that merge commit):
+
+- [Storefront](https://standard-issue-is117.vercel.app/brand-001/)
+- [Live style guide](https://standard-issue-is117.vercel.app/brand-001/styleguide.html)
+- [Code at that point (tag `brand-001`)](https://github.com/mnguyenht/is117-brand-assignment/tree/brand-001)
+
 **The same white T-shirt can carry very different meanings.** Develop a brand for it with an AI collaborator, then make those decisions visible in a professional website and a live style guide.
 
 This template starts with a working, deliberately neutral storefront. Your audience, name, promise, logo, voice, and visual direction are **not chosen yet**. You make the decisions; the agent helps you explore, build, check, and revise them.
