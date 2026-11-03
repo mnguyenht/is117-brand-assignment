@@ -88,7 +88,7 @@ Write a short result and link only evidence that exists. A passing browser check
 
 ## BRAND-002 — Standard Issue as a (nearly) real store
 
-**Chosen by the learner on 2026-10-30** (own words): "turn this into the best T-shirt website we can… practically a real website", with an opening animation, an interactive 3D shirt, an ambient grid, checkout and fake payment pages, authentication, a database for saving carts, Resend order emails, and hosting. Built overnight by the AI on branch `brand-002-real-store`. **Not merged**: keeping it is the learner's decision. The plan and security decisions are in [docs/brand-002-plan.md](docs/brand-002-plan.md).
+**Chosen by the learner on 2026-10-30** (own words): "turn this into the best T-shirt website we can… practically a real website", with an opening animation, an interactive 3D shirt, an ambient grid, checkout and fake payment pages, authentication, a database for saving carts, Resend order emails, and hosting. Built overnight by the AI on branch `brand-002-real-store`. **Kept by the learner**: merged into `main` through PRs #4 to #7 (rounds 1 to 5, the last merged on 2026-11-02 at the learner's request). The plan and security decisions are in [docs/brand-002-plan.md](docs/brand-002-plan.md).
 
 **Scope boundary:** still no real payment or shipping. The payment page collects no card data. Accounts and saved carts are real when Supabase is configured. Without it, the site runs as an offline demo in the browser.
 
