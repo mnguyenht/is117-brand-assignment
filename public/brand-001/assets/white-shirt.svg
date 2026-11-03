@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 880" role="img" aria-labelledby="title description">
+  <title id="title">Plain white T-shirt</title>
+  <desc id="description">Illustration of an unbranded white short-sleeved T-shirt on a neutral background.</desc>
+  <defs>
+    <linearGradient id="fabric" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#eeeee9"/>
+      <stop offset=".24" stop-color="#fff"/>
+      <stop offset=".72" stop-color="#fafbf8"/>
+      <stop offset="1" stop-color="#e9ebe5"/>
+    </linearGradient>
+    <linearGradient id="neck" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#daddd6"/>
+      <stop offset="1" stop-color="#f2f3ee"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-20%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="23" stdDeviation="20" flood-color="#333b2e" flood-opacity=".10"/>
+    </filter>
+  </defs>
+  <rect width="800" height="880" fill="#e8eae1"/>
+  <ellipse cx="400" cy="744" rx="203" ry="23" fill="#d5d9cd" opacity=".6"/>
+  <g filter="url(#shadow)">
+    <path d="M310 144 232 178 110 305 205 394 253 350 248 713Q397 746 552 713L547 350 595 394 690 305 568 178 490 144Q454 185 400 185T310 144Z" fill="url(#fabric)" stroke="#daddd6" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M310 144Q328 226 400 226T490 144L468 135Q444 162 400 162T332 135Z" fill="url(#neck)" stroke="#d4d8ce" stroke-width="2"/>
+    <path d="M332 135Q340 192 400 192T468 135Q444 162 400 162T332 135Z" fill="#d5d9cf"/>
+    <path d="M317 146Q334 213 400 213T483 146M253 350 262 277M547 350 538 277M248 695Q400 723 552 695M123 303 207 381M677 303 593 381" fill="none" stroke="#dfe2d9" stroke-width="3"/>
+    <path d="M275 385Q282 494 267 605M525 385Q518 494 533 605" fill="none" stroke="#e6e9e1" stroke-width="5" opacity=".8"/>
+  </g>
+</svg>

@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Standard Issue: a plain white T-shirt. Nothing more, nothing less. A classroom demo store for the IS117 Brand Studio."
+    />
+    <title>Standard Issue — the white T-shirt</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="shop.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a
+        class="brand-link"
+        href="index.html"
+        aria-label="Standard Issue storefront home"
+        ><img
+          class="wordmark"
+          src="assets/standard-issue-wordmark.svg"
+          alt="Standard Issue"
+          width="175"
+          height="30"
+      /></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a class="nav-link" href="index.html" aria-current="page">Shop</a>
+        <a class="nav-link" href="styleguide.html">Style guide</a>
+        <a class="nav-link" href="studio.html"
+          >Studio <span aria-hidden="true">↗</span></a
+        >
+      </nav>
+      <a class="bag-link" href="#demo-bag" aria-label="View demo bag"
+        >Demo bag <span id="bag-count" class="bag-count">0</span></a
+      >
+    </header>
+
+    <main id="main">
+      <section class="product-section wrap" aria-labelledby="product-title">
+        <div class="product-visual">
+          <div class="visual-label">
+            <span>Contents: 1 white T-shirt</span><span>Standard Issue</span>
+          </div>
+          <img
+            class="shirt-image"
+            src="assets/white-shirt-cutout.svg"
+            alt="Plain white, unbranded short-sleeved T-shirt"
+            width="800"
+            height="880"
+            fetchpriority="high"
+          />
+          <div class="image-caption">
+            <span>White T-shirt</span>
+          </div>
+          <dl class="product-facts hang-tag">
+            <div>
+              <dt>Contents</dt>
+              <dd>1 white T-shirt</dd>
+            </div>
+            <div>
+              <dt>Color</dt>
+              <dd>White</dd>
+            </div>
+            <div>
+              <dt>Sizes</dt>
+              <dd>S, M, L, XL</dd>
+            </div>
+            <div>
+              <dt>Claims</dt>
+              <dd>It's a white T-shirt.</dd>
+            </div>
+          </dl>
+        </div>
+        <div class="product-information">
+          <h1 id="product-title">
+            <span class="label-tape">A white T-shirt</span><br /><span
+              class="label-tape"
+              >is a white T-shirt.</span
+            >
+          </h1>
+          <p class="product-intro">But it'll sure be a great white T-shirt</p>
+          <div class="price-row">
+            <p class="price">$28 <span>USD</span></p>
+            <span class="micro-label">Fictional demo price</span>
+          </div>
+          <form id="product-form" class="product-form" novalidate>
+            <p class="liking-line">
+              This is a white T-shirt, nothing more or less.
+            </p>
+            <fieldset aria-describedby="size-error">
+              <legend>Choose a size</legend>
+              <div class="size-options">
+                <label class="size-option"
+                  ><input type="radio" name="size" value="S" /><span
+                    >S</span
+                  ></label
+                >
+                <label class="size-option"
+                  ><input type="radio" name="size" value="M" /><span
+                    >M</span
+                  ></label
+                >
+                <label class="size-option"
+                  ><input type="radio" name="size" value="L" /><span
+                    >L</span
+                  ></label
+                >
+                <label class="size-option"
+                  ><input type="radio" name="size" value="XL" /><span
+                    >XL</span
+                  ></label
+                >
+              </div>
+              <p id="size-error" class="field-error" role="alert" hidden>
+                Please pick a shirt size.
+              </p>
+            </fieldset>
+            <button class="button button-primary add-button" type="submit">
+              Add to demo bag <span aria-hidden="true">↗</span>
+            </button>
+            <!-- Visual echo only; #bag-status already announces the change. -->
+            <p id="add-confirm" class="add-confirm" aria-hidden="true" hidden>
+              Added to demo bag
+            </p>
+          </form>
+          <p class="demo-disclaimer">
+            A classroom interaction, using fictional product data. No order,
+            payment, or personal information is collected.
+          </p>
+        </div>
+      </section>
+
+      <section class="tips-section wrap" aria-labelledby="tips-title">
+        <div>
+          <p class="eyebrow">Free styling tip</p>
+          <h2 id="tips-title">How to wear it.</h2>
+        </div>
+        <ol class="tip-list">
+          <li><strong>With jeans.</strong> Front tucked, back loose.</li>
+          <li>
+            <strong>Under an open shirt.</strong> Leave the top buttons undone.
+          </li>
+          <li><strong>On its own.</strong> Roll the sleeves once.</li>
+        </ol>
+      </section>
+
+      <section
+        id="demo-bag"
+        class="bag-section wrap"
+        aria-labelledby="bag-title"
+      >
+        <div>
+          <p class="eyebrow">Your picks</p>
+          <h2 id="bag-title">Your demo bag.</h2>
+        </div>
+        <div class="bag-details">
+          <p
+            id="bag-status"
+            class="bag-message"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            Your demo bag is empty. Choose a size to try it.
+          </p>
+          <ul id="bag-items" class="bag-items"></ul>
+          <button id="clear-bag" class="text-button" type="button" disabled>
+            Empty demo bag
+          </button>
+          <p class="field-help">
+            The bag resets when this page reloads. There is no checkout.
+          </p>
+        </div>
+      </section>
+
+      <section class="starter-next wrap" aria-labelledby="next-title">
+        <p class="eyebrow">About Standard Issue</p>
+        <h2 id="next-title">Just the basics.</h2>
+        <div>
+          <p>
+            Standard Issue makes one thing: a plain white T-shirt in sizes S to
+            XL.
+          </p>
+          <a class="button button-secondary" href="styleguide.html"
+            >See the style guide <span aria-hidden="true">↗</span></a
+          >
+        </div>
+      </section>
+    </main>
+
+    <aside class="starter-notice" aria-label="Demo information">
+      <span
+        ><strong>Demo store.</strong> A classroom project with fictional product
+        data. Nothing is sold here.</span
+      >
+      <a href="studio.html">Studio brief <span aria-hidden="true">↗</span></a>
+    </aside>
+    <footer class="site-footer wrap">
+      <p>
+        Standard Issue <span class="footer-separator"> / </span> IS117 Brand
+        Studio demo
+      </p>
+      <a href="https://github.com/kaw393939/is117-brand-studio#readme"
+        >Project README <span aria-hidden="true">↗</span></a
+      >
+    </footer>
+  </body>
+</html>

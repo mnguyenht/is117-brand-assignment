@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="The live style guide for Standard Issue. It uses the storefront's own CSS tokens, components and logo."
+    />
+    <title>Live style guide — Standard Issue</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="styleguide.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <aside class="starter-notice" aria-label="Style guide information">
+      <span
+        ><strong>Live brand board.</strong> Everything here uses the
+        storefront's own CSS and logo file.</span
+      ><a href="studio.html">Studio brief <span aria-hidden="true">↗</span></a>
+    </aside>
+    <header class="site-header wrap">
+      <a
+        class="brand-link"
+        href="index.html"
+        aria-label="Standard Issue storefront home"
+        ><img
+          class="wordmark"
+          src="assets/standard-issue-wordmark.svg"
+          alt="Standard Issue"
+          width="175"
+          height="30"
+      /></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a class="nav-link" href="index.html">Shop</a
+        ><a class="nav-link" href="styleguide.html" aria-current="page"
+          >Style guide</a
+        ><a class="nav-link" href="studio.html"
+          >Studio <span aria-hidden="true">↗</span></a
+        >
+      </nav>
+      <span class="micro-label">Live brand board</span>
+    </header>
+    <main id="main">
+      <section class="page-hero wrap" aria-labelledby="guide-title">
+        <p class="eyebrow">
+          <span class="status-dot" aria-hidden="true"></span> Identity / version
+          01 / BRAND-001
+        </p>
+        <h1 id="guide-title">Standard Issue,<br />on one page.</h1>
+        <p class="hero-summary">
+          A plain white T-shirt, packed like one. Kraft paper, label tape and a
+          hang tag. <strong>Nothing more, nothing less.</strong>
+        </p>
+      </section>
+      <nav class="page-subnav wrap" aria-label="Style guide sections">
+        <a class="section-link" href="#direction">00 Direction</a
+        ><a class="section-link" href="#logo">01 Logo</a
+        ><a class="section-link" href="#palette">02 Color</a
+        ><a class="section-link" href="#type">03 Type</a
+        ><a class="section-link" href="#spacing">04 Space</a
+        ><a class="section-link" href="#buttons">05 Components</a
+        ><a class="section-link" href="#voice">06 Voice</a>
+      </nav>
+
+      <section
+        id="direction"
+        class="guide-section wrap"
+        aria-labelledby="direction-title"
+      >
+        <div class="section-heading">
+          <span class="section-number">00 / Direction</span>
+          <h2 id="direction-title">Who it's for.</h2>
+          <p>The full reasoning is recorded in SPEC.md.</p>
+        </div>
+        <div class="guide-content">
+          <span class="draft-label"
+            >Audience is a hypothesis, not research</span
+          >
+          <div class="decision-grid">
+            <div>
+              <h3>Audience</h3>
+              <p class="undecided">Alex</p>
+              <p>
+                Wants a shirt that is reliable and cheap, and treated as just a
+                plain white T-shirt.
+              </p>
+            </div>
+            <div>
+              <h3>Archetype</h3>
+              <p class="undecided">Everyman</p>
+              <p>Down to earth. No pretense. Belongs anywhere.</p>
+            </div>
+            <div>
+              <h3>Visual direction</h3>
+              <p class="undecided">Package label</p>
+              <p>
+                Postmodern layering after Wolfgang Weingart, quoting the
+                everyday objects a T-shirt ships with.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="logo"
+        class="guide-section wrap"
+        aria-labelledby="logo-title"
+      >
+        <div class="section-heading">
+          <span class="section-number">01 / Logo</span>
+          <h2 id="logo-title">A crate<br />stamp.</h2>
+          <p>The same SVG file appears in the storefront header.</p>
+        </div>
+        <div class="guide-content">
+          <div class="logo-board">
+            <img
+              src="assets/standard-issue-wordmark.svg"
+              alt="Standard Issue"
+              width="380"
+              height="65"
+            />
+          </div>
+          <div class="logo-variants">
+            <div class="logo-variant">
+              <img
+                class="wordmark"
+                src="assets/standard-issue-wordmark.svg"
+                alt="Standard Issue at navigation size"
+                width="175"
+                height="30"
+              />
+              <p>Navigation size · 175 × 30 px, the smallest legible size</p>
+            </div>
+            <div class="logo-variant">
+              <img
+                src="assets/standard-issue-wordmark.svg"
+                alt="Standard Issue in one color"
+                width="234"
+                height="40"
+              />
+              <p>One color · the artwork is a single ink, #111</p>
+            </div>
+          </div>
+          <p class="guide-note">
+            Spaced monospace capitals in a double-ruled box. Below 30 px tall
+            the lettering stops reading clearly. The letters use the system
+            monospace font, so they can look slightly different on other
+            computers. Source: <code>assets/standard-issue-wordmark.svg</code>.
+          </p>
+        </div>
+      </section>
+
+      <section
+        id="palette"
+        class="guide-section wrap"
+        aria-labelledby="palette-title"
+      >
+        <div class="section-heading">
+          <span class="section-number">02 / Color</span>
+          <h2 id="palette-title">Packing<br />materials.</h2>
+          <p>
+            The swatches and values come from the same shared CSS tokens as the
+            store.
+          </p>
+        </div>
+        <div class="guide-content">
+          <div class="palette-grid">
+            <article class="palette-card">
+              <div
+                class="color-swatch"
+                style="--swatch-color: var(--color-paper)"
+              ></div>
+              <h3>Kraft paper</h3>
+              <code data-color-token="--color-paper">CSS token</code>
+              <p>Page background, with a fibre texture</p>
+            </article>
+            <article class="palette-card">
+              <div
+                class="color-swatch"
+                style="--swatch-color: var(--color-ink)"
+              ></div>
+              <h3>Ink</h3>
+              <code data-color-token="--color-ink">CSS token</code>
+              <p>Text, label tape and the main action</p>
+            </article>
+            <article class="palette-card">
+              <div
+                class="color-swatch"
+                style="--swatch-color: var(--color-accent)"
+              ></div>
+              <h3>Price sticker</h3>
+              <code data-color-token="--color-accent">CSS token</code>
+              <p>Rationed accent: demo notice and hover</p>
+            </article>
+            <article class="palette-card">
+              <div
+                class="color-swatch"
+                style="--swatch-color: var(--color-soft)"
+              ></div>
+              <h3>Label stock</h3>
+              <code data-color-token="--color-soft">CSS token</code>
+              <p>Image panel and info cards</p>
+            </article>
+            <article class="palette-card">
+              <div
+                class="color-swatch"
+                style="--swatch-color: var(--color-muted)"
+              ></div>
+              <h3>Muted</h3>
+              <code data-color-token="--color-muted">CSS token</code>
+              <p>Supporting text on kraft</p>
+            </article>
+          </div>
+          <p class="guide-note">
+            Ink on kraft and muted on kraft both pass WCAG AA contrast. Yellow
+            always sits under ink text, never as text on kraft.
+          </p>
+        </div>
+      </section>
+
+      <section
+        id="type"
+        class="guide-section wrap"
+        aria-labelledby="type-title"
+      >
+        <div class="section-heading">
+          <span class="section-number">03 / Typography</span>
+          <h2 id="type-title">Three kinds<br />of type.</h2>
+          <p>
+            Mixed on purpose, like a real package. All system fonts, so nothing
+            extra loads.
+          </p>
+        </div>
+        <div class="guide-content">
+          <div class="type-specimen">
+            <span class="type-label">Display / Arial Black on label tape</span>
+            <p class="type-display">
+              <span class="label-tape">A white T-shirt</span>
+            </p>
+          </div>
+          <div class="type-specimen">
+            <span class="type-label">Supporting line / Georgia italic</span>
+            <p class="product-intro">But it'll sure be a great white T-shirt</p>
+          </div>
+          <div class="type-specimen">
+            <span class="type-label">Body / Helvetica, Arial</span>
+            <p class="type-body">
+              Standard Issue makes one thing: a plain white T-shirt in sizes S
+              to XL.
+            </p>
+          </div>
+          <div class="type-specimen">
+            <span class="type-label">Label / Consolas monospace</span>
+            <p class="type-mono">Contents: 1 white T-shirt</p>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="spacing"
+        class="guide-section wrap"
+        aria-labelledby="spacing-title"
+      >
+        <div class="section-heading">
+          <span class="section-number">04 / Spacing</span>
+          <h2 id="spacing-title">Room to read.</h2>
+          <p>Shared spacing tokens create a repeatable rhythm.</p>
+        </div>
+        <div class="guide-content">
+          <div class="spacing-grid">
+            <div class="spacing-token">
+              <div
+                class="spacing-bar"
+                style="--token-size: var(--space-1)"
+              ></div>
+              <span class="token-name">Space 1</span
+              ><code data-space-token="--space-1">CSS token</code>
+            </div>
+            <div class="spacing-token">
+              <div
+                class="spacing-bar"
+                style="--token-size: var(--space-2)"
+              ></div>
+              <span class="token-name">Space 2</span
+              ><code data-space-token="--space-2">CSS token</code>
+            </div>
+            <div class="spacing-token">
+              <div
+                class="spacing-bar"
+                style="--token-size: var(--space-3)"
+              ></div>
+              <span class="token-name">Space 3</span
+              ><code data-space-token="--space-3">CSS token</code>
+            </div>
+            <div class="spacing-token">
+              <div
+                class="spacing-bar"
+                style="--token-size: var(--space-4)"
+              ></div>
+              <span class="token-name">Space 4</span
+              ><code data-space-token="--space-4">CSS token</code>
+            </div>
+            <div class="spacing-token">
+              <div
+                class="spacing-bar"
+                style="--token-size: var(--space-5)"
+              ></div>
+              <span class="token-name">Space 5</span
+              ><code data-space-token="--space-5">CSS token</code>
+            </div>
+            <div class="spacing-token">
+              <div
+                class="spacing-bar"
+                style="--token-size: var(--space-6)"
+              ></div>
+              <span class="token-name">Space 6</span
+              ><code data-space-token="--space-6">CSS token</code>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="buttons"
+        class="guide-section wrap"
+        aria-labelledby="buttons-title"
+      >
+        <div class="section-heading">
+          <span class="section-number">05 / Components</span>
+          <h2 id="buttons-title">Tape, tags<br />and buttons.</h2>
+          <p>These samples use the storefront's own classes.</p>
+        </div>
+        <div class="guide-content">
+          <div class="button-samples">
+            <span class="button button-primary"
+              >Primary action <span aria-hidden="true">↗</span></span
+            ><span class="button button-secondary"
+              >Secondary action <span aria-hidden="true">↗</span></span
+            >
+          </div>
+          <dl class="product-facts hang-tag">
+            <div>
+              <dt>Hang tag</dt>
+              <dd>.hang-tag</dd>
+            </div>
+            <div>
+              <dt>Use</dt>
+              <dd>Product facts</dd>
+            </div>
+          </dl>
+          <p class="guide-note">
+            Label tape (<code>.label-tape</code>) is for headlines only. The
+            hang tag holds true product facts, nothing else. Try the real size
+            choice and demo bag on the <a href="index.html">storefront</a>.
+          </p>
+        </div>
+      </section>
+
+      <section
+        id="voice"
+        class="guide-section wrap"
+        aria-labelledby="voice-title"
+      >
+        <div class="section-heading">
+          <span class="section-number">06 / Voice</span>
+          <h2 id="voice-title">Curious, assured,<br />plainspoken.</h2>
+          <p>Say what it is. Then stop.</p>
+        </div>
+        <div class="guide-content">
+          <div class="voice-grid">
+            <div>
+              <h3>Sounds like Standard Issue</h3>
+              <p class="voice-example">“Claims: It's a white T-shirt.”</p>
+              <p>
+                Plain and practical, like an own-brand label. Facts over
+                adjectives, and no jokes at the shopper's expense.
+              </p>
+            </div>
+            <div>
+              <h3>Doesn't sound like Standard Issue</h3>
+              <p>
+                Hype, urgency or borrowed prestige: “limited drop”, “luxury
+                cotton”, “everyone's wearing it”. We can't back those up, so we
+                don't say them.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="guide-footer-note wrap">
+        <p>
+          <strong>A living reference.</strong> Change a shared token or the logo
+          file, and the storefront and this board change together. Compare them
+          at the same width to check they still match.
+        </p>
+        <a href="index.html"
+          >View the storefront <span aria-hidden="true">↗</span></a
+        >
+      </div>
+    </main>
+    <footer class="site-footer wrap">
+      <p>
+        Standard Issue <span class="footer-separator"> / </span> IS117 Brand
+        Studio demo
+      </p>
+      <a href="https://github.com/kaw393939/is117-brand-studio#readme"
+        >Project README <span aria-hidden="true">↗</span></a
+      >
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 48" role="img" aria-labelledby="title">
+  <!-- Standard Issue wordmark: a crate stamp. One ink color (#111), a double-line
+       box and spaced monospace capitals. The text uses system monospace fonts. -->
+  <title id="title">Standard Issue</title>
+  <rect x="2" y="2" width="276" height="44" fill="none" stroke="#111" stroke-width="3"/>
+  <rect x="7" y="7" width="266" height="34" fill="none" stroke="#111" stroke-width="1.5"/>
+  <text x="142.1" y="30.5" fill="#111" font-family="Consolas, 'Courier New', monospace" font-size="17" font-weight="700" letter-spacing="4.2" text-anchor="middle">STANDARD ISSUE</text>
+</svg>
