@@ -27,6 +27,14 @@ The primary need guides the page. Give the secondary card one contrasting need t
 | What the page should help them decide | Not chosen yet                                                                                                                      | Not chosen yet                                                                     |
 | Evidence or assumption                | Assumption; not validated                                                                                                           | Assumption; not validated                                                          |
 
+## Research (IS117-007)
+
+The comparison of Muji, Quince and Everlane (plus Sunspel as a premium reference), the two positions and the persona hypotheses live in their own repo and documentation site: [research site](https://mnguyenht.github.io/is117-tshirt-research/) · [research repo](https://github.com/mnguyenht/is117-tshirt-research).
+
+- **Audience chosen:** Alex, the budget shopper (learner's choice, 2026-11-03). Reason, learner's words (2026-11-04): "it was the closest to what I would be as a buyer for a white t-shirt like this. So I could see and evaluate it personally, other than projecting it to a character archetype."
+- **Open question:** Does the $28 demo price need a reason Alex can check, or a lower price?
+- **Peer feedback:** issues and decisions are tracked in the research repo, under [Feedback and decisions](https://mnguyenht.github.io/is117-tshirt-research/#feedback-and-decisions).
+
 ## Early brand brief
 
 | Decision                                 | Agreement                                                                                                                                                                       |
