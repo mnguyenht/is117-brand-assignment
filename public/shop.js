@@ -1,4 +1,10 @@
-﻿import { SIZES, itemCount, subtotalCents, formatPrice } from "./js/cart.js";
+﻿import {
+  SIZES,
+  itemCount,
+  subtotalCents,
+  formatPrice,
+  PRICE_CENTS,
+} from "./js/cart.js";
 import { initCart, getCart, add, remove, clear } from "./js/cart-store.js";
 import { startHeader } from "./js/site-header.js";
 const form = document.querySelector("#product-form");
@@ -64,7 +70,7 @@ if (form) {
       details.append(name, meta);
       const price = document.createElement("span");
       price.className = "bag-line-price";
-      price.textContent = formatPrice(qty * 2800);
+      price.textContent = formatPrice(qty * PRICE_CENTS);
       const button = document.createElement("button");
       button.type = "button";
       button.className = "text-button bag-remove";

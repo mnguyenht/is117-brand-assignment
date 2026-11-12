@@ -1,6 +1,6 @@
 // Builds the order confirmation email. Customer-typed text is escaped before
 // it goes into the HTML version.
-import { formatPrice } from "../../public/js/cart.js";
+import { formatPrice, PRICE_CENTS } from "../../public/js/cart.js";
 
 const escapeHtml = (text) =>
   String(text).replace(
@@ -21,7 +21,7 @@ export function buildOrderEmail(order) {
   const number = shortOrderNumber(order.id);
   const lines = order.items.map(
     (line) =>
-      `White T-shirt, size ${line.size} × ${line.qty} — ${formatPrice(line.qty * 2800)}`,
+      `White T-shirt, size ${line.size} × ${line.qty} — ${formatPrice(line.qty * PRICE_CENTS)}`,
   );
   const total = formatPrice(order.subtotal_cents);
   // Deliberately no customer-typed text (name, address): sign-ups are not
