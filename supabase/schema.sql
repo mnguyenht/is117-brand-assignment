@@ -63,7 +63,7 @@ create policy "orders: owner reads" on public.orders
 -- orders directly. place_order() and claim_confirmation() do it with checks.
 
 -- ── place_order(items, shipping) ────────────────────────────────────────────
--- Recomputes the price on the server ($28.00 per shirt), validates sizes,
+-- Recomputes the price on the server ($15.00 per shirt), validates sizes,
 -- quantities and the address, limits abuse, saves the order, empties the cart.
 create or replace function public.place_order(p_items jsonb, p_shipping jsonb)
 returns public.orders
@@ -143,7 +143,7 @@ begin
   end if;
 
   insert into public.orders (user_id, items, item_count, subtotal_cents, shipping)
-  values (v_user, v_clean, v_count, v_count * 2800, v_shipping)
+  values (v_user, v_clean, v_count, v_count * 1500, v_shipping)
   returning * into v_order;
 
   delete from public.carts where user_id = v_user;

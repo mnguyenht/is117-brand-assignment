@@ -13,7 +13,7 @@ const order = {
   id: ORDER_ID,
   items: [{ size: "M", qty: 2 }],
   item_count: 2,
-  subtotal_cents: 5600,
+  subtotal_cents: 3000,
   shipping: {
     fullName: "Alex <b>Doe</b>",
     address: "12 Main Street",
@@ -147,7 +147,7 @@ test("the email carries no customer-typed text, so it cannot be used for phishin
     assert.ok(!part.includes("Alex"));
     assert.ok(!part.includes("Main Street"));
   }
-  assert.ok(sent.body.text.includes("$56.00"));
+  assert.ok(sent.body.text.includes("$30.00"));
   assert.ok(sent.body.text.includes("6F1C2B3A"));
 });
 

@@ -113,7 +113,7 @@ const placed = (
     ship,
   ])
 ).rows[0];
-assert.equal(placed.subtotal_cents, 8400);
+assert.equal(placed.subtotal_cents, 4500);
 assert.equal(placed.item_count, 3);
 assert.deepEqual(placed.items, [
   { size: "M", qty: 2 },

@@ -3,7 +3,7 @@
 // the one it was given. The database function place_order() enforces the
 // same limits again, because nothing from the browser is trusted.
 
-export const PRICE_CENTS = 2800; // fictional demo price, $28.00
+export const PRICE_CENTS = 1500; // fictional demo price, $15.00
 export const SIZES = ["S", "M", "L", "XL"];
 export const MAX_PER_LINE = 10;
 export const MAX_ITEMS = 20;

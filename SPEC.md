@@ -32,7 +32,7 @@ The primary need guides the page. Give the secondary card one contrasting need t
 The comparison of Muji, Quince and Everlane (plus Sunspel as a premium reference), the two positions and the persona hypotheses live in their own repo and documentation site: [research site](https://mnguyenht.github.io/is117-tshirt-research/) · [research repo](https://github.com/mnguyenht/is117-tshirt-research).
 
 - **Audience chosen:** Alex, the budget shopper (learner's choice, 2026-11-03). Reason, learner's words (2026-11-04): "it was the closest to what I would be as a buyer for a white t-shirt like this. So I could see and evaluate it personally, other than projecting it to a character archetype."
-- **Open question:** Does the $28 demo price need a reason Alex can check, or a lower price?
+- **Price decision** (learner's choice, 2026-11-12, after research peer issue [#4](https://github.com/mnguyenht/is117-tshirt-research/issues/4)): the fictional demo price drops from $28 to $15, Alex's price anchor. Changed in the store, the order email and `supabase/schema.sql`; the live database takes it only after `schema.sql` is re-run in Supabase.
 - **Peer feedback:** issues and decisions are tracked in the research repo, under [Feedback and decisions](https://mnguyenht.github.io/is117-tshirt-research/#feedback-and-decisions).
 
 ## Early brand brief

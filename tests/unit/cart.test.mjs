@@ -114,14 +114,14 @@ test("merging a guest cart into a saved cart adds quantities", () => {
   ]);
 });
 
-test("count and subtotal use the fixed demo price of $28", () => {
+test("count and subtotal use the fixed demo price of $15", () => {
   const cart = [
     { size: "S", qty: 2 },
     { size: "XL", qty: 1 },
   ];
   assert.equal(itemCount(cart), 3);
-  assert.equal(subtotalCents(cart), 8400);
-  assert.equal(formatPrice(8400), "$84.00");
+  assert.equal(subtotalCents(cart), 4500);
+  assert.equal(formatPrice(4500), "$45.00");
 });
 
 test("functions never change the cart they are given", () => {
