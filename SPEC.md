@@ -34,6 +34,7 @@ The comparison of Muji, Quince and Everlane (plus Sunspel as a premium reference
 - **Audience chosen:** Alex, the budget shopper (learner's choice, 2026-11-03). Reason, learner's words (2026-11-04): "it was the closest to what I would be as a buyer for a white t-shirt like this. So I could see and evaluate it personally, other than projecting it to a character archetype."
 - **Price decision** (learner's choice, 2026-11-12, after research peer issue [#4](https://github.com/mnguyenht/is117-tshirt-research/issues/4)): the fictional demo price drops from $28 to $15, Alex's price anchor. Changed in the store, the order email and `supabase/schema.sql`; the live database takes it only after `schema.sql` is re-run in Supabase.
 - **Peer feedback:** issues and decisions are tracked in the research repo, under [Feedback and decisions](https://mnguyenht.github.io/is117-tshirt-research/#feedback-and-decisions).
+- **Plan (IS117-007):** two approaches, five user stories with checks, simulated checkout and the SQLite backend, on the research site's [Plan page](https://mnguyenht.github.io/is117-tshirt-research/plan.html) (AI draft, 2026-11-17). Learner chose approach A, One shelf: "It feels more like a user flow. That would help contrast the boldness of the proposed research direction."
 
 ## Early brand brief
 
